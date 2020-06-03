@@ -1,3 +1,0 @@
-Hei
-Hallo
-Kake
