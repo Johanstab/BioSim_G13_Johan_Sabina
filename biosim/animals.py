@@ -24,7 +24,7 @@ class Animals:
         'omega': 0.4,
         'F': 10.}
 
-    def __init__(self, params=None, age=0, weight=10.):
+    def __init__(self, params=None, age=0, weight=None):
         if params is not None:
             self.p = params
         else:
