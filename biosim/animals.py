@@ -5,11 +5,15 @@ __email__ = 'johansta@nmbu.no, sabinal@nmbu.no'
 
 
 class Animals:
+    def __init__(self):
+        pass
 
-    class Herbivore:
-        def __init__(self, age, weight):
-            pass
 
-    class Carnivore:
-        def __init__(self, age, weight):
-            pass
+class HerbivoreAnimal(Animals):
+    def __init__(self, age, weight):
+        pass
+
+
+class CarnivoreAnimal(Animals):
+    def __init__(self, age, weight):
+        pass
