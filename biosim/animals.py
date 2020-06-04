@@ -21,12 +21,20 @@ class Animals:
         'omega': 0.4,
         'F': 10.}
 
-    def __init__(self, params=None):
+    def __init__(self, params=None, age=0, weight=10.):
         if params is not None:
             self.params = params
         else:
             self.params = Animals.default_params
-        pass
+
+        self.age = age
+        self.weight = weight
+
+    def aging(self, years):
+        self.age += 1
+
+    def 
+
 
 
 class Herbivore(Animals):
