@@ -18,19 +18,19 @@ class Landscapes:
 
 class Lowland(Landscapes):
     def __init__(self):
-        pass
+        super().__init__()
 
 
 class Highland(Landscapes):
     def __init__(self):
-        pass
+        super().__init__()
 
 
 class Water(Landscapes):
     def __init__(self):
-        pass
+        super().__init__()
 
 
 class Desert(Landscapes):
     def __init__(self):
-        pass
+        super().__init__()
