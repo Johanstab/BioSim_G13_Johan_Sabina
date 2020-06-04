@@ -12,6 +12,7 @@ Here we will
 
 class Landscapes:
     def __init__(self):
+        "common traits are size."
         pass
 
 
