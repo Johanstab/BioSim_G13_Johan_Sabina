@@ -3,6 +3,8 @@
 __author__ = 'Johan Stabekk, Sabina Langås'
 __email__ = 'johansta@nmbu.no, sabinal@nmbu.no'
 
+import numpy as np
+
 
 class Animals:
     default_params = {
@@ -37,12 +39,15 @@ class Animals:
     def weight(self, delta_w):
         self.weight += delta_w
 
+    def q(self, sgn, x, xhalf, phi):
+       return  1./(1. + np.exp(sgn * phi * (x - xhalf)))
+
     def fitness(self):
         if self.weight <= 0
             self.phi = 0
         else:
-            self.phi = q(+1,self.p['a_half'],self.p['phi_age'])* \
-                       q(-1,self.p['w_half'],self.p['phi_weight'])
+            self.phi = Animals.q(+1,self.age,self.p['a_half'],self.p['phi_age'])* \
+                       Animals.q(-1,self.weight,self.p['w_half'],self.p['phi_weight'])
 
 
 
