@@ -55,8 +55,10 @@ class Animals:
     def death(self):
         if self.weight == 0:
             return True
+        elif self.weight*(1-self.phi)<= 0:
+            return True
         else:
-            return True if self.weight*(1-self.phi) <= 0 else False
+            return False
 
 
 class Herbivore(Animals):
