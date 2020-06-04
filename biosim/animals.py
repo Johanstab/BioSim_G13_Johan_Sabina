@@ -42,31 +42,30 @@ class Animals:
 
     @staticmethod
     def q(sgn, x, x_half, phi):
-        return 1./(1. + np.exp(sgn * phi * (x - x_half)))
+        return 1. / (1. + np.exp(sgn * phi * (x - x_half)))
 
     def fitness(self):
         if self.weight <= 0:
             self.phi = 0
         else:
-            self.phi = Animals.q(+1, self.age, self.p['a_half'], self.p['phi_age'])* \
+            self.phi = Animals.q(+1, self.age, self.p['a_half'], self.p['phi_age']) * \
                        Animals.q(-1, self.weight, self.p['w_half'], self.p['phi_weight'])
             "Must be 0<Phi<1"
 
     def death(self):
         if self.weight == 0:
             return True
-        elif self.weight*(1-self.phi)<= 0:
+        elif self.weight * (1 - self.phi) <= 0:
             return True
         else:
             return False
 
 
 class Herbivore(Animals):
-
     def __init__(self):
-        pass
+        super(self, Herbivore).__init__()
 
 
 class Carnivore(Animals):
     def __init__(self):
-        pass
+        super(self, Carnivore).__init__()
