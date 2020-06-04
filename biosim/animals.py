@@ -53,9 +53,11 @@ class Animals:
             "Must be 0<Phi<1"
 
     def death(self):
+        prob_death = self.weight * (1 - self.phi)
+
         if self.weight == 0:
             return True
-        elif self.weight * (1 - self.phi) <= 0:
+        elif prob_death <= 0:
             return True
         else:
             return False
