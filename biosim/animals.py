@@ -30,8 +30,20 @@ class Animals:
         for key in new_params:
             if key not in ('w_birth', 'sigma_birth', 'beta', 'eta',
                            'a_half', 'phi_age','w_half', 'phi_weight',
-                           'mu', 'gamma', 'zeta', 'xi', 'omega', 'F'):
+                           'mu', 'gamma', 'zeta', 'xi', 'omega', 'F', 'DeltaPhiMax'
+                           ):
                 raise KeyError('Invalid parameter name: ' + key)
+
+        if 'eta' in new_params:
+            if not new_params['eta'] <= 1:
+                raise ValueError('eta must be <= 1.')
+            cls.eta = new_params['eta']
+
+        if 'DeltaPhiMax' in new_params:
+            if not 0 < new_params['DeltaPhiMax']:
+                raise ValueError('DeltaPhiMax must be positive!')
+            cls.p_divide = new_params['p_divide']
+
         pass
 
     def __init__(self, age=0, weight=None):
