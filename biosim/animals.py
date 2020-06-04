@@ -15,7 +15,7 @@ class Animals:
 
         for key in new_params:
             if key not in ('w_birth', 'sigma_birth', 'beta', 'eta',
-                           'a_half', 'phi_age','w_half', 'phi_weight',
+                           'a_half', 'phi_age', 'w_half', 'phi_weight',
                            'mu', 'gamma', 'zeta', 'xi', 'omega', 'F', 'DeltaPhiMax'
                            ):
                 raise KeyError('Invalid parameter name: ' + key)
@@ -28,9 +28,7 @@ class Animals:
         if 'DeltaPhiMax' in new_params:
             if not 0 < new_params['DeltaPhiMax']:
                 raise ValueError('DeltaPhiMax must be positive!')
-            cls.p_divide = new_params['p_divide']
-
-        pass
+            cls.DeltaPhiMax = new_params['p_divide']
 
     def __init__(self, age=0, weight=None):
         self.age = age
@@ -47,12 +45,12 @@ class Animals:
     def q(sgn, x, x_half, phi):
         return 1. / (1. + np.exp(sgn * phi * (x - x_half)))
 
-    def fitness(self):
+    def fitness(self, a_half, phi_age, w_half, phi_weight):
         if self.weight <= 0:
             self.phi = 0
         else:
-            self.phi = Animals.q(+1, self.age, self.p['a_half'], self.p['phi_age']) * \
-                       Animals.q(-1, self.weight, self.p['w_half'], self.p['phi_weight'])
+            self.phi = Animals.q(+1, self.age, a_half, phi_age) * \
+                       Animals.q(-1, self.weight, w_half, phi_weight)
             "Must be 0<Phi<1"
 
     def death(self):
