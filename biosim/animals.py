@@ -39,7 +39,8 @@ class Animals:
     def weight(self, delta_w):
         self.weight += delta_w
 
-    def q(self, sgn, x, xhalf, phi):
+    @staticmethod
+    def q(sgn, x, xhalf, phi):
        return  1./(1. + np.exp(sgn * phi * (x - xhalf)))
 
     def fitness(self):
