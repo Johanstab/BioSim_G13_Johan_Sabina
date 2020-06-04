@@ -21,7 +21,11 @@ class Animals:
         'omega': 0.4,
         'F': 10.}
 
-    def __init__(self, params=default_params):
+    def __init__(self, params=None):
+        if params is not None:
+            self.params = params
+        else:
+            self.params = Animals.default_params
         pass
 
 
