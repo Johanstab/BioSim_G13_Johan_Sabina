@@ -19,18 +19,17 @@ class Animals:
         'zeta': 3.5,
         'xi': 1.2,
         'omega': 0.4,
-        'F': 10.
-    }
+        'F': 10.}
 
     def __init__(self, params=default_params):
         pass
 
 
-class HerbivoreAnimal(Animals):
-    def __init__(self, age, weight):
+class Herbivore(Animals):
+    def __init__(self):
         pass
 
 
-class CarnivoreAnimal(Animals):
-    def __init__(self, age, weight):
+class Carnivore(Animals):
+    def __init__(self):
         pass
