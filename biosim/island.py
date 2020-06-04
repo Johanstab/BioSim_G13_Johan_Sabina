@@ -5,5 +5,7 @@ __email__ = 'johansta@nmbu.no, sabinal@nmbu.no'
 
 
 class Island:
-    def __init__(self):
+    default_island_map="WWWW\nWLHW\nWWDW\nWWWW"
+
+    def __init__(self, island_map=default_island_map):
         pass
