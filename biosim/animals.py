@@ -23,21 +23,31 @@ class Animals:
 
     def __init__(self, params=None, age=0, weight=10.):
         if params is not None:
-            self.params = params
+            self.p = params
         else:
-            self.params = Animals.default_params
+            self.p = Animals.default_params
 
         self.age = age
         self.weight = weight
+        self.phi = 0
 
-    def aging(self, years):
+    def aging(self):
         self.age += 1
 
-    def 
+    def weight(self, delta_w):
+        self.weight += delta_w
+
+    def fitness(self):
+        if self.weight <= 0
+            self.phi = 0
+        else:
+            self.phi = q(+1,self.p['a_half'],self.p['phi_age'])* \
+                       q(-1,self.p['w_half'],self.p['phi_weight'])
 
 
 
 class Herbivore(Animals):
+
     def __init__(self):
         pass
 
