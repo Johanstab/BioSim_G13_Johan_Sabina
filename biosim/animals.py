@@ -64,10 +64,10 @@ class Animals:
 
 
 class Herbivore(Animals):
-    def __init__(self):
-        super(self, Herbivore).__init__()
+    def __init__(self, age, weight):
+        super().__init__(age, weight)
 
 
 class Carnivore(Animals):
-    def __init__(self):
-        super(self, Carnivore).__init__()
+    def __init__(self, age, weight):
+        super().__init__(age, weight)
