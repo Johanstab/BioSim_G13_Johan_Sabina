@@ -5,7 +5,11 @@ __email__ = 'johansta@nmbu.no, sabinal@nmbu.no'
 
 import random
 
+"""
+Here we will  
+"""
 
-class Fauna:
+
+class Landscapes:
     def __init__(self, ):
         pass
