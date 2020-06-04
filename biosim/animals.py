@@ -8,6 +8,7 @@ import random as random
 
 
 class Animals:
+    "Move params to different species and create a set_params method"
     default_params = {
         'w_birth': 8.,
         'sigma_birth': 1.5,
@@ -57,7 +58,7 @@ class Animals:
 
         if self.weight == 0:
             return True
-        elif prob_death <= 0:
+        elif prob_death <= 0: # Must change this to go according to probability
             return True
         else:
             return False
