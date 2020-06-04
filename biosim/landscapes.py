@@ -11,5 +11,25 @@ Here we will
 
 
 class Landscapes:
-    def __init__(self, ):
+    def __init__(self):
+        pass
+
+
+class Lowland(Landscapes):
+    def __init__(self):
+        pass
+
+
+class Highland(Landscapes):
+    def __init__(self):
+        pass
+
+
+class Water(Landscapes):
+    def __init__(self):
+        pass
+
+
+class Desert(Landscapes):
+    def __init__(self):
         pass
