@@ -4,6 +4,7 @@ __author__ = 'Johan Stabekk, Sabina Langås'
 __email__ = 'johansta@nmbu.no, sabinal@nmbu.no'
 
 import numpy as np
+import random as random
 
 
 class Animals:
@@ -50,6 +51,12 @@ class Animals:
             self.phi = Animals.q(+1, self.age, self.p['a_half'], self.p['phi_age'])* \
                        Animals.q(-1, self.weight, self.p['w_half'], self.p['phi_weight'])
             "Must be 0<Phi<1"
+
+    def death(self):
+        if self.weight == 0:
+            return True
+        else:
+            return True if self.weight*(1-self.phi) <= 0 else False
 
 
 class Herbivore(Animals):
