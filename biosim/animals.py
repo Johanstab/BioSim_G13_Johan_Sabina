@@ -56,9 +56,7 @@ class Animals:
     def death(self):
         prob_death = self.weight * (1 - self.phi)
 
-        if self.weight == 0:
-            return True
-        elif prob_death <= 0: # Must change this to go according to probability
+        if self.weight == 0 or random.random() < prob_death:
             return True
         else:
             return False
