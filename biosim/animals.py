@@ -9,24 +9,10 @@ import random as random
 
 class Animals:
     "Move params to different species and create a set_params method"
-    default_params = {
-        'w_birth': 8.,
-        'sigma_birth': 1.5,
-        'beta': 0.9,
-        'eta': 0.05,
-        'a_half': 40.,
-        'phi_age': 0.2,
-        'w_half': 10.,
-        'phi_weight': 0.1,
-        'mu': 0.25,
-        'gamma': 0.2,
-        'zeta': 3.5,
-        'xi': 1.2,
-        'omega': 0.4,
-        'F': 10.}
 
     @classmethod
     def set_params(cls, new_params):
+
         for key in new_params:
             if key not in ('w_birth', 'sigma_birth', 'beta', 'eta',
                            'a_half', 'phi_age','w_half', 'phi_weight',
@@ -81,6 +67,23 @@ class Animals:
 class Herbivore(Animals):
     def __init__(self, age, weight):
         super().__init__(age, weight)
+
+        default_params_herbivore = {
+            'w_birth': 8.,
+            'sigma_birth': 1.5,
+            'beta': 0.9,
+            'eta': 0.05,
+            'a_half': 40.0,
+            'phi_age': 0.6,
+            'w_half': 10.0,
+            'phi_weight': 0.1,
+            'mu': 0.25,
+            'gamma': 0.2,
+            'zeta': 3.5,
+            'xi': 1.2,
+            'omega': 0.4,
+            'F': 10.0,
+            'DeltaPhiMax': None}
 
 
 class Carnivore(Animals):
