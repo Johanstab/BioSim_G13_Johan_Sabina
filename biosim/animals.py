@@ -27,9 +27,14 @@ class Animals:
 
     @classmethod
     def set_params(cls, new_params):
+        for key in new_params:
+            if key not in ('w_birth', 'sigma_birth', 'beta', 'eta',
+                           'a_half', 'phi_age','w_half', 'phi_weight',
+                           'mu', 'gamma', 'zeta', 'xi', 'omega', 'F'):
+                raise KeyError('Invalid parameter name: ' + key)
         pass
 
-    def __init__(self,age=0, weight=None):
+    def __init__(self, age=0, weight=None):
         self.age = age
         self.weight = weight
         self.phi = 0
