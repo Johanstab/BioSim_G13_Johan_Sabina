@@ -28,46 +28,50 @@ Defines the order of what happens in a year:
 "     mother_weight = animal.params['xi'] * new_born.weight"
 
 
-class Landscapes:
-    def __init__(self, row, columns, f_max):
-        "common traits are size."
+class Landscape:
+    keys = ['L', 'W', 'H', 'D']
+    params = dict.fromkeys(keys)
 
-        self.row = row
-        self.columns = columns
-        self.f_max = f_max
-
-
+    @classmethod
+    def set_params(cls, new_params):
+        for key in Landscape.keys:
 
         pass
 
 
-class Lowland(Landscapes):
-    passable = True
-    f_max = 800.0
+    def __init__(self, f_max):
+        "common traits are size."
 
-    def __init__(self):
-        super().__init__()
+        self.f_max = f_max
+
+        self.animals = list()
+        pass
+
+
+class Lowland(Landscape):
+    passable = True
+
+    def __init__(self, f_max):
+        super().__init__(f_max)
     "Make function for available fodder and population growth"
 
 
-class Highland(Landscapes):
+class Highland(Landscape):
     passable = True
-    f_max = 300.0
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, f_max):
+        super().__init__(f_max)
 
 
-class Water(Landscapes):
+class Water(Landscape):
     passable = False
 
     def __init__(self):
-        super().__init__()
+        super().__init__(f_max=0)
 
 
-class Desert(Landscapes):
+class Desert(Landscape):
     passable = True
-    f_max = 0
 
     def __init__(self):
-        super().__init__()
+        super().__init__(f_max=0)
