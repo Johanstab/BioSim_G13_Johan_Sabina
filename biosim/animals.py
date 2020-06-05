@@ -40,8 +40,11 @@ class Animals:
     def aging(self):
         self.age += 1
 
-    def weight(self, delta_w):
-        self.weight += delta_w
+    def weight_gain(self, beta, F):
+        self.weight += F*beta
+
+    def weight_loss(self, eta, w):
+        self.weight -= eta*w
 
     @staticmethod
     def q(sgn, x, x_half, phi):
@@ -65,24 +68,29 @@ class Animals:
 
 
 class Herbivore(Animals):
-
-    params_dic_Herbivore = {'w_birth': 8.,
-              'sigma_birth': 1.5,
-              'beta': 0.9,
-              'eta': 0.05,
-              'a_half': 40.,
-              'phi_age': 0.6,
-              'w_half': 10.,
-              'phi_weight': 0.1,
-              'mu': 0.25,
-              'gamma': 0.2,
-              'zeta': 3.5,
-              'xi': 1.2,
-              'omega': 0.4,
-              'F': 10.}
+    p_Herbivore = {'w_birth': 8.,
+                   'sigma_birth': 1.5,
+                   'beta': 0.9,
+                   'eta': 0.05,
+                   'a_half': 40.,
+                   'phi_age': 0.6,
+                   'w_half': 10.,
+                   'phi_weight': 0.1,
+                   'mu': 0.25,
+                   'gamma': 0.2,
+                   'zeta': 3.5,
+                   'xi': 1.2,
+                   'omega': 0.4,
+                   'F': 10.}
 
     def __init__(self, age=0, weight=None):
         super().__init__(age, weight)
+
+    def eats(self, cell):
+        if Herbivore.p_Herbivore['F'] <= cell.availabe_fodder:
+            self.weight = super().weight(Herbivore.p_Herbivore['beta'], Herbivore.p_Herbivore['F'])
+        else:
+            self.weight = super().weight(Herbivore.p_Herbivore['beta'], cell.availabe_fodder)
 
 
 class Carnivore(Animals):
