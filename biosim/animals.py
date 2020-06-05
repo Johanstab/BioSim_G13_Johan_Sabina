@@ -46,24 +46,26 @@ class Animals:
 
     def weight_gain(self, beta, F):
         self.weight += F * beta
+        return self.weight
 
     def weight_loss(self, eta, w):
         self.weight -= eta * w
+        return self.weight
 
     @staticmethod
     def q(sgn, x, x_half, phi):
         return 1. / (1. + np.exp(sgn * phi * (x - x_half)))
 
     @property
-    def fitness(self, a_half, phi_age, w_half, phi_weight):
+    def fitness(self):
         if self.weight <= 0:
             self.phi = 0
         else:
-            self.phi = Animals.q(+1, self.age, a_half, phi_age) * \
-                       Animals.q(-1, self.weight, w_half, phi_weight)
-            "Must be 0<Phi<1"
+            self.phi = Animals.q(+1, self.age, self.params['a_half'], self.params['phi_age']) * \
+                       Animals.q(-1, self.weight, self.params['w_half'], self.params['phi_weight'])
+        return self.phi
 
-    def death(self):
+    def death_probability(self):
         prob_death = self.weight * (1 - self.phi)
 
         if self.weight == 0 or random.random() < prob_death:
@@ -93,9 +95,14 @@ class Herbivore(Animals):
 
     def eats(self, cell):
         if Herbivore.params['F'] <= cell.availabe_fodder:
-            self.weight = self.weight(Herbivore.params['beta'], Herbivore.params['F'])
+            self.weight = self.weight_gain(self.params['beta'], self.params['F'])
+            self.weight = self.weight_loss(self.params['eta'], self.weight)
         else:
-            self.weight = self.weight(Herbivore.params['beta'], cell.availabe_fodder)
+            self.weight = self.weight_gain(self.params['beta'], cell.availabe_fodder)
+            self.weight = self.weight_loss(self.params['beta'], self.weight)
+
+    def birth(self):
+        pass
 
 
 class Carnivore(Animals):
