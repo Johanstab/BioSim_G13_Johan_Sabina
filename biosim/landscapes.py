@@ -42,46 +42,56 @@ class Landscape:
         "common traits are size."
 
         self.f_max = self.params['f_max']
-        self.population = {'Herbivore': [], 'Carnivore': []}
+        self.animal_list = []
+        #self.population = {'Herbivore': [], 'Carnivore': []}
         self.available_food = 0
+
+    def set_population(self, input_dict):
+        for animal in input_dict:
+            if animal['species'] == "Herbivore":
+                self.animal_list.append(Herbivore(age=animal[
+                    'age'], weight=animal['weight']))
+            else:
+                self.animal_list.append(Carnivore(age=animal[
+                    'age'], weight=animal['weight']))
 
     def food_grows(self):
         self.available_food = self.f_max
 
     def animals_eat(self):
 
-        np.random.shuffle(self.population['Herbivore'])
+        np.random.shuffle(self.animal_list['Herbivore'])
 
-        for herbivore in self.population['Herbivore']:
+        for herbivore in self.animal_list['Herbivore']:
             if self.available_food <= 0:
-                break
+                breakanimal_list
             else:
                 herbivore.eats(self.available_food)
 
     def animals_reproduce(self):
-        nr_animals = len(self.population['Herbivore'])
+        nr_animals = len(self.animal_list['Herbivore'])
         if nr_animals < 2:
             return False
-        for herbivore in self.population['Herbivore']:
+        for herbivore in self.animal_list['Herbivore']:
             if herbivore.weight < herbivore.params['zeta'] * (
                     herbivore.params['w_birth'] + herbivore.params['sigma_birth']):
                 break
             if herbivore.birth(nr_animals):
-                self.population['Herbivore'].append(Herbivore)
+                self.animal_list.append(Herbivore)
 
     def animals_die(self):
         death_list_herb = []
 
-        for herbivore in self.population['Herbivore']:
+        for herbivore in self.animal_list['Herbivore']:
             if herbivore.death_probability():
                 death_list_herb.append(herbivore)
 
     def animals_age(self):
-        for herbivore in self.population['Herbivore']:
+        for herbivore in self.animal_list['Herbivore']:
             herbivore.aging()
 
     def animals_lose_weight(self):
-        for herbivore in self.population['Herbivore']:
+        for herbivore in self.animal_list['Herbivore']:
             herbivore.weight_loss()
 
 

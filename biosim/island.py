@@ -7,10 +7,9 @@ from biosim.landscapes import Landscape
 
 
 class Island:
-
     valid_landscape = ['W', 'D', 'L', 'H']
-    # initial_pop = [{'loc': (1, 1), 'pop': [{'species': 'Herbivore', 'age': 1, 'weight': 10.}]}]
-    initial_pop = {'age': 1, 'weight': 10.}
+    initial_pop = [{'species': 'Herbivore', 'age': 1, 'weight': 10.},
+                   {'species': 'Herbivore', 'age': 3, 'weight': 14.}]
     default_island_map = "L"
     years = 100
 
@@ -22,7 +21,7 @@ class Island:
             self.initial_pop = ini_pop
 
         self.env = Landscape()
-        self.env.population['Herbivore'].append(self.initial_pop)
+        self.env.set_population(self.initial_pop)
 
         year = 0
         while year < Island.years:
@@ -37,6 +36,4 @@ class Island:
 
 if __name__ == '__main__':
     island = Island()
-    print(island.env.population)
-
-
+    print(island.env.animal_list[0].weight)
