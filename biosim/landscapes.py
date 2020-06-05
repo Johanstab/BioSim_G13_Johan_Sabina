@@ -45,6 +45,7 @@ class Landscape:
         self.animal_list = []
         #self.population = {'Herbivore': [], 'Carnivore': []}
         self.available_food = 0
+        self.death_list_herb = []
 
     def set_population(self, input_dict):
         for animal in input_dict:
@@ -86,13 +87,13 @@ class Landscape:
                 self.animal_list.append(Herbivore)
 
     def animals_die(self):
-        death_list_herb = []
+        self.death_list_herb = []
 
         for herbivore in self.herb_list:
-            if herbivore.death_probability():
-                death_list_herb.append(herbivore)
+            if herbivore.death():
+                self.death_list_herb.append(herbivore)
 
-            for dead in death_list_herb:
+            for dead in self.death_list_herb:
                 self.herb_list.remove(dead)
 
     def animals_age(self):

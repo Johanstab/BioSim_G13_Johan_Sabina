@@ -73,13 +73,11 @@ class Animals:
                      self.fitness * (nr_animals - 1))
         return random.random() < b_prob
 
-    @property
-    def death_probability(self):
-        if self.weight == 0:
-            return True
+    def death(self):
 
         prob_death = self.weight * (1 - self.phi)
-        return random.random() < prob_death
+        dies = random.random() < prob_death
+        return bool(dies) or self.weight == 0
 
 
 class Herbivore(Animals):
