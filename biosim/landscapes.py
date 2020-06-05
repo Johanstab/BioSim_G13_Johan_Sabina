@@ -31,6 +31,13 @@ Defines the order of what happens in a year:
 class Landscapes:
     def __init__(self, row, columns, f_max):
         "common traits are size."
+
+        self.row = row
+        self.columns = columns
+        self.f_max = f_max
+
+
+
         pass
 
 
