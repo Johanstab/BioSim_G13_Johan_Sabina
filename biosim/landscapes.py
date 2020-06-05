@@ -64,14 +64,6 @@ class Landscape:
             else:
                 herbivore.eats()
 
-<<<<<<< Updated upstream
-
-random.ra
-
-
-
-=======
->>>>>>> Stashed changes
     def animals_reproduce(self):
         nr_animals = len(self.population['Herbivore'])
         if nr_animals < 2:
