@@ -110,8 +110,10 @@ class Herbivore(Animals):
     def eats(self, cell):
         if self.params['F'] <= cell.availabe_fodder:
             self.weight = self.weight_gain()
+            cell.availabe_fodder -= self.params['F']
         else:
             self.weight = self.params['beta']*cell.availabe_fodder
+            cell.availabe_fodder = 0
 
 
 class Carnivore(Animals):
