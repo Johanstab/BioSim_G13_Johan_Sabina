@@ -47,22 +47,40 @@ class Landscape:
         "common traits are size."
 
         self.f_max = self.params['f_max']
-
-        self.animals_herbi = []
-        self.animals_carni = []
+        self.population = {'Herbivore': [], 'Carnivore': []}
         self.available_food = 0
-        self.left_overs = 0
 
     def food_grows(self):
         self.available_food = self.f_max
 
     def animals_eat(self):
 
+        for herbivore in self.population['Herbivore']:
+            if self.available_food <= 0:
+                break
+            else:
+                herbivore.eats()
+
+
     def animals_reproduce(self):
 
     def animals_die(self):
+        death_list_herb = []
+
+        for herbivore in self.population['Herbivore']:
+            if herbivore.death_probability():
+                death_list_herb.append(herbivore)
+
+
+
+
+
 
     def animals_age(self):
+        for herbivore in self.population['Herbivore']:
+            herbivore.aging()
+
+    def animals_lose_weight(self):
 
 
 
