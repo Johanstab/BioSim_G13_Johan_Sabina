@@ -4,6 +4,7 @@ __author__ = 'Johan Stabekk, Sabina Langås'
 __email__ = 'johansta@nmbu.no, sabinal@nmbu.no'
 
 import random
+import numpy as np
 from .animals import Herbivore, Carnivore
 
 """
@@ -55,11 +56,17 @@ class Landscape:
 
     def animals_eat(self):
 
+        np.random.shuffle(self.population['Herbivore'])
+
         for herbivore in self.population['Herbivore']:
             if self.available_food <= 0:
                 break
             else:
                 herbivore.eats()
+
+
+random.ra
+
 
 
     def animals_reproduce(self):
