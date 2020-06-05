@@ -20,15 +20,14 @@ class Animals:
                            ):
                 raise KeyError('Invalid parameter name: ' + key)
 
-        if 'eta' in new_params:
-            if not new_params['eta'] <= 1:
+        for iterator in new_params:
+            if iterator == 'eta' and new_params[iterator] >= 1:
                 raise ValueError('eta must be <= 1.')
-            cls.eta = new_params['eta']
-
-        if 'DeltaPhiMax' in new_params:
-            if not 0 < new_params['DeltaPhiMax']:
+            if iterator == 'DeltaPhiMax' and new_params[iterator] <= 0:
                 raise ValueError('DeltaPhiMax must be positive!')
-            cls.DeltaPhiMax = new_params['p_divide']
+            if new_params[iterator] < 0:
+                raise ValueError('{} cannot be negative'.format(iterator))
+            cls.param_dict[iterator] = new_params[iterator]
 
     def __init__(self, age=0, weight=None):
         self.age = age
