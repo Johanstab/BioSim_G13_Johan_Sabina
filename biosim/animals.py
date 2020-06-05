@@ -78,6 +78,7 @@ class Animals:
             return False
         return random.random() < b_prob
 
+    @property
     def death_probability(self):
         if self.weight == 0:
             return False
