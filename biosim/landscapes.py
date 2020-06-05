@@ -22,6 +22,7 @@ class Lowland(Landscapes):
 
     def __init__(self):
         super().__init__()
+    "Make function for available fodder and population growth"
 
 
 class Highland(Landscapes):
