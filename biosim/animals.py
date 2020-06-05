@@ -12,12 +12,12 @@ class Animals:
 
     @classmethod
     def set_params(cls, new_params):
-
+        keys = ['w_birth', 'sigma_birth', 'beta', 'eta',
+                'a_half', 'phi_age', 'w_half', 'phi_weight',
+                'mu', 'gamma', 'zeta', 'xi', 'omega', 'F', 'DeltaPhiMax']
+        cls.params = dict.fromkeys(keys)
         for key in new_params:
-            if key not in ('w_birth', 'sigma_birth', 'beta', 'eta',
-                           'a_half', 'phi_age', 'w_half', 'phi_weight',
-                           'mu', 'gamma', 'zeta', 'xi', 'omega', 'F', 'DeltaPhiMax'
-                           ):
+            if key not in keys:
                 raise KeyError('Invalid parameter name: ' + key)
 
         for iterator in new_params:
@@ -27,7 +27,7 @@ class Animals:
                 raise ValueError('DeltaPhiMax must be positive!')
             if new_params[iterator] < 0:
                 raise ValueError('{} cannot be negative'.format(iterator))
-            cls.param_dict[iterator] = new_params[iterator]
+            cls.params[iterator] = new_params[iterator]
 
     def __init__(self, age=0, weight=None):
         self.age = age
@@ -41,10 +41,10 @@ class Animals:
         self.age += 1
 
     def weight_gain(self, beta, F):
-        self.weight += F*beta
+        self.weight += F * beta
 
     def weight_loss(self, eta, w):
-        self.weight -= eta*w
+        self.weight -= eta * w
 
     @staticmethod
     def q(sgn, x, x_half, phi):
