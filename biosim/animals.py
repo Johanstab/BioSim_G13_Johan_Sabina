@@ -35,7 +35,7 @@ class Animals:
         self.phi = 0
 
     def age(self):
-        return self.age()
+        return self.age
 
     def aging(self):
         self.age += 1
@@ -83,9 +83,6 @@ class Herbivore(Animals):
 
     def __init__(self, age=0, weight=None):
         super().__init__(age, weight)
-
-    def feed_Herbivore(self, cell):
-
 
 
 class Carnivore(Animals):
