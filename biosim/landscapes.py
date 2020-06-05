@@ -22,12 +22,6 @@ Defines the order of what happens in a year:
 
 """
 
-"if birth_weight_loss >=  self.weight:"
-"     No birth"
-"Else: "
-"     new_born = animal.Herbivore"
-"     mother_weight = animal.params['xi'] * new_born.weight"
-
 
 class Landscape:
     keys = ['f_max']
@@ -89,8 +83,6 @@ class Landscape:
     def animals_lose_weight(self):
         for herbivore in self.population['Herbivore']:
             herbivore.weight_loss()
-
-
 
 
 class Lowland(Landscape):
