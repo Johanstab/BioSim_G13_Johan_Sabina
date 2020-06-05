@@ -81,7 +81,7 @@ class Animals:
     @property
     def death_probability(self):
         if self.weight == 0:
-            return False
+            return True
 
         prob_death = self.weight * (1 - self.phi)
         return random.random() < prob_death
