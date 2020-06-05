@@ -3,7 +3,7 @@
 __author__ = 'Johan Stabekk, Sabina Langås'
 __email__ = 'johansta@nmbu.no, sabinal@nmbu.no'
 
-from landscapes import Landscape, Lowland
+from biosim.landscapes import Landscape
 
 
 class Island:
@@ -20,9 +20,11 @@ class Island:
             self.initial_pop = ini_pop
 
         self.env = Landscape()
-
+        self.env.population['Herbivore'].append(ini_pop)
 
 
 if __name__ == '__main__':
-    Island()
+    island = Island()
+    print(island.env.population)
+
 
