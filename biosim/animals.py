@@ -9,14 +9,13 @@ import random as random
 
 class Animals:
     "Move params to different species and create a set_params method"
-    params = {}
+    keys = ['w_birth', 'sigma_birth', 'beta', 'eta',
+            'a_half', 'phi_age', 'w_half', 'phi_weight',
+            'mu', 'gamma', 'zeta', 'xi', 'omega', 'F', 'DeltaPhiMax']
+    params = dict.fromkeys(keys)
+
     @classmethod
     def set_params(cls, new_params):
-        keys = ['w_birth', 'sigma_birth', 'beta', 'eta',
-                'a_half', 'phi_age', 'w_half', 'phi_weight',
-                'mu', 'gamma', 'zeta', 'xi', 'omega', 'F', 'DeltaPhiMax']
-        # Update function
-        cls.params = dict.fromkeys(keys)
         for key in new_params:
             if key not in keys:
                 raise KeyError('Invalid parameter name: ' + key)
