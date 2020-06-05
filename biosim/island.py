@@ -36,4 +36,4 @@ class Island:
 
 if __name__ == '__main__':
     island = Island()
-    print(island.env.animal_list[0].weight)
+    print(island.env.herb_list[0].weight)

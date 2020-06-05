@@ -55,24 +55,30 @@ class Landscape:
                 self.animal_list.append(Carnivore(age=animal[
                     'age'], weight=animal['weight']))
 
+    @property
+    def herb_list(self):
+        """List of all herbivore objects in the cell object"""
+        return [a for a in self.animal_list
+                if type(a).__name__ == "Herbivore"]
+
     def food_grows(self):
         self.available_food = self.f_max
 
     def animals_eat(self):
 
-        np.random.shuffle(self.animal_list['Herbivore'])
+        np.random.shuffle(self.herb_list)
 
-        for herbivore in self.animal_list['Herbivore']:
+        for herbivore in self.herb_list:
             if self.available_food <= 0:
-                breakanimal_list
+                break
             else:
-                herbivore.eats(self.available_food)
+                herbivore.eats(self)
 
     def animals_reproduce(self):
-        nr_animals = len(self.animal_list['Herbivore'])
+        nr_animals = len(self.herb_list)
         if nr_animals < 2:
             return False
-        for herbivore in self.animal_list['Herbivore']:
+        for herbivore in self.herb_list:
             if herbivore.weight < herbivore.params['zeta'] * (
                     herbivore.params['w_birth'] + herbivore.params['sigma_birth']):
                 break
@@ -82,16 +88,16 @@ class Landscape:
     def animals_die(self):
         death_list_herb = []
 
-        for herbivore in self.animal_list['Herbivore']:
-            if herbivore.death_probability():
+        for herbivore in self.herb_list:
+            if herbivore.death_probability:
                 death_list_herb.append(herbivore)
 
     def animals_age(self):
-        for herbivore in self.animal_list['Herbivore']:
+        for herbivore in self.herb_list:
             herbivore.aging()
 
     def animals_lose_weight(self):
-        for herbivore in self.animal_list['Herbivore']:
+        for herbivore in self.herb_list:
             herbivore.weight_loss()
 
 
