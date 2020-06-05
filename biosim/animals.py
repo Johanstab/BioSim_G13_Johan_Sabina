@@ -65,6 +65,17 @@ class Animals:
                        Animals.q(-1, self.weight, self.params['w_half'], self.params['phi_weight'])
         return self.phi
 
+    def birth(self, nr_animals):
+        b_prob = min(1, self.params['gamma'] *
+                     self.fitness * (nr_animals - 1))
+        if nr_animals < 2:
+            return False
+        if self.weight < self.params['zeta'] * (
+                self.params['w_birth'] + self.params['sigma_birth']):
+            return False
+        if random.random() < b_prob:
+            return True
+
     def death_probability(self):
         prob_death = self.weight * (1 - self.phi)
 
@@ -100,17 +111,6 @@ class Herbivore(Animals):
         else:
             self.weight = self.weight_gain(self.params['beta'], cell.availabe_fodder)
             self.weight = self.weight_loss(self.params['beta'], self.weight)
-
-    def birth(self, nr_animals):
-        b_prob = min(1, self.params['gamma'] *
-                     self.fitness * (nr_animals - 1))
-        if nr_animals < 2:
-            return False
-        if self.weight < self.params['zeta'] * (
-                self.params['w_birth'] + self.params['sigma_birth']):
-            return False
-        if random.random() < b_prob:
-            return True
 
 
 class Carnivore(Animals):
