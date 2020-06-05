@@ -71,16 +71,13 @@ class Landscape:
             if herbivore.death_probability():
                 death_list_herb.append(herbivore)
 
-
-
-
-
-
     def animals_age(self):
         for herbivore in self.population['Herbivore']:
             herbivore.aging()
 
     def animals_lose_weight(self):
+        for herbivore in self.population['Herbivore']:
+            herbivore.weight_loss()
 
 
 
