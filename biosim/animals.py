@@ -9,12 +9,13 @@ import random as random
 
 class Animals:
     "Move params to different species and create a set_params method"
-
+    params = {}
     @classmethod
     def set_params(cls, new_params):
         keys = ['w_birth', 'sigma_birth', 'beta', 'eta',
                 'a_half', 'phi_age', 'w_half', 'phi_weight',
                 'mu', 'gamma', 'zeta', 'xi', 'omega', 'F', 'DeltaPhiMax']
+        # Update function
         cls.params = dict.fromkeys(keys)
         for key in new_params:
             if key not in keys:
@@ -35,8 +36,11 @@ class Animals:
         self.phi = 0
 
         if self.weight is None:
-            self.weight = np.random.normal(self.params['w_birth'],
-                                           self.params['sigma_birth'])
+            self.weight = self.weight_birth
+
+    @staticmethod
+    def weight_birth(weight, sigma):
+        return np.random.normal(weight,sigma)
 
     def age(self):
         return self.age
@@ -73,16 +77,14 @@ class Animals:
         if self.weight < self.params['zeta'] * (
                 self.params['w_birth'] + self.params['sigma_birth']):
             return False
-        if random.random() < b_prob:
-            return True
+        return random.random() < b_prob
 
     def death_probability(self):
-        prob_death = self.weight * (1 - self.phi)
-
-        if self.weight == 0 or random.random() < prob_death:
-            return True
-        else:
+        if self.weight == 0:
             return False
+
+        prob_death = self.weight * (1 - self.phi)
+        return random.random() < prob_death
 
 
 class Herbivore(Animals):
@@ -110,7 +112,6 @@ class Herbivore(Animals):
             self.weight = self.weight_gain()
         else:
             self.weight = self.params['beta']*cell.availabe_fodder
-
 
 
 class Carnivore(Animals):
