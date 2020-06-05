@@ -44,12 +44,12 @@ class Animals:
     def aging(self):
         self.age += 1
 
-    def weight_gain(self, beta, F):
-        self.weight += F * beta
+    def weight_gain(self):
+        self.weight += self.params['F'] * self.params['beta']
         return self.weight
 
-    def weight_loss(self, eta, w):
-        self.weight -= eta * w
+    def weight_loss(self):
+        self.weight -= self.params['eta'] * self.weight
         return self.weight
 
     @staticmethod
@@ -102,15 +102,15 @@ class Herbivore(Animals):
               'F': 10.}
 
     def __init__(self, age=0, weight=None):
+
         super().__init__(age, weight)
 
     def eats(self, cell):
         if Herbivore.params['F'] <= cell.availabe_fodder:
-            self.weight = self.weight_gain(self.params['beta'], self.params['F'])
-            self.weight = self.weight_loss(self.params['eta'], self.weight)
+            self.weight = self.weight_gain()
         else:
-            self.weight = self.weight_gain(self.params['beta'], cell.availabe_fodder)
-            self.weight = self.weight_loss(self.params['beta'], self.weight)
+            self.weight = self.params['beta']*cell.availabe_fodder
+
 
 
 class Carnivore(Animals):
