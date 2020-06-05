@@ -73,7 +73,7 @@ class Animals:
 
 
 class Herbivore(Animals):
-    p_Herbivore = {'w_birth': 8.,
+    params = {'w_birth': 8.,
                    'sigma_birth': 1.5,
                    'beta': 0.9,
                    'eta': 0.05,
