@@ -11,7 +11,7 @@ Here we will
 
 
 class Landscapes:
-    def __init__(self):
+    def __init__(self, row, columns, f_max):
         "common traits are size."
         pass
 
