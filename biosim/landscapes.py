@@ -75,7 +75,7 @@ class Landscape:
                 herbivore.eats(self)
 
     def animals_reproduce(self):
-        nr_animals = len(self.herb_list)
+        nr_animals = len(self.animal_list)
         if nr_animals < 2:
             return False
         for herbivore in self.herb_list:
@@ -89,8 +89,11 @@ class Landscape:
         death_list_herb = []
 
         for herbivore in self.herb_list:
-            if herbivore.death_probability:
+            if herbivore.death_probability():
                 death_list_herb.append(herbivore)
+
+            for dead in death_list_herb:
+                self.herb_list.remove(dead)
 
     def animals_age(self):
         for herbivore in self.herb_list:
@@ -99,6 +102,10 @@ class Landscape:
     def animals_lose_weight(self):
         for herbivore in self.herb_list:
             herbivore.weight_loss()
+
+    @herb_list.setter
+    def herb_list(self, value):
+        self._herb_list = value
 
 
 class Lowland(Landscape):
