@@ -34,6 +34,10 @@ class Animals:
         self.weight = weight
         self.phi = 0
 
+        if self.weight is None:
+            self.weight = np.random.normal(self.params['w_birth'],
+                                           self.params['sigma_birth'])
+
     def age(self):
         return self.age
 
