@@ -64,12 +64,24 @@ class Landscape:
             else:
                 herbivore.eats()
 
+<<<<<<< Updated upstream
 
 random.ra
 
 
 
+=======
+>>>>>>> Stashed changes
     def animals_reproduce(self):
+        nr_animals = len(self.population['Herbivore'])
+        if nr_animals < 2:
+            return False
+        for herbivore in self.population['Herbivore']:
+            if herbivore.weight < herbivore.params['zeta'] * (
+                    herbivore.params['w_birth'] + herbivore.params['sigma_birth']):
+                break
+            if herbivore.birth(nr_animals):
+                self.population['Herbivore'].append(Herbivore)
 
     def animals_die(self):
         death_list_herb = []

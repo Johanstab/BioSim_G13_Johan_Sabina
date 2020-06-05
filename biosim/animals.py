@@ -71,11 +71,6 @@ class Animals:
     def birth(self, nr_animals):
         b_prob = min(1, self.params['gamma'] *
                      self.fitness * (nr_animals - 1))
-        if nr_animals < 2:
-            return False
-        if self.weight < self.params['zeta'] * (
-                self.params['w_birth'] + self.params['sigma_birth']):
-            return False
         return random.random() < b_prob
 
     @property
@@ -104,7 +99,6 @@ class Herbivore(Animals):
               'F': 10.}
 
     def __init__(self, age=0, weight=None):
-
         super().__init__(age, weight)
 
     def eats(self, cell):
@@ -112,8 +106,8 @@ class Herbivore(Animals):
             self.weight = self.weight_gain()
             cell.availabe_fodder -= self.params['F']
         else:
-            self.weight = self.params['beta']*cell.availabe_fodder
-            cell.availabe_fodder = 0
+            self.weight = self.params['beta']*cell.available_fodder
+            cell.available_fodder = 0
 
 
 class Carnivore(Animals):
