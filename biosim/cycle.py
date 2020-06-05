@@ -22,6 +22,12 @@ class Cycle:
         pass
 
     def procreation(self):
+        "if birth_weight_loss >=  self.weight:"
+        "     No birth"
+        "Else: "
+        "     new_born = animal.Herbivore"
+        "     mother_weight = animal.params['xi'] * new_born.weight"
+
         pass
 
     def migration(self):
