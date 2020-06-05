@@ -17,7 +17,7 @@ class Animals:
     @classmethod
     def set_params(cls, new_params):
         for key in new_params:
-            if key not in keys:
+            if key not in Animals.keys:
                 raise KeyError('Invalid parameter name: ' + key)
 
         for iterator in new_params:
@@ -35,11 +35,11 @@ class Animals:
         self.phi = 0
 
         if self.weight is None:
-            self.weight = self.weight_birth
+            self.weight = self.weight_birth(self.params['w_birth'], self.params['sigma_birth'])
 
     @staticmethod
     def weight_birth(weight, sigma):
-        return np.random.normal(weight,sigma)
+        return np.random.normal(weight, sigma)
 
     def age(self):
         return self.age
