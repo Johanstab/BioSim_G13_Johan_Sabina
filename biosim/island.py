@@ -9,9 +9,12 @@ from biosim.landscapes import Landscape
 class Island:
     valid_landscape = ['W', 'D', 'L', 'H']
     initial_pop = [{'species': 'Herbivore', 'age': 1, 'weight': 10.},
+                   {'species': 'Herbivore', 'age': 3, 'weight': 14.},
+                   {'species': 'Herbivore', 'age': 3, 'weight': 14.},
+                   {'species': 'Herbivore', 'age': 3, 'weight': 14.},
                    {'species': 'Herbivore', 'age': 3, 'weight': 14.}]
     default_island_map = "L"
-    years = 100
+    years = 20
 
     def __init__(self, island_map=default_island_map, ini_pop=None):
         self.island_map = island_map
@@ -30,6 +33,7 @@ class Island:
             self.env.animals_eat()
             self.env.animals_reproduce()
             self.env.animals_age()
+            self.env.animals_lose_weight()
             self.env.animals_die()
             year += 1
 
@@ -37,3 +41,7 @@ class Island:
 if __name__ == '__main__':
     island = Island()
     print(island.env.herb_list[0].weight)
+    print(island.env.available_food)
+    print(island.env.animal_list[0].weight)
+    print(len(island.env.animal_list))
+
