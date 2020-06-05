@@ -29,38 +29,62 @@ Defines the order of what happens in a year:
 
 
 class Landscape:
-    keys = ['L', 'W', 'H', 'D']
+    keys = ['f_max']
     params = dict.fromkeys(keys)
 
     @classmethod
     def set_params(cls, new_params):
-        for key in Landscape.keys:
 
-        pass
+        if new_params[0] not in Landscape.keys:
+            raise KeyError('Invalid parameter name: ' + new_params[0])
 
+        if new_params == 'f_max' and new_params['f_max'] < 0:
+            raise ValueError('f_max must be positive')
 
-    def __init__(self, f_max):
+        cls.params = new_params
+
+    def __init__(self):
         "common traits are size."
 
-        self.f_max = f_max
+        self.f_max = self.params['f_max']
 
-        self.animals = list()
-        pass
+        self.animals_herbi = []
+        self.animals_carni = []
+        self.available_food = 0
+        self.left_overs = 0
+
+    def food_grows(self):
+        self.available_food = self.f_max
+
+    def animals_eat(self):
+
+    def animals_reproduce(self):
+
+    def animals_die(self):
+
+    def animals_age(self):
+
+
 
 
 class Lowland(Landscape):
+    param = {'f_max': 800}
     passable = True
 
-    def __init__(self, f_max):
-        super().__init__(f_max)
+    def __init__(self):
+        super().__init__()
+        self.f_max = self.params['f_max']
+
     "Make function for available fodder and population growth"
 
 
 class Highland(Landscape):
+    param = {'f_max': 300}
     passable = True
 
-    def __init__(self, f_max):
-        super().__init__(f_max)
+    def __init__(self):
+        super().__init__()
+        self.f_max = self.params['f_max']
 
 
 class Water(Landscape):
