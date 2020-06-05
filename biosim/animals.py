@@ -92,10 +92,10 @@ class Herbivore(Animals):
         super().__init__(age, weight)
 
     def eats(self, cell):
-        if Herbivore.p_Herbivore['F'] <= cell.availabe_fodder:
-            self.weight = super().weight(Herbivore.p_Herbivore['beta'], Herbivore.p_Herbivore['F'])
+        if Herbivore.params['F'] <= cell.availabe_fodder:
+            self.weight = self.weight(Herbivore.params['beta'], Herbivore.params['F'])
         else:
-            self.weight = super().weight(Herbivore.p_Herbivore['beta'], cell.availabe_fodder)
+            self.weight = self.weight(Herbivore.params['beta'], cell.availabe_fodder)
 
 
 class Carnivore(Animals):
