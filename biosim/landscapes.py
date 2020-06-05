@@ -62,7 +62,7 @@ class Landscape:
             if self.available_food <= 0:
                 break
             else:
-                herbivore.eats()
+                herbivore.eats(Landscape)
 
     def animals_reproduce(self):
         nr_animals = len(self.population['Herbivore'])
