@@ -50,6 +50,7 @@ class Animals:
     def q(sgn, x, x_half, phi):
         return 1. / (1. + np.exp(sgn * phi * (x - x_half)))
 
+    @property
     def fitness(self, a_half, phi_age, w_half, phi_weight):
         if self.weight <= 0:
             self.phi = 0
