@@ -50,15 +50,13 @@ def test_weight_gain():
     """
     Test that the animals gains the right amount of weight after eating"
     """
-    cell = Landscape()
-    initial_pop = [{'species': 'Herbivore', 'age': 1, 'weight': 20}]
-    cell.set_population(initial_pop)
-    cell.f_max = 800
-    cell.food_grows()
-    cell.animals_eat()
 
-    assert cell.animal_list[0].weight != 20
-    assert cell.animal_list[0].weight == 29
+    herbivore = Herbivore(5, 10)
+
+    herbivore.eats(500)
+
+    assert herbivore.weight != 10
+    assert herbivore.weight == 19
 
 
 def test_fitness():
