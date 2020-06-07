@@ -43,7 +43,7 @@ class Landscape:
 
         self.f_max = self.params['f_max']
         self.animal_list = []
-        #self.population = {'Herbivore': [], 'Carnivore': []}
+        # self.population = {'Herbivore': [], 'Carnivore': []}
         self.available_food = 0
         self.death_list_herb = []
 
@@ -103,10 +103,6 @@ class Landscape:
     def animals_lose_weight(self):
         for herbivore in self.herb_list:
             herbivore.weight_loss()
-
-    @herb_list.setter
-    def herb_list(self, value):
-        self._herb_list = value
 
 
 class Lowland(Landscape):
