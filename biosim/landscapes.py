@@ -43,7 +43,6 @@ class Landscape:
 
         self.f_max = self.params['f_max']
         self.animal_list = []
-        # self.population = {'Herbivore': [], 'Carnivore': []}
         self.available_food = 0
         self.death_list_herb = []
 
@@ -135,11 +134,11 @@ class Water(Landscape):
     passable = False
 
     def __init__(self):
-        super().__init__(f_max=0)
+        super().__init__()
 
 
 class Desert(Landscape):
     passable = True
 
     def __init__(self):
-        super().__init__(f_max=0)
+        super().__init__()
