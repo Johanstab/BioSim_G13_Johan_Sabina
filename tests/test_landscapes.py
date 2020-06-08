@@ -5,14 +5,21 @@ __email__ = "johansta@nmbu.no, sabinal@nmbu.no"
 
 import pytest
 from biosim.landscapes import Landscape
-from biosim.animals import Animals, Herbivore
+from biosim.animals import Animals, Herbivore, Carnivore
 
 
-def test_set_population():
-    init_pop = {"species": "Herbivore", "age": 1, "weight": 10.0}
+@pytest.fixture()
+def initial_populations():
+    init_pop = [{"species": "Herbivore", "age": 1, "weight": 10.0},
+                {"species": "Carnivore", "age": 3, "weight": 14.0}]
+    return init_pop
+
+
+def test_set_population(initial_populations):
     l_scape = Landscape()
-    set_pop = Landscape.set_population(l_scape, init_pop)
-    assert l_scape.animal_list[0] == Herbivore
+    l_scape.set_population(initial_populations)
+    assert type(l_scape.animal_list[0]) == Herbivore
+    assert type(l_scape.animal_list[1]) == Carnivore
 
 
 def test_food_grows():
