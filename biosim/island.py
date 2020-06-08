@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-__author__ = 'Johan Stabekk, Sabina Langås'
-__email__ = 'johansta@nmbu.no, sabinal@nmbu.no'
+__author__ = "Johan Stabekk, Sabina Langås"
+__email__ = "johansta@nmbu.no, sabinal@nmbu.no"
 
 from biosim.landscapes import Landscape
 
@@ -9,12 +9,14 @@ tom_liste = []
 
 
 class Island:
-    valid_landscape = ['W', 'D', 'L', 'H']
-    initial_pop = [{'species': 'Herbivore', 'age': 1, 'weight': 10.},
-                   {'species': 'Herbivore', 'age': 3, 'weight': 14.},
-                   {'species': 'Herbivore', 'age': 3, 'weight': 14.},
-                   {'species': 'Herbivore', 'age': 3, 'weight': 14.},
-                   {'species': 'Herbivore', 'age': 3, 'weight': 14.}]
+    valid_landscape = ["W", "D", "L", "H"]
+    initial_pop = [
+        {"species": "Herbivore", "age": 1, "weight": 10.0},
+        {"species": "Herbivore", "age": 3, "weight": 14.0},
+        {"species": "Herbivore", "age": 3, "weight": 14.0},
+        {"species": "Herbivore", "age": 3, "weight": 14.0},
+        {"species": "Herbivore", "age": 3, "weight": 14.0},
+    ]
     default_island_map = "L"
     years = 50
 
@@ -37,18 +39,20 @@ class Island:
             self.env.animals_age()
             self.env.animals_lose_weight()
             self.env.animals_die()
-            tom_liste.append(self.env.animals_die())
+            tom_liste.append(self.env.death_list_herbi)
             year += 1
-            for animal in self.env.herb_list:
-                print(animal.phi)
+            # for animal in self.env.herb_list:
+            #     print(animal.phi)
+
+            for _ in self.env.death_list_herbi:
+                print(len(self.env.death_list_herbi))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     island = Island()
-    print(island.env.herb_list[4].weight)
+    print(island.env.herbi_list[4].weight)
     print(island.env.available_food)
-    print(island.env.animal_list[0].weight)
+    print(island.env.animal_list[0])
     print(len(island.env.animal_list))
-    print(island.env.death_list_herb)
+    print(island.env.death_list_herbi)
     print(len(tom_liste))
-

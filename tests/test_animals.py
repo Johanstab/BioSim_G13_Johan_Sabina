@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-__author__ = 'Johan Stabekk, Sabina Langås'
-__email__ = 'johansta@nmbu.no, sabinal@nmbu.no'
+__author__ = "Johan Stabekk, Sabina Langås"
+__email__ = "johansta@nmbu.no, sabinal@nmbu.no"
 
 import pytest
 from biosim.animals import Herbivore, Carnivore
@@ -42,7 +42,7 @@ def test_weight_loss():
     herbivore = Herbivore(9, 30)
     herbivore.weight_loss()
 
-    assert not herbivore.weight == 30
+    assert herbivore.weight != 30
     assert herbivore.weight == 28.5
 
 
@@ -61,7 +61,7 @@ def test_weight_gain():
 
 def test_fitness():
     """
-    Testing that the fitness function works, that the fitness chances when animal aging
+    Testing that the fitness function works, that the fitness changes when animal aging
     """
     herbivore = Herbivore(5, 10)
     fitness_before = herbivore.fitness
@@ -89,7 +89,7 @@ def test_birth():
     """
     cell = Landscape()
 
-    initial_pop = [{'species': 'Herbivore', 'age': 1, 'weight': 10.}]
+    initial_pop = [{"species": "Herbivore", "age": 1, "weight": 10.0}]
 
     cell.set_population(initial_pop)
 
