@@ -56,12 +56,12 @@ class Landscape:
     @property
     def herbi_list(self):
         """List of all herbivore objects in the cell object"""
-        return [a for a in self.animal_list if type(a).__name__ == "Herbivore"]
+        return [h for h in self.animal_list if type(h).__name__ == "Herbivore"]
 
     @property
     def carn_list(self):
         """List of all herbivore objects in the cell object"""
-        return [a for a in self.animal_list if type(a).__name__ == "Carnivore"]
+        return [c for c in self.animal_list if type(c).__name__ == "Carnivore"]
 
     def food_grows(self):
         self.available_food = self.f_max

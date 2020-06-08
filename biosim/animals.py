@@ -90,7 +90,7 @@ class Animals:
     def death(self):
         if self.weight == 0:
             return False
-        prob_death = self.weight * (1 - self.phi)
+        prob_death = self.params['omega'] * (1 - self.phi)
         return random.random() < prob_death
 
 
