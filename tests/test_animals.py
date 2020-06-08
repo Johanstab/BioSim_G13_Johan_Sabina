@@ -59,7 +59,7 @@ def test_weight_gain():
     assert herbivore.weight == 19
 
 
-def test_fitness():
+def test_fitness_aging():
     """
     Testing that the fitness function works, that the fitness changes when animal aging
     """
@@ -73,12 +73,30 @@ def test_fitness():
     assert fitness_before != fitness_after
 
 
-def test_death():
+def test_fitness_function():
+    """
+    Testing if the fitness is calculated the right way
+    """
+    herbivore = Herbivore(5, 10)
+
+    assert herbivore.fitness == 0.49999999962087194
+
+
+def test_death_weight():
     """
     Testing that the animal dies if the weight is zero
     """
 
     herbivore = Herbivore(3, 0)
+
+    assert herbivore.death() is True
+
+
+def test_death_probability(mocker):
+
+    mocker.patch(__name__ + "death", return_value=True)
+
+    herbivore = Herbivore(3, 15)
 
     assert herbivore.death() is True
 

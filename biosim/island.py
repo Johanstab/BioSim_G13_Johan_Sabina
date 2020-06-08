@@ -39,7 +39,7 @@ class Island:
             self.env.animals_age()
             self.env.animals_lose_weight()
             self.env.animals_die()
-            tom_liste.append(self.env.death_list_herbi)
+            tom_liste.append(self.env.death_list_herb)
             year += 1
             # for animal in self.env.herb_list:
             #     print(animal.phi)
