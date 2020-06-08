@@ -32,7 +32,7 @@ class Island:
 
         year = 0
         while year < Island.years:
-            self.env.f_max = 800
+            self.env.f_max = 700
             self.env.food_grows()
             self.env.animals_eat()
             self.env.animals_reproduce()
@@ -44,8 +44,8 @@ class Island:
             # for animal in self.env.herb_list:
             #     print(animal.phi)
 
-            for _ in self.env.death_list_herbi:
-                print(len(self.env.death_list_herbi))
+            #for _ in self.env.death_list_herbi:
+                #print(len(self.env.death_list_herbi))
 
 
 if __name__ == "__main__":

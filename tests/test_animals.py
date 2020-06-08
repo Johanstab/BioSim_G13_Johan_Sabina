@@ -4,7 +4,7 @@ __author__ = "Johan Stabekk, Sabina Langås"
 __email__ = "johansta@nmbu.no, sabinal@nmbu.no"
 
 import pytest
-from biosim.animals import Herbivore, Carnivore
+from biosim.animals import Animals, Herbivore, Carnivore
 from biosim.landscapes import Landscape
 import biosim.island
 import random
@@ -92,10 +92,7 @@ def test_death_weight():
     assert herbivore.death() is True
 
 
-def test_death_probability(mocker):
-
-    mocker.patch(__name__ + "death", return_value=True)
-
+def test_death_probability():
     herbivore = Herbivore(3, 15)
 
     assert herbivore.death() is True

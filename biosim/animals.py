@@ -47,6 +47,7 @@ class Animals:
         self.age = age
         self.weight = weight
         self.phi = 0
+        self.prob_death = 0
 
         if self.weight is None:
             self.weight = self.weight_birth(self.params["w_birth"], self.params["sigma_birth"])
