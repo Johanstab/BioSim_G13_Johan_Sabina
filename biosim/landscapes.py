@@ -98,10 +98,8 @@ class Landscape:
         self.herbivore_list.extend(new_babies)
 
     def animals_die(self):
-        def survivors(pop):
-            return [animal for animal in pop if not animal.death()]
 
-        self.herbivore_list = survivors(self.herbivore_list)
+        self.herbivore_list = [animal for animal in self.herbivore_list if not animal.death()]
 
     def animals_age(self):
         for herbivore in self.herbivore_list:
