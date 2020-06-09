@@ -71,14 +71,11 @@ class Landscape:
                 self.available_food = 0
 
     def animals_reproduce(self):
-
         nr_animals = len(self.herbivore_list)
-
         if nr_animals < 2:
             return False
 
         new_babies = []
-
         for herbivore in self.herbivore_list:
             new_baby = herbivore.birth(nr_animals)
             if new_baby:

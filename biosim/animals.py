@@ -83,16 +83,20 @@ class Animals:
         return self.phi
 
     def birth(self, nr_animals):
+        # if type(self) is not Herbivore or Carnivore:
+        #     raise TypeError('This type is not valid in this simulation')
 
         if self.weight < self.params["zeta"] * (
-                self.params["w_birth"] + self.params["sigma_birth"]
-        ):
+                self.params["w_birth"] + self.params["sigma_birth"]):
             return False
 
         b_prob = min(1, self.params["gamma"] * self.fitness * (nr_animals - 1))
 
         if random.random() < b_prob:
-            new_baby = Herbivore()
+            if type(self) is Herbivore:
+                new_baby = Herbivore()
+            else:
+                new_baby = Carnivore()
             if new_baby.weight * self.params['xi'] < self.weight:
                 self.weight -= new_baby.weight*self.params['xi']
                 return True and new_baby
@@ -131,5 +135,5 @@ class Herbivore(Animals):
 
 
 class Carnivore(Animals):
-    def __init__(self, age, weight):
+    def __init__(self, age=0, weight=None):
         super().__init__(age, weight)

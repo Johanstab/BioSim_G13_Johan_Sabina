@@ -19,7 +19,7 @@ class Island:
         {"species": "Herbivore", "age": 3, "weight": 14.0},
     ]
     default_island_map = "L"
-    years = 500
+    years = 100
 
     def __init__(self, island_map=default_island_map, ini_pop=None):
         self.island_map = island_map
@@ -49,7 +49,7 @@ class Island:
             #print(self.env.available_food)
             # for animal in self.env.herb_list:
             #     print(animal.phi)
-            #print(len(self.env.herbivore_list))
+            print(len(self.env.herbivore_list))
 
             #for _ in self.env.death_list_herbi:
                 #print(len(self.env.death_list_herbi))
