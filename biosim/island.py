@@ -18,7 +18,7 @@ class Island:
         {"species": "Herbivore", "age": 3, "weight": 14.0},
     ]
     default_island_map = "L"
-    years = 5
+    years = 10
 
     def __init__(self, island_map=default_island_map, ini_pop=None):
         self.island_map = island_map
@@ -38,11 +38,13 @@ class Island:
             self.env.animals_reproduce()
             self.env.animals_age()
             self.env.animals_lose_weight()
-            #self.env.animals_die()
+            self.env.animals_die()
             #tom_liste.append(self.env.death_list_herbi)
             year += 1
             # for animal in self.env.herb_list:
             #     print(animal.phi)
+            for animal in self.env.herbivore_list:
+                print(animal.phi)
 
             #for _ in self.env.death_list_herbi:
                 #print(len(self.env.death_list_herbi))
@@ -50,9 +52,9 @@ class Island:
 
 if __name__ == "__main__":
     island = Island()
-    #print(island.env.herbivore_list[1].weight)
+    print(island.env.herbivore_list[10].weight)
     print(island.env.available_food)
     #print(island.env.animal_list[0])
     print(len(island.env.herbivore_list))
     #print(island.env.death_list_herbi)
-    print(len(tom_liste))
+    #print(len(tom_liste))

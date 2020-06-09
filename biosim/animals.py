@@ -99,12 +99,13 @@ class Animals:
         if random.random() < b_prob:
             new_baby = Herbivore()
             if new_baby.weight * self.params['xi'] < self.weight:
-                return new_baby
+                self.weight -= new_baby.weight
+                return True and new_baby
 
     def death(self):
         if self.weight == 0:
-            
             return False
+
         prob_death = self.params['omega'] * (1 - self.phi)
         return random.random() < prob_death
 

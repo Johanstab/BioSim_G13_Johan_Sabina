@@ -83,7 +83,7 @@ class Landscape:
 
     def animals_reproduce(self):
 
-        nr_animals = len(self.animal_list)
+        nr_animals = len(self.herbivore_list)
 
         if nr_animals < 2:
             return False
@@ -91,13 +91,13 @@ class Landscape:
         new_babies = []
 
         for herbivore in self.herbivore_list:
-            if herbivore.birth(nr_animals):
-                new_babies.append(Herbivore)
+            new_baby = herbivore.birth(nr_animals)
+            if new_baby:
+                new_babies.append(new_baby)
 
         self.herbivore_list.extend(new_babies)
 
     def animals_die(self):
-
         def survivors(pop):
             return [animal for animal in pop if not animal.death()]
 
