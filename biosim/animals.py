@@ -64,10 +64,6 @@ class Animals:
     def aging(self):
         self._age += 1
 
-    def weight_gain(self):
-        self.weight += self.params["F"] * self.params["beta"]
-        return self.weight
-
     def weight_loss(self):
         self.weight -= self.params["eta"] * self.weight
         return self.weight
@@ -91,7 +87,6 @@ class Animals:
         if self.weight < self.params["zeta"] * (
                 self.params["w_birth"] + self.params["sigma_birth"]
         ):
-            # Prøv å endre slik at baby
             return False
 
         b_prob = min(1, self.params["gamma"] * self.fitness * (nr_animals - 1))
@@ -104,7 +99,7 @@ class Animals:
 
     def death(self):
         if self.weight == 0:
-            return False
+            return True
 
         prob_death = self.params['omega'] * (1 - self.fitness)
         return random.random() < prob_death

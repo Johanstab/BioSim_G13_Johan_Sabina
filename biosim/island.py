@@ -18,7 +18,7 @@ class Island:
         {"species": "Herbivore", "age": 3, "weight": 14.0},
     ]
     default_island_map = "L"
-    years = 100
+    years = 200
 
     def __init__(self, island_map=default_island_map, ini_pop=None):
         self.island_map = island_map

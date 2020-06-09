@@ -72,14 +72,14 @@ class Landscape:
         np.random.shuffle(self.herbivore_list)
 
         for herbivore in self.herbivore_list:
-            if self.available_food <= 0:
+            if self.available_food == 0:
                 break
+            if self.available_food >= herbivore.params['F']:
+                herbivore.eats(herbivore.params['F'])
+                self.available_food -= herbivore.params['F']
             if self.available_food < herbivore.params['F']:
                 herbivore.eats(self.available_food)
                 self.available_food = 0
-            else:
-                herbivore.eats(self.available_food)
-                self.available_food -= herbivore.params['F']
 
     def animals_reproduce(self):
 
