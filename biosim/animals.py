@@ -98,7 +98,7 @@ class Animals:
             else:
                 new_baby = Carnivore()
             if new_baby.weight * self.params['xi'] < self.weight:
-                self.weight -= new_baby.weight*self.params['xi']
+                self.weight -= new_baby.weight * self.params['xi']
                 return True and new_baby
 
     def death(self):
@@ -135,5 +135,35 @@ class Herbivore(Animals):
 
 
 class Carnivore(Animals):
-    def __init__(self, age=0, weight=None):
+    params = {
+        "w_birth": 6.0,
+        "sigma_birth": 1.0,
+        "beta": 0.75,
+        "eta": 0.125,
+        "a_half": 40.0,
+        "phi_age": 0.3,
+        "w_half": 4.0,
+        "phi_weight": 0.4,
+        "mu": 0.4,
+        "gamma": 0.8,
+        "zeta": 3.5,
+        "xi": 1.1,
+        "omega": 0.8,
+        "F": 50.0,
+        "DeltaPhiMax": 10.0
+    }
+
+    def __init__(self, age, weight):
         super().__init__(age, weight)
+
+    def eats(self, herbivore):
+
+        if herbivore.fitness > self.fitness:
+            return False
+        if 0 < self.fitness - herbivore.fitness < self.params['DeltaPhiMax']:
+            if random.random() < (
+                        (self.fitness - herbivore.fitness) / self.params['DeltaPhiMax']):
+
+                return True
+            else:
+                return True
