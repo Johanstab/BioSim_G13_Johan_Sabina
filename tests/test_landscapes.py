@@ -34,5 +34,7 @@ def test_animals_reproduce():
     pass
 
 
-def test_animals_die():
-    pass
+def test_animals_die(initial_populations):
+    l_scape = Landscape()
+    l_scape.set_population(initial_populations)
+    assert l_scape.herbivore_list == l_scape.animals_die()
