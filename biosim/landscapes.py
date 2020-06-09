@@ -74,16 +74,21 @@ class Landscape:
         for herbivore in self.herbivore_list:
             if self.available_food <= 0:
                 break
-            else:
-                # Rett opp denne
+            if self.available_food < herbivore.params['F']:
                 herbivore.eats(self.available_food)
+                self.available_food = 0
+            else:
+                herbivore.eats(self.available_food)
+                self.available_food -= herbivore.params['F']
 
     def animals_reproduce(self):
+
         nr_animals = len(self.animal_list)
+
         if nr_animals < 2:
             return False
+
         new_babies = []
-        # Rette opp denne
 
         for herbivore in self.herbivore_list:
             if herbivore.birth(nr_animals):
@@ -92,16 +97,11 @@ class Landscape:
         self.herbivore_list.extend(new_babies)
 
     def animals_die(self):
-        death_list_herbi = []
-        #death_list_herbi = []
-# Rett opp denne
 
-        for herbivore in self.herbivore_list:
-            if herbivore.death():
-                death_list_herbi.append(herbivore)
+        def survivors(pop):
+            return [animal for animal in pop if not animal.death()]
 
-        for dead in death_list_herbi:
-            self.herbivore_list.remove(dead)
+        self.herbivore_list = survivors(self.herbivore_list)
 
     def animals_age(self):
         for herbivore in self.herbivore_list:

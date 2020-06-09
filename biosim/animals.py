@@ -87,16 +87,23 @@ class Animals:
         return self.phi
 
     def birth(self, nr_animals):
-        if self.weight < self.params["xi"] * (
+
+        if self.weight < self.params["zeta"] * (
                 self.params["w_birth"] + self.params["sigma_birth"]
         ):
             # Prøv å endre slik at baby
             return False
+
         b_prob = min(1, self.params["gamma"] * self.fitness * (nr_animals - 1))
-        return random.random() < b_prob
+
+        if random.random() < b_prob:
+            new_baby = Herbivore()
+            if new_baby.weight * self.params['xi'] < self.weight:
+                return new_baby
 
     def death(self):
         if self.weight == 0:
+            
             return False
         prob_death = self.params['omega'] * (1 - self.phi)
         return random.random() < prob_death
@@ -124,12 +131,7 @@ class Herbivore(Animals):
         super().__init__(age, weight)
 
     def eats(self, cell):
-        if self.params["F"] <= cell:
-            self.weight = self.weight_gain()
-            cell -= self.params["F"]
-        else:
-            self.weight = self.params["beta"] * cell
-            cell -= cell
+        self.weight += cell * self.params['beta']
 
 
 class Carnivore(Animals):
