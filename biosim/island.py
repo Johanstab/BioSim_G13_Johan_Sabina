@@ -18,7 +18,7 @@ class Island:
         {"species": "Herbivore", "age": 3, "weight": 14.0},
     ]
     default_island_map = "L"
-    years = 500
+    years = 100
 
     def __init__(self, island_map=default_island_map, ini_pop=None):
         self.island_map = island_map
@@ -32,7 +32,7 @@ class Island:
 
         year = 0
         while year < Island.years:
-            self.env.f_max = 100
+            self.env.f_max = 800
             self.env.food_grows()
             self.env.animals_eat()
             self.env.animals_reproduce()

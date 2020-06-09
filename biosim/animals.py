@@ -69,7 +69,7 @@ class Animals:
         return self.weight
 
     def weight_loss(self):
-        self.weight -= self.params["eta"] * self.params['omega']
+        self.weight -= self.params["eta"] * self.weight
         return self.weight
 
     @staticmethod
