@@ -99,7 +99,7 @@ class Animals:
                 new_baby = Carnivore()
             if new_baby.weight * self.params['xi'] < self.weight:
                 self.weight -= new_baby.weight * self.params['xi']
-                return True and new_baby
+                return new_baby
 
     def death(self):
         if self.weight == 0:
@@ -163,7 +163,13 @@ class Carnivore(Animals):
         if 0 < self.fitness - herbivore.fitness < self.params['DeltaPhiMax']:
             if random.random() < (
                         (self.fitness - herbivore.fitness) / self.params['DeltaPhiMax']):
+                if herbivore.weight >= self.params['F']:
+                    self.weight += self.params['F'] * self.params['beta']
+                else:
+                    self.weight += herbivore.weight * self.params['beta']
 
-                return True
+
+
+
             else:
                 return True

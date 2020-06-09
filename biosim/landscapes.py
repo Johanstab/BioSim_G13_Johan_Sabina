@@ -70,7 +70,20 @@ class Landscape:
                 herbivore.eats(self.available_food)
                 self.available_food = 0
 
-    def animals_reproduce(self):
+        animal_eaten = 0
+        self.carnivore_list.sort(key=lambda animal: animal.fitness)
+        self.herbivore_list.sort(key=lambda animal: animal.fitness, reverse=True)
+
+        for carnivore in self.carnivore_list:
+            for herbivore in self.herbivore_list:
+                if herbivore.eats(herbivore):
+                    animal_eaten += herbivore.weight * carnivore.params['beta']
+                    if animal_eaten == carnivore.params['F']:
+                        break
+
+
+
+     def animals_reproduce(self):
         nr_animals = len(self.herbivore_list)
         if nr_animals < 2:
             return False
