@@ -222,18 +222,28 @@ class Carnivore(Animals):
 
     def __init__(self, age=0, weight=None):
         super().__init__(age, weight)
+        self.amount_eaten = 0
 
-    def eats(self, herbivore):
+    def kill(self, herbivore):
 
         if herbivore.fitness > self.fitness:
             return False
         if 0 < self.fitness - herbivore.fitness < self.params['DeltaPhiMax']:
             if random.random() < (
                         (self.fitness - herbivore.fitness) / self.params['DeltaPhiMax']):
-                if herbivore.weight >= self.params['F']:
-                    self.weight += self.params['F'] * self.params['beta']
-                else:
-                    self.weight += herbivore.weight * self.params['beta']
-
-            else:
                 return True
+        else:
+            return True
+
+    def eat(self, herbivore):
+
+        if self.kill(herbivore):
+            self.amount_eaten += herbivore.weight
+            self.weight += self.params['beta'] * herbivore.weight
+
+
+
+
+
+
+

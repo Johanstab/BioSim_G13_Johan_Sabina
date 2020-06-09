@@ -70,25 +70,23 @@ class Landscape:
                 herbivore.eats(self.available_food)
                 self.available_food = 0
 
-        animal_eaten = 0
         self.carnivore_list.sort(key=lambda animal: animal.fitness)
         self.herbivore_list.sort(key=lambda animal: animal.fitness, reverse=True)
 
+        death_herbivore = []
+
         for carnivore in self.carnivore_list:
             for herbivore in self.herbivore_list:
-                if carnivore.eats(herbivore):
-                    animal_eaten += herbivore.weight * carnivore.params['beta']
-                    if animal_eaten == carnivore.params['F']:
-                        pass
-                    pass
-                break
+                if carnivore.eat(herbivore):
+                    death_herbivore.append(herbivore)
+                    if carnivore.amount_eaten >= carnivore.params['F']:
+                        break
 
+        self.herbivore_list = [animal for animal in self.herbivore_list if not death_herbivore]
 
-
-
-
-     def animals_reproduce(self):
+    def herbivore_reproduce(self):
         nr_animals = len(self.herbivore_list)
+
         if nr_animals < 2:
             return False
 
@@ -100,17 +98,37 @@ class Landscape:
 
         self.herbivore_list.extend(new_babies)
 
+    def carnivore_reproduce(self):
+
+        nr_animals = len(self.carnivore_list)
+
+        if nr_animals < 2:
+            return False
+
+        new_babies = []
+        for carnivore in self.carnivore_list:
+            new_baby = carnivore.birth(nr_animals)
+            if new_baby:
+                new_babies.append(new_baby)
+
+        self.carnivore_list.extend(new_babies)
+
     def animals_die(self):
 
         self.herbivore_list = [animal for animal in self.herbivore_list if not animal.death()]
+        self.carnivore_list = [animal for animal in self.carnivore_list if not animal.death()]
 
     def animals_age(self):
         for herbivore in self.herbivore_list:
             herbivore.aging()
+        for carnivore in self.carnivore_list:
+            carnivore.aging()
 
     def animals_lose_weight(self):
         for herbivore in self.herbivore_list:
             herbivore.weight_loss()
+        for carnivore in self.carnivore_list:
+            carnivore.weight_loss()
 
 
 class Lowland(Landscape):
