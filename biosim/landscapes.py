@@ -76,10 +76,14 @@ class Landscape:
 
         for carnivore in self.carnivore_list:
             for herbivore in self.herbivore_list:
-                if herbivore.eats(herbivore):
+                if carnivore.eats(herbivore):
                     animal_eaten += herbivore.weight * carnivore.params['beta']
                     if animal_eaten == carnivore.params['F']:
-                        break
+                        pass
+                    pass
+                break
+
+
 
 
 

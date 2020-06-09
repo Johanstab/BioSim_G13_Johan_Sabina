@@ -55,25 +55,80 @@ class Animals:
 
     @staticmethod
     def weight_birth(weight, sigma):
+        """
+
+        Parameters
+        ----------
+        weight : float
+
+        sigma : float
+
+        Returns
+        -------
+
+        """
         return np.random.normal(weight, sigma)
 
     @property
     def age(self):
+        """
+
+        Returns
+        -------
+
+        """
         return self._age
 
     def aging(self):
+        """
+
+        Returns
+        -------
+
+        """
         self._age += 1
 
     def weight_loss(self):
+        """
+
+        Returns
+        -------
+
+        """
         self.weight -= self.params["eta"] * self.weight
         return self.weight
 
     @staticmethod
     def q(sgn, x, x_half, phi):
+        """
+
+        Parameters
+        ----------
+        sgn : int
+            Positive or negative defining which part of the function it is
+        x  : int
+            The age or weight of the animal
+        x_half  : float
+            The mean weight or life expectancy of an animal(set parameter)
+        phi  : float
+            WRITE MORE EXPLANATION HERE!
+
+        Returns
+        -------
+        float
+            The q value later used to determine fitness
+        """
         return 1.0 / (1.0 + np.exp(sgn * phi * (x - x_half)))
 
     @property
     def fitness(self):
+        """
+
+        Returns
+        -------
+        float
+            The generated fitness of the animal.
+        """
         if self.weight <= 0:
             self.phi = 0
         else:
@@ -83,6 +138,18 @@ class Animals:
         return self.phi
 
     def birth(self, nr_animals):
+        """
+
+        Parameters
+        ----------
+        nr_animals : int
+                The number of same sex animals in the cell.
+
+        Returns
+        -------
+        bool
+            Determining if there should be born a baby or not.
+        """
         # if type(self) is not Herbivore or Carnivore:
         #     raise TypeError('This type is not valid in this simulation')
 
@@ -153,7 +220,7 @@ class Carnivore(Animals):
         "DeltaPhiMax": 10.0
     }
 
-    def __init__(self, age, weight):
+    def __init__(self, age=0, weight=None):
         super().__init__(age, weight)
 
     def eats(self, herbivore):
@@ -167,9 +234,6 @@ class Carnivore(Animals):
                     self.weight += self.params['F'] * self.params['beta']
                 else:
                     self.weight += herbivore.weight * self.params['beta']
-
-
-
 
             else:
                 return True
