@@ -69,7 +69,7 @@ class Animals:
         return self.weight
 
     def weight_loss(self):
-        self.weight -= self.params["eta"] * self.weight
+        self.weight -= self.params["eta"] * self.params['omega']
         return self.weight
 
     @staticmethod
@@ -99,14 +99,14 @@ class Animals:
         if random.random() < b_prob:
             new_baby = Herbivore()
             if new_baby.weight * self.params['xi'] < self.weight:
-                self.weight -= new_baby.weight
+                self.weight -= new_baby.weight*self.params['xi']
                 return True and new_baby
 
     def death(self):
         if self.weight == 0:
             return False
 
-        prob_death = self.params['omega'] * (1 - self.phi)
+        prob_death = self.params['omega'] * (1 - self.fitness)
         return random.random() < prob_death
 
 
