@@ -162,8 +162,10 @@ class Animals:
         if random.random() < b_prob:
             if type(self) is Herbivore:
                 new_baby = Herbivore()
-            else:
+            elif type(self) is Carnivore:
                 new_baby = Carnivore()
+            else:
+                raise TypeError('This type is not valid')
             if new_baby.weight * self.params['xi'] < self.weight:
                 self.weight -= new_baby.weight * self.params['xi']
                 return new_baby
@@ -192,6 +194,7 @@ class Herbivore(Animals):
         "xi": 1.2,
         "omega": 0.4,
         "F": 10.0,
+        "DeltaPhiMax": None,
     }
 
     def __init__(self, age=0, weight=None):
@@ -236,10 +239,11 @@ class Carnivore(Animals):
             return True
 
     def eat(self, herbivore):
-
-        if self.kill(herbivore):
-            self.amount_eaten += herbivore.weight
-            self.weight += self.params['beta'] * herbivore.weight
+        if herbivore.weight >= self.params['F']:
+            self.amount_eaten = self.params['F']
+        else:
+            self.amount_eaten = herbivore.weight
+        self.weight += self.params['beta'] * herbivore.weight
 
 
 

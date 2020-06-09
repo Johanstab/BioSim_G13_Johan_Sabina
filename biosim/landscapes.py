@@ -56,7 +56,7 @@ class Landscape:
     def food_grows(self):
         self.available_food = self.f_max
 
-    def animals_eat(self):
+    def herbivore_eats(self):
 
         np.random.shuffle(self.herbivore_list)
 
@@ -70,19 +70,21 @@ class Landscape:
                 herbivore.eats(self.available_food)
                 self.available_food = 0
 
+    def carnivore_eats(self):
+        dead_herbivores = []
+
         self.carnivore_list.sort(key=lambda animal: animal.fitness)
         self.herbivore_list.sort(key=lambda animal: animal.fitness, reverse=True)
 
-        death_herbivore = []
-
         for carnivore in self.carnivore_list:
             for herbivore in self.herbivore_list:
-                if carnivore.eat(herbivore):
-                    death_herbivore.append(herbivore)
+                if carnivore.kill(herbivore):
+                    carnivore.eat(herbivore)
+                    dead_herbivores.append(herbivore)
                     if carnivore.amount_eaten >= carnivore.params['F']:
                         break
 
-        self.herbivore_list = [animal for animal in self.herbivore_list if not death_herbivore]
+        self.herbivore_list = [animal for animal in self.herbivore_list if not dead_herbivores]
 
     def herbivore_reproduce(self):
         nr_animals = len(self.herbivore_list)
@@ -114,7 +116,6 @@ class Landscape:
         self.carnivore_list.extend(new_babies)
 
     def animals_die(self):
-
         self.herbivore_list = [animal for animal in self.herbivore_list if not animal.death()]
         self.carnivore_list = [animal for animal in self.carnivore_list if not animal.death()]
 
