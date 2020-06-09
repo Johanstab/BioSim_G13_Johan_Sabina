@@ -32,14 +32,14 @@ class Island:
 
         year = 0
         while year < Island.years:
-            self.env.f_max = 700
+            self.env.f_max = 800
             self.env.food_grows()
             self.env.animals_eat()
             self.env.animals_reproduce()
             self.env.animals_age()
             self.env.animals_lose_weight()
             self.env.animals_die()
-            tom_liste.append(self.env.death_list_herbi)
+            #tom_liste.append(self.env.death_list_herbi)
             year += 1
             # for animal in self.env.herb_list:
             #     print(animal.phi)
@@ -50,9 +50,9 @@ class Island:
 
 if __name__ == "__main__":
     island = Island()
-    print(island.env.herbi_list[4].weight)
+    print(island.env.herbivore_list[1].weight)
     print(island.env.available_food)
     print(island.env.animal_list[0])
-    print(len(island.env.animal_list))
-    print(island.env.death_list_herbi)
+    print(len(island.env.herbivore_list))
+    #print(island.env.death_list_herbi)
     print(len(tom_liste))

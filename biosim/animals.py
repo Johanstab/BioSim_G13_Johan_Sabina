@@ -42,9 +42,10 @@ class Animals:
             if new_params[iterator] < 0:
                 raise ValueError("{} cannot be negative".format(iterator))
             cls.params[iterator] = new_params[iterator]
+            # Implementer en metode med dict.update
 
     def __init__(self, age=0, weight=None):
-        self.age = age
+        self._age = age
         self.weight = weight
         self.phi = 0
         self.prob_death = 0
@@ -56,11 +57,12 @@ class Animals:
     def weight_birth(weight, sigma):
         return np.random.normal(weight, sigma)
 
+    @property
     def age(self):
-        return self.age
+        return self._age
 
     def aging(self):
-        self.age += 1
+        self._age += 1
 
     def weight_gain(self):
         self.weight += self.params["F"] * self.params["beta"]
@@ -85,6 +87,11 @@ class Animals:
         return self.phi
 
     def birth(self, nr_animals):
+        if self.weight < self.params["xi"] * (
+                self.params["w_birth"] + self.params["sigma_birth"]
+        ):
+            # Prøv å endre slik at baby
+            return False
         b_prob = min(1, self.params["gamma"] * self.fitness * (nr_animals - 1))
         return random.random() < b_prob
 

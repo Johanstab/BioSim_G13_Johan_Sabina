@@ -43,67 +43,72 @@ class Landscape:
 
         self.f_max = self.params["f_max"]
         self.animal_list = []
+        self.herbivore_list = []
+        self.carnivore_list = []
         self.available_food = 0
-        self.death_list_herbi = []
 
     def set_population(self, input_dict):
         for animal in input_dict:
             if animal["species"] == "Herbivore":
-                self.animal_list.append(Herbivore(age=animal["age"], weight=animal["weight"]))
+                self.herbivore_list.append(Herbivore(age=animal["age"], weight=animal["weight"]))
             else:
                 self.animal_list.append(Carnivore(age=animal["age"], weight=animal["weight"]))
 
-    @property
-    def herbi_list(self):
-        """List of all herbivore objects in the cell object"""
-        return [h for h in self.animal_list if type(h).__name__ == "Herbivore"]
+    # @property
+    # def herbi_list(self):
+    #     """List of all herbivore objects in the cell object"""
+    #     return [h for h in self.animal_list if type(h).__name__ == "Herbivore"]
 
-    @property
-    def carn_list(self):
-        """List of all herbivore objects in the cell object"""
-        return [c for c in self.animal_list if type(c).__name__ == "Carnivore"]
+    # @property
+    # def carn_list(self):
+    #     """List of all herbivore objects in the cell object"""
+    #     return [c for c in self.animal_list if type(c).__name__ == "Carnivore"]
 
     def food_grows(self):
         self.available_food = self.f_max
 
     def animals_eat(self):
 
-        np.random.shuffle(self.herbi_list)
+        np.random.shuffle(self.herbivore_list)
 
-        for herbivore in self.herbi_list:
+        for herbivore in self.herbivore_list:
             if self.available_food <= 0:
                 break
             else:
+                # Rett opp denne
                 herbivore.eats(self.available_food)
 
     def animals_reproduce(self):
         nr_animals = len(self.animal_list)
         if nr_animals < 2:
             return False
-        for herbivore in self.herbi_list:
-            if herbivore.weight < herbivore.params["zeta"] * (
-                herbivore.params["w_birth"] + herbivore.params["sigma_birth"]
-            ):
-                break
+        new_babies = []
+        # Rette opp denne
+
+        for herbivore in self.herbivore_list:
             if herbivore.birth(nr_animals):
-                self.animal_list.append(Herbivore)
+                new_babies.append(Herbivore)
+
+        self.herbivore_list.extend(new_babies)
 
     def animals_die(self):
-        self.death_list_herbi = []
+        death_list_herbi = []
+        #death_list_herbi = []
+# Rett opp denne
 
-        for herbivore in self.herbi_list:
+        for herbivore in self.herbivore_list:
             if herbivore.death():
-                self.death_list_herbi.append(herbivore)
+                death_list_herbi.append(herbivore)
 
-            for dead in self.death_list_herbi:
-                self.herbi_list.remove(dead)
+        for dead in death_list_herbi:
+            self.herbivore_list.remove(dead)
 
     def animals_age(self):
-        for herbivore in self.herbi_list:
+        for herbivore in self.herbivore_list:
             herbivore.aging()
 
     def animals_lose_weight(self):
-        for herbivore in self.herbi_list:
+        for herbivore in self.herbivore_list:
             herbivore.weight_loss()
 
 
