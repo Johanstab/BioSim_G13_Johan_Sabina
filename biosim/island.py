@@ -3,82 +3,89 @@
 __author__ = "Johan Stabekk, Sabina Langås"
 __email__ = "johansta@nmbu.no, sabinal@nmbu.no"
 
-from biosim.landscapes import Landscape
-import numpy as np
+from biosim.landscapes import Landscape, Water, Lowland, Highland, Desert
+import textwrap
 import random
-random.seed(123456)
 
-tom_liste = []
+random.seed(123456)
 
 
 class Island:
-    valid_landscape = ["W", "D", "L", "H"]
-    initial_pop = [{'pop':
-                        [{"species": "Carnivore", "age": 5, "weight": 15.0}
-                         for _ in range(50)]},
-                   {'pop': [{"species": "Herbivore", "age": 5, "weight": 20.0}
-                            for _ in range(150)]
-                    }]
-    default_island_map = "L"
+    valid_landscapes = {"W": Water,
+                        "D": Desert,
+                        "L": Lowland,
+                        "H": Highland}
+    initial_pop = [
+        {'loc': (2, 2),
+         'pop':
+             [{"species": "Carnivore", "age": 5, "weight": 15.0} for _ in range(50)]},
+        {'loc': (2, 2),
+         'pop':
+             [{"species": "Herbivore", "age": 5, "weight": 20.0} for _ in range(150)]}
+    ]
+    default_geogr = """\
+                        WWWW
+                        WLLW
+                        WLLW
+                        WWWW"""
+    default_geogr = textwrap.dedent(default_geogr)
     years = 20
 
-    def __init__(self, island_map=default_island_map, ini_pop=None):
-        self.island_map = island_map
+    def __init__(self, island_map=default_geogr, ini_pop=None, sim_years=years):
+        self.default_geogr = textwrap.dedent(island_map)
+        self.island_lines = self.default_geogr.splitlines()
+
+        for lines in self.island_lines:
+            for cell_type in lines:
+                if cell_type not in self.valid_landscapes.keys():
+                    raise NameError(f'Cell type {cell_type} does not exist')
+
+        top_row = len(self.island_lines[0])
+        for lines in self.island_lines:
+            if len(lines) is not top_row:
+                raise ValueError('Each row in the multiline string should be equal in length')
+
         if ini_pop is None:
-            self.initial_pop = Island.initial_pop
+            self.initial_pop = self.initial_pop
         else:
             self.initial_pop = ini_pop
 
+        self.years = sim_years
+
         self.env = Landscape()
-        for liste in self.initial_pop:
-            pop = liste['pop']
+        for list_ in self.initial_pop:
+            pop = list_['pop']
             self.env.set_population(pop)
 
         year = 0
-        while year < Island.years:
-            self.env.f_max = 800
-            self.env.food_grows()
-            self.env.herbivore_eats()
-            self.env.carnivore_eats()
-            self.env.herbivore_reproduce()
-            self.env.carnivore_reproduce()
-            self.env.animals_age()
-            self.env.animals_lose_weight()
-            self.env.animals_die()
-            # tom_liste.append(self.env.death_list_herbi)
-            year += 1
+        # while year < Island.years:
+        #     self.env.f_max = 800
+        #     self.env.food_grows()
+        #     self.env.herbivore_eats()
+        #     self.env.carnivore_eats()
+        #     self.env.herbivore_reproduce()
+        #     self.env.carnivore_reproduce()
+        #     self.env.animals_age()
+        #     self.env.animals_lose_weight()
+        #     self.env.animals_die()
+        #     year += 1
 
-            # for carni in self.env.carnivore_list:
-            #     print(carni.weight)
-            # print(len(self.env.herbivore_list))
+    def create_island_map(self):
+        island_map = {}
 
-            # print(self.env.available_food)
-            # for animal in self.env.herb_list:
-            #     print(animal.phi)
-            # print(len(self.env.herbivore_list))
-            # print(len(self.env.carnivore_list))
-
-            # for _ in self.env.death_list_herbi:
-            # print(len(self.env.death_list_herbi))
+        for y_loc, lines in enumerate(self.island_lines):
+            for x_loc, cell_type in enumerate(lines):
+                island_map[(1 + x_loc, 1 + y_loc)] = self.valid_landscapes[cell_type]()
+        return island_map
 
 
 if __name__ == "__main__":
     island = Island()
-    # print(island.env.herbivore_list[1].weight)
-    # print(island.env.carnivore_list[1].weight)
-    # print(island.env.available_food)
-    # print(island.env.animal_list[0])
+    map_ = island.create_island_map()
+    print(map_.keys())
+    for x in range(1, 5):
+        for y in range(1, 5):
+            print(map_[(y, x)])
+
     print(len(island.env.herbivore_list))
     print(len(island.env.carnivore_list))
-    #print(island.env.herbivore_list[0].fitness)
-    #print(island.env.carnivore_list[0].weight)
-    #print(island.env.carnivore_list[0].age)
-    #print(island.env.carnivore_list[0].fitness)
-    # summ = 0
-    # for animal in island.env.herbivore_list:
-    # summ += animal.age
-
-    # mean = summ/len(island.env.herbivore_list)
-    # print(mean)
-    # print(island.env.death_list_herbi)
-    # print(len(tom_liste))
