@@ -242,7 +242,8 @@ class Carnivore(Animals):
         if 0 < self.fitness - herbivore.fitness < self.params['DeltaPhiMax']:
             return random.random() < (
                         (self.fitness - herbivore.fitness) / self.params['DeltaPhiMax'])
-        return True
+        else:
+            return True
 
     def eat(self, herbivore):
         """Defining how much the carnivore should eat based on the weight of the herbivore and
