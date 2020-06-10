@@ -33,29 +33,12 @@ def q(sgn, x, x_half, phi):
 
 class Animals:
     "Move params to different species and create a set_params method"
-    keys = [
-        "w_birth",
-        "sigma_birth",
-        "beta",
-        "eta",
-        "a_half",
-        "phi_age",
-        "w_half",
-        "phi_weight",
-        "mu",
-        "gamma",
-        "zeta",
-        "xi",
-        "omega",
-        "F",
-        "DeltaPhiMax",
-    ]
-    params = dict.fromkeys(keys)
+    params = {}
 
     @classmethod
     def set_params(cls, new_params):
         for key in new_params:
-            if key not in Animals.keys:
+            if key not in Animals.params:
                 raise KeyError("Invalid parameter name: " + key)
 
         for iterator in new_params:
@@ -65,7 +48,7 @@ class Animals:
                 raise ValueError("DeltaPhiMax must be positive!")
             if new_params[iterator] < 0:
                 raise ValueError("{} cannot be negative".format(iterator))
-            cls.params[iterator] = new_params[iterator]
+            cls.params.update(iterator)
             # Implementer en metode med dict.update
 
     def __init__(self, age=0, weight=None):
@@ -259,8 +242,7 @@ class Carnivore(Animals):
         if 0 < self.fitness - herbivore.fitness < self.params['DeltaPhiMax']:
             return random.random() < (
                         (self.fitness - herbivore.fitness) / self.params['DeltaPhiMax'])
-        else:
-            return True
+        return True
 
     def eat(self, herbivore):
         """Defining how much the carnivore should eat based on the weight of the herbivore and
@@ -280,5 +262,6 @@ class Carnivore(Animals):
         else:
             self.amount_eaten += herbivore.weight
         self._weight += self.params['beta'] * self.amount_eaten
+
 
 
