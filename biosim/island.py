@@ -8,8 +8,8 @@ import textwrap
 import numpy as np
 import random
 
-random.seed()
-np.random.seed()
+random.seed(1)
+np.random.seed(1)
 
 
 class Island:
@@ -31,7 +31,7 @@ class Island:
                         WLLW
                         WWWW"""
     default_geogr = textwrap.dedent(default_geogr)
-    years = 50
+    years = 100
 
     def __init__(self, island_map=default_geogr, ini_pop=None, sim_years=years):
         self.default_geogr = textwrap.dedent(island_map)
@@ -59,7 +59,6 @@ class Island:
 
         year = 0
         while year < Island.years:
-            self.island_map[(2, 2)].f_max = 800
             self.island_map[(2, 2)].food_grows()
             self.island_map[(2, 2)].herbivore_eats()
             self.island_map[(2, 2)].carnivore_eats()
@@ -94,5 +93,9 @@ if __name__ == "__main__":
 
     print(len(island.island_map[(2, 2)].herbivore_list))
     print(len(island.island_map[(2, 2)].carnivore_list))
-    print(island.island_map[(2, 2)].herbivore_list[30].weight)
-    print(island.island_map[(2, 2)].carnivore_list[30].weight)
+    island.island_map[(2, 2)].herbivore_list.sort(key=lambda animal: animal.age, reverse=True)
+    print(island.island_map[(2, 2)].herbivore_list[0].age)
+    island.island_map[(2, 2)].carnivore_list.sort(key=lambda animal: animal.age, reverse=True)
+    print(island.island_map[(2, 2)].carnivore_list[0].age)
+
+

@@ -137,7 +137,7 @@ class Landscape:
 
 
 class Lowland(Landscape):
-    param = {"f_max": 800}
+    params = {"f_max": 800}
     passable = True
 
     def __init__(self):
@@ -148,7 +148,7 @@ class Lowland(Landscape):
 
 
 class Highland(Landscape):
-    param = {"f_max": 300}
+    params = {"f_max": 300}
     passable = True
 
     def __init__(self):
@@ -164,6 +164,7 @@ class Water(Landscape):
 
 
 class Desert(Landscape):
+    params = {"f_max": 0}
     passable = True
 
     def __init__(self):

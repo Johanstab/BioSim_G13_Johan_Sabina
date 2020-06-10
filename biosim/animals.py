@@ -5,6 +5,30 @@ __email__ = "johansta@nmbu.no, sabinal@nmbu.no"
 
 import numpy as np
 import random as random
+from numba import jit
+
+
+@jit # Made it a lot faster
+def q(sgn, x, x_half, phi):
+    """
+
+    Parameters
+    ----------
+    sgn : int
+        Positive or negative defining which part of the function it is
+    x  : int
+        The age or weight of the animal
+    x_half  : float
+        The mean weight or life expectancy of an animal(set parameter)
+    phi  : float
+        WRITE MORE EXPLANATION HERE!
+
+    Returns
+    -------
+    float
+        The q value later used to determine fitness
+    """
+    return 1.0 / (1.0 + np.exp(sgn * phi * (x - x_half)))
 
 
 class Animals:
@@ -98,28 +122,6 @@ class Animals:
         self.weight -= self.params["eta"] * self.weight
         return self.weight
 
-    @staticmethod
-    def q(sgn, x, x_half, phi):
-        """
-
-        Parameters
-        ----------
-        sgn : int
-            Positive or negative defining which part of the function it is
-        x  : int
-            The age or weight of the animal
-        x_half  : float
-            The mean weight or life expectancy of an animal(set parameter)
-        phi  : float
-            WRITE MORE EXPLANATION HERE!
-
-        Returns
-        -------
-        float
-            The q value later used to determine fitness
-        """
-        return 1.0 / (1.0 + np.exp(sgn * phi * (x - x_half)))
-
     @property
     def fitness(self):
         """
@@ -132,9 +134,9 @@ class Animals:
         if self.weight <= 0:
             self.phi = 0
         else:
-            self.phi = Animals.q(
+            self.phi = q(
                 +1, self.age, self.params["a_half"], self.params["phi_age"]
-            ) * Animals.q(-1, self.weight, self.params["w_half"], self.params["phi_weight"])
+            ) * q(-1, self.weight, self.params["w_half"], self.params["phi_weight"])
         return self.phi
 
     def birth(self, nr_animals):
