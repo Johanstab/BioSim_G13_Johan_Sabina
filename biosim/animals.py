@@ -153,7 +153,7 @@ class Animals:
         bool
             Determining if there should be born a baby or not.
         new_baby
-            Instance of a new Herbivore or Carnivore.
+             A new Herbivore or Carnivore object.
         """
         # if type(self) is not Herbivore or Carnivore:
         #     raise TypeError('This type is not valid in this simulation')
@@ -176,12 +176,13 @@ class Animals:
                 return new_baby
 
     def death(self):
-        """
+        """Decides if an animal shall die or not based on randomness. The fitter an animal is
+        the chances it has for survival.
 
         Returns
         -------
         bool
-            Determines if
+            Determines if the animal shall die or not.
         """
         if self._weight == 0:
             return True
@@ -213,6 +214,7 @@ class Herbivore(Animals):
         super().__init__(age, weight)
 
     def eats(self, cell):
+        """Increases weight according to available food and parameters."""
         self._weight += cell * self.params['beta']
 
 
@@ -240,7 +242,18 @@ class Carnivore(Animals):
         self.amount_eaten = 0
 
     def slay(self, herbivore):
+        """Determines by probability and the fitness of both the herbivore and carnivore if
+        the carnivore should kill the herbivore.
 
+        Parameters
+        ----------
+        herbivore : object
+                A herbivore object containing all the information of that animal.
+        Returns
+        -------
+        bool
+            Should the herbivore be killed or not.
+        """
         if herbivore.fitness >= self.fitness:
             return False
         if 0 < self.fitness - herbivore.fitness < self.params['DeltaPhiMax']:
@@ -250,6 +263,18 @@ class Carnivore(Animals):
             return True
 
     def eat(self, herbivore):
+        """Defining how much the carnivore should eat based on the weight of the herbivore and
+        the amount it has already eaten. Gains weight based set parameters and how much it has
+        eaten.
+
+        Parameters
+        ----------
+        herbivore : object
+                A herbivore object containing all the information of that animal.
+        Returns
+        -------
+        None
+        """
         if herbivore.weight >= self.params['F']:
             self.amount_eaten += self.params['F']
         else:
