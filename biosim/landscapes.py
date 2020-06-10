@@ -43,6 +43,8 @@ class Landscape:
 
         self.f_max = self.params["f_max"]
         self.herbivore_list = []
+        self.sorted_herbi = []
+        self.sorted_carni = []
         self.carnivore_list = []
         self.available_food = 0
 
@@ -72,23 +74,25 @@ class Landscape:
 
     def carnivore_eats(self):
         dead_herbivores = []
-        carni_list_sorted = sorted(self.carnivore_list,
-                                   key=lambda animal: animal.fitness,
-                                   reverse=True)
-        herbi_list_sorted = sorted(self.herbivore_list, key=lambda animal: animal.fitness)
+        # self.sorted_carni = sorted(self.carnivore_list,
+        #                            key=lambda animal: animal.fitness,
+        #                            reverse=True)
+        # self.sorted_herbi = sorted(self.herbivore_list, key=lambda animal: animal.fitness)
 
-        #self.carnivore_list.sort(key=lambda animal: animal.fitness)
-        #self.herbivore_list.sort(key=lambda animal: animal.fitness, reverse=True)
+        self.carnivore_list.sort(key=lambda animal: animal.fitness, reverse=True)
+        self.herbivore_list.sort(key=lambda animal: animal.fitness)
 
-        for carnivore in carni_list_sorted:
-            for herbivore in herbi_list_sorted:
+        for carnivore in self.carnivore_list:
+            for herbivore in self.herbivore_list:
                 if carnivore.amount_eaten >= carnivore.params['F']:
                     break
-                if carnivore.kill(herbivore):
+                if carnivore.slay(herbivore):
                     carnivore.eat(herbivore)
                     dead_herbivores.append(herbivore)
 
-        self.herbivore_list = [animal for animal in self.herbivore_list if not dead_herbivores]
+            self.herbivore_list = [animal for animal in self.herbivore_list if
+                               animal not in dead_herbivores]
+            self.herbivore_list.sort(key=lambda animal: animal.fitness)
 
     def herbivore_reproduce(self):
         nr_animals = len(self.herbivore_list)

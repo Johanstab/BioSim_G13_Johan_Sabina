@@ -5,6 +5,8 @@ __email__ = "johansta@nmbu.no, sabinal@nmbu.no"
 
 from biosim.landscapes import Landscape
 import numpy as np
+import random
+random.seed(123456)
 
 tom_liste = []
 
@@ -15,10 +17,10 @@ class Island:
                         [{"species": "Carnivore", "age": 5, "weight": 15.0}
                          for _ in range(50)]},
                    {'pop': [{"species": "Herbivore", "age": 5, "weight": 20.0}
-                            for _ in range(1500)]
+                            for _ in range(150)]
                     }]
     default_island_map = "L"
-    years = 1
+    years = 100
 
     def __init__(self, island_map=default_island_map, ini_pop=None):
         self.island_map = island_map
@@ -46,8 +48,8 @@ class Island:
             # tom_liste.append(self.env.death_list_herbi)
             year += 1
 
-            for carni in self.env.carnivore_list:
-                print(carni.weight)
+            # for carni in self.env.carnivore_list:
+            #     print(carni.weight)
             # print(len(self.env.herbivore_list))
 
             # print(self.env.available_food)
@@ -69,9 +71,9 @@ if __name__ == "__main__":
     print(len(island.env.herbivore_list))
     print(len(island.env.carnivore_list))
     #print(island.env.herbivore_list[0].fitness)
-    print(island.env.carnivore_list[0].weight)
-    print(island.env.carnivore_list[0].age)
-    print(island.env.carnivore_list[0].fitness)
+    #print(island.env.carnivore_list[0].weight)
+    #print(island.env.carnivore_list[0].age)
+    #print(island.env.carnivore_list[0].fitness)
     # summ = 0
     # for animal in island.env.herbivore_list:
     # summ += animal.age
