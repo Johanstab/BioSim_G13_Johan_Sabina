@@ -72,17 +72,21 @@ class Landscape:
 
     def carnivore_eats(self):
         dead_herbivores = []
+        carni_list_sorted = sorted(self.carnivore_list,
+                                   key=lambda animal: animal.fitness,
+                                   reverse=True)
+        herbi_list_sorted = sorted(self.herbivore_list, key=lambda animal: animal.fitness)
 
-        self.carnivore_list.sort(key=lambda animal: animal.fitness)
-        self.herbivore_list.sort(key=lambda animal: animal.fitness, reverse=True)
+        #self.carnivore_list.sort(key=lambda animal: animal.fitness)
+        #self.herbivore_list.sort(key=lambda animal: animal.fitness, reverse=True)
 
-        for carnivore in self.carnivore_list:
-            for herbivore in self.herbivore_list:
+        for carnivore in carni_list_sorted:
+            for herbivore in herbi_list_sorted:
+                if carnivore.amount_eaten >= carnivore.params['F']:
+                    break
                 if carnivore.kill(herbivore):
                     carnivore.eat(herbivore)
                     dead_herbivores.append(herbivore)
-                    if carnivore.amount_eaten >= carnivore.params['F']:
-                        break
 
         self.herbivore_list = [animal for animal in self.herbivore_list if not dead_herbivores]
 

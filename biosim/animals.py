@@ -229,9 +229,9 @@ class Carnivore(Animals):
 
     def kill(self, herbivore):
 
-        if herbivore.fitness > self.fitness:
+        if herbivore.fitness >= self.fitness:
             return False
-        if 0 < self.fitness - herbivore.fitness < self.params['DeltaPhiMax']:
+        if self.fitness - herbivore.fitness < self.params['DeltaPhiMax']:
             if random.random() < (
                         (self.fitness - herbivore.fitness) / self.params['DeltaPhiMax']):
                 return True
@@ -243,7 +243,7 @@ class Carnivore(Animals):
             self.amount_eaten = self.params['F']
         else:
             self.amount_eaten = herbivore.weight
-        self.weight += self.params['beta'] * herbivore.weight
+        self.weight += self.params['beta'] * self.amount_eaten
 
 
 
