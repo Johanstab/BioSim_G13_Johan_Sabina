@@ -49,6 +49,17 @@ class Landscape:
         self.available_food = 0
 
     def set_population(self, input_dict):
+        """Sets the populations of animals.
+
+        Parameters
+        ----------
+        input_dict : dict
+                Dictionary containing Herbivores and Carnivores.
+
+        Returns
+        -------
+        None
+        """
         for animal in input_dict:
             if animal["species"] == "Herbivore":
                 self.herbivore_list.append(Herbivore(age=animal["age"], weight=animal["weight"]))
@@ -56,10 +67,17 @@ class Landscape:
                 self.carnivore_list.append(Carnivore(age=animal["age"], weight=animal["weight"]))
 
     def food_grows(self):
+        """Updates food for each year."""
         self.available_food = self.f_max
 
     def herbivore_eats(self):
+        """Cycle where all herbivores eats fodder in a random order according to how much
+        the parameters defines. If there is no fodder left then no more herbivores get to eat.
 
+        Returns
+        -------
+        None
+        """
         np.random.shuffle(self.herbivore_list)
 
         for herbivore in self.herbivore_list:
@@ -73,6 +91,15 @@ class Landscape:
                 self.available_food = 0
 
     def carnivore_eats(self):
+        """Cycle where all carnivores eats herbivores. The fittest carnivore tries to kill the
+        least fit herbivore and continues until it has eaten according to the parameters. When
+        the fittest carnivore has is satisfied the next in order of fitness will proceed until
+        until everyone is satisfied or all herbivores are killed.
+
+        Returns
+        -------
+        None
+        """
         dead_herbivores = []
 
         self.carnivore_list.sort(key=lambda animal: animal.fitness, reverse=True)
@@ -91,6 +118,12 @@ class Landscape:
             self.herbivore_list.sort(key=lambda animal: animal.fitness)
 
     def herbivore_reproduce(self):
+        """
+
+        Returns
+        -------
+
+        """
         nr_animals = len(self.herbivore_list)
 
         if nr_animals < 2:
@@ -105,6 +138,12 @@ class Landscape:
         self.herbivore_list.extend(new_babies)
 
     def carnivore_reproduce(self):
+        """
+
+        Returns
+        -------
+
+        """
 
         nr_animals = len(self.carnivore_list)
 
@@ -120,16 +159,24 @@ class Landscape:
         self.carnivore_list.extend(new_babies)
 
     def animals_die(self):
+        """Checks if a animal should die or not and removes the dead animal from the lists.
+
+        Returns
+        -------
+        None
+        """
         self.herbivore_list = [animal for animal in self.herbivore_list if not animal.death()]
         self.carnivore_list = [animal for animal in self.carnivore_list if not animal.death()]
 
     def animals_age(self):
+        """The animals increase one year in age"""
         for herbivore in self.herbivore_list:
             herbivore.aging()
         for carnivore in self.carnivore_list:
             carnivore.aging()
 
     def animals_lose_weight(self):
+        """The animals loose weight"""
         for herbivore in self.herbivore_list:
             herbivore.weight_loss()
         for carnivore in self.carnivore_list:
