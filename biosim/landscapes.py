@@ -74,10 +74,6 @@ class Landscape:
 
     def carnivore_eats(self):
         dead_herbivores = []
-        # self.sorted_carni = sorted(self.carnivore_list,
-        #                            key=lambda animal: animal.fitness,
-        #                            reverse=True)
-        # self.sorted_herbi = sorted(self.herbivore_list, key=lambda animal: animal.fitness)
 
         self.carnivore_list.sort(key=lambda animal: animal.fitness, reverse=True)
         self.herbivore_list.sort(key=lambda animal: animal.fitness)
