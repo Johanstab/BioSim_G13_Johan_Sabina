@@ -8,25 +8,25 @@ import random as random
 from numba import jit
 
 
-@jit # Made it a lot faster
+@jit  # Speeds it up at aprox 2 times faster.
 def q(sgn, x, x_half, phi):
-    """
+    """ Sigmoid function later used to calculate the fitness of animals
 
     Parameters
     ----------
     sgn : int
-        Positive or negative defining which part of the function it is
-    x  : int
-        The age or weight of the animal
+        Sign determining if positive or negative polarity. SJEKK OM DETTE BLIR RIKTIG Å SKRIVE!!!
+    x  : int or float
+        The age or weight of the animal.
     x_half  : float
-        The mean weight or life expectancy of an animal(set parameter)
+        Parameter defining at which weight/age the fitness shall deteriorate or grow.
     phi  : float
-        WRITE MORE EXPLANATION HERE!
+        Defining the
 
     Returns
     -------
     float
-        The q value later used to determine fitness
+        Value later used to determine fitness
     """
     return 1.0 / (1.0 + np.exp(sgn * phi * (x - x_half)))
 
@@ -70,68 +70,68 @@ class Animals:
 
     def __init__(self, age=0, weight=None):
         self._age = age
-        self.weight = weight
+        self._weight = weight
         self.phi = 0
         self.prob_death = 0
 
-        if self.weight is None:
-            self.weight = self.weight_birth(self.params["w_birth"], self.params["sigma_birth"])
+        if self._weight is None:
+            self._weight = self.weight_birth(self.params["w_birth"], self.params["sigma_birth"])
 
     @staticmethod
     def weight_birth(weight, sigma):
-        """
+        """ Calculates a birth _weight for the animal class based on Gaussian distribution.
 
         Parameters
         ----------
         weight : float
-
+                The mean birth _weight wanted.
         sigma : float
-
+                The standard _weight deviation wanted.
         Returns
         -------
-
+        float
+            The birth _weight of a new animal.
         """
         return np.random.normal(weight, sigma)
 
     @property
     def age(self):
-        """
-
-        Returns
-        -------
-
-        """
+        """"Getter for age"""
         return self._age
 
+    @property
+    def weight(self):
+        """Getter for weight"""
+        return self._weight
+
     def aging(self):
-        """
+        """Function to increase the age of the animal.
 
         Returns
         -------
-
+        None
         """
         self._age += 1
 
     def weight_loss(self):
-        """
+        """ The natural weight loss an animal goes through each year.
 
         Returns
         -------
-
+        None
         """
-        self.weight -= self.params["eta"] * self.weight
-        return self.weight
+        self._weight -= self.params["eta"] * self._weight
 
     @property
     def fitness(self):
-        """
+        """ Determines the fitness of an animal based on Sigmoid functions.
 
         Returns
         -------
         float
             The generated fitness of the animal.
         """
-        if self.weight <= 0:
+        if self._weight <= 0:
             self.phi = 0
         else:
             self.phi = q(
@@ -140,22 +140,25 @@ class Animals:
         return self.phi
 
     def birth(self, nr_animals):
-        """
+        """ Determines if the animal should reproduce or not. Then updating the weight of the
+        parent and producing a new instance of a Herbivore or Carnivore based on which
+        species it is.
 
         Parameters
         ----------
         nr_animals : int
                 The number of same sex animals in the cell.
-
         Returns
         -------
         bool
             Determining if there should be born a baby or not.
+        new_baby
+            Instance of a new Herbivore or Carnivore.
         """
         # if type(self) is not Herbivore or Carnivore:
         #     raise TypeError('This type is not valid in this simulation')
 
-        if self.weight < self.params["zeta"] * (
+        if self._weight < self.params["zeta"] * (
                 self.params["w_birth"] + self.params["sigma_birth"]):
             return False
 
@@ -167,13 +170,20 @@ class Animals:
             elif type(self) is Carnivore:
                 new_baby = Carnivore()
             else:
-                raise TypeError('This type is not valid')
-            if new_baby.weight * self.params['xi'] < self.weight:
-                self.weight -= new_baby.weight * self.params['xi']
+                raise TypeError(f'Type {type(self)} is not valid')
+            if new_baby._weight * self.params['xi'] < self._weight:
+                self._weight -= new_baby._weight * self.params['xi']
                 return new_baby
 
     def death(self):
-        if self.weight == 0:
+        """
+
+        Returns
+        -------
+        bool
+            Determines if
+        """
+        if self._weight == 0:
             return True
 
         prob_death = self.params['omega'] * (1 - self.fitness)
@@ -203,7 +213,7 @@ class Herbivore(Animals):
         super().__init__(age, weight)
 
     def eats(self, cell):
-        self.weight += cell * self.params['beta']
+        self._weight += cell * self.params['beta']
 
 
 class Carnivore(Animals):
@@ -244,6 +254,6 @@ class Carnivore(Animals):
             self.amount_eaten += self.params['F']
         else:
             self.amount_eaten += herbivore.weight
-        self.weight += self.params['beta'] * self.amount_eaten
+        self._weight += self.params['beta'] * self.amount_eaten
 
 
