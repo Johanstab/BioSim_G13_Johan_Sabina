@@ -53,7 +53,7 @@ def test_weight_gain():
 
     herbivore = Herbivore(5, 10)
 
-    herbivore.eats(500)
+    herbivore.eats(10)
 
     assert herbivore.weight != 10
     assert herbivore.weight == 19
@@ -104,8 +104,10 @@ def test_birth():
     """
     cell = Landscape()
 
-    initial_pop = [{"species": "Herbivore", "age": 1, "weight": 10.0}]
+    initial_pop = [{"species": "Herbivore", "age": 1, "weight": 10.0},
+                   {"species": "Carnivore", "age": 1, "weight": 10.0},]
 
     cell.set_population(initial_pop)
 
-    assert cell.animals_reproduce() is False
+    assert cell.herbivore_reproduce() is False
+    assert cell.carnivore_reproduce() is False
