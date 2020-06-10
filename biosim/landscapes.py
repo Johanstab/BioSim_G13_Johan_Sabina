@@ -91,7 +91,7 @@ class Landscape:
                     dead_herbivores.append(herbivore)
 
             self.herbivore_list = [animal for animal in self.herbivore_list if
-                               animal not in dead_herbivores]
+                                   animal not in dead_herbivores]
             self.herbivore_list.sort(key=lambda animal: animal.fitness)
 
     def herbivore_reproduce(self):
