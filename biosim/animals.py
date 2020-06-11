@@ -257,8 +257,9 @@ class Carnivore(Animals):
         -------
         None
         """
+        # This should be if herb.weight is greater than self.params["F"] - amount_eaten
         if herb.weight >= self.params['F']:
-            self.amount_eaten += self.params['F']
+            self.amount_eaten += self.params['F'] # here it should also be self.params["F"] - amount eaten because right now you are checking if the herbivore's weight is greater than the apetite, but the apetite is static.
         else:
             self.amount_eaten += herb.weight
-        self._weight += self.params['beta'] * self.amount_eaten
+        self._weight += self.params['beta'] * self.amount_eaten # Here it is not self.amount_eaten, but what it ATE this instance, because self.amount_eaten will grow to be immensely large, you are not reseting it for each for loop in Landscape

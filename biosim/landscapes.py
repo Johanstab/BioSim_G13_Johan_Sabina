@@ -107,7 +107,7 @@ class Landscape:
 
         for carnivore in self.carnivore_list:
             for herbivore in self.herbivore_list:
-                if carnivore.amount_eaten >= carnivore.params['F']:
+                if carnivore.amount_eaten >= carnivore.params['F']: # amount_eaten will not be reset till the next time this carnivore will eat i.e the next cycle. Resulting in this breakiung quite fast. You should implement it in a different way
                     break
                 if carnivore.slay(herbivore):
                     carnivore.eat(herbivore)
