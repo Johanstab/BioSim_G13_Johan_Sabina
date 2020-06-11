@@ -8,7 +8,7 @@ import numpy as np
 
 np.random.seed(1)
 import matplotlib.pyplot as plt
-from .landscapes import Water, Lowland, Highland, Desert
+from biosim.landscapes import Water, Lowland, Highland, Desert
 
 
 class Island:

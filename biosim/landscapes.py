@@ -215,3 +215,4 @@ class Desert(Landscape):
 
     def __init__(self):
         super().__init__()
+        self.f_max = self.params['f_max']
