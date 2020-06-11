@@ -5,6 +5,7 @@ __email__ = "johansta@nmbu.no, sabinal@nmbu.no"
 
 import textwrap
 import numpy as np
+
 np.random.seed(1)
 import matplotlib.pyplot as plt
 from .landscapes import Water, Lowland, Highland, Desert
@@ -71,11 +72,17 @@ class Island:
 
     def nr_animals_pr_species(self):
         """Create function returning the total nr of herbivores and carnivores in a dict."""
-        pass
+        for y_loc, lines in enumerate(self.island_map):
+            for x_loc in enumerate(lines):
+                self.num_herbivores.append(len(self.island_map[(x_loc, y_loc)].herbivore_list))
+                self.num_carnivores.append(len(self.island_map[(x_loc, y_loc)].carnivore_list))
+        return {"Herbivore":sum(self.num_herbivores),
+                "Carnivore":sum(self.num_carnivores)}
 
     def nr_animals(self):
         """Create function which returns total nr of animals on island."""
-        pass
+        total_pop = sum(self.num_herbivores) + sum(self.num_carnivores)
+        return total_pop
 
     def cycle_island(self):
         for y_loc, lines in enumerate(self.island_map):
@@ -89,12 +96,6 @@ class Island:
                 self.island_map[(x_loc, y_loc)].animals_age()
                 self.island_map[(x_loc, y_loc)].animals_lose_weight()
                 self.island_map[(x_loc, y_loc)].animals_die()
-
-
-
-
-
-
 
 
 if __name__ == "__main__":
