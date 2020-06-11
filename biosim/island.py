@@ -5,10 +5,9 @@ __email__ = "johansta@nmbu.no, sabinal@nmbu.no"
 
 import textwrap
 import numpy as np
-
 np.random.seed(1)
 import matplotlib.pyplot as plt
-from biosim.landscapes import Water, Lowland, Highland, Desert
+from .landscapes import Water, Lowland, Highland, Desert
 
 
 class Island:
@@ -68,9 +67,30 @@ class Island:
     def create_island_map(self):
         for y_loc, lines in enumerate(self.island_lines):
             for x_loc, cell_type in enumerate(lines):
-                self.island_map[(1 + x_loc, 1 + y_loc)] = self.valid_landscapes[cell_type]()
+                self.island_map[(1 + x_loc, 1 + y_loc)] = self.valid_landscapes[cell_type]
 
-    def cycle_island(self,cell)
+    def nr_animals_pr_species(self):
+        """Create function returning the total nr of herbivores and carnivores in a dict."""
+        pass
+
+    def nr_animals(self):
+        """Create function which returns total nr of animals on island."""
+        pass
+
+    def cycle_island(self):
+        for y_loc, lines in enumerate(self.island_map):
+            for x_loc in enumerate(lines):
+                self.island_map[(x_loc, y_loc)].food_grows()
+                self.island_map[(x_loc, y_loc)].herbivore_eats()
+                self.island_map[(x_loc, y_loc)].carnivore_eats()
+                self.island_map[(x_loc, y_loc)].herbivore_reproduce()
+                self.island_map[(x_loc, y_loc)].carnivore_reproduce()
+                self.island_map[(x_loc, y_loc)].animals_migrate()  # NEEDS TO BE MADE
+                self.island_map[(x_loc, y_loc)].animals_age()
+                self.island_map[(x_loc, y_loc)].animals_lose_weight()
+                self.island_map[(x_loc, y_loc)].animals_die()
+
+
 
 
 

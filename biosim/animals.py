@@ -117,9 +117,8 @@ class Animals:
         if self.weight <= 0:
             return 0
         else:
-            return self.q(
-                +1, self.age, self.params["a_half"], self.params["phi_age"]
-            ) * self.q(-1, self.weight, self.params["w_half"], self.params["phi_weight"])
+            return self.q(+1, self.age, self.params["a_half"], self.params["phi_age"])\
+                   * self.q(-1, self.weight, self.params["w_half"], self.params["phi_weight"])
 
     def birth(self, nr_animals):
         """ Determines if the animal should reproduce or not. Then updating the weight of the
@@ -157,7 +156,6 @@ class Animals:
                 return None
         else:
             return None
-
 
     def death(self):
         """Decides if an animal shall die or not based on randomness. The fitter an animal is
