@@ -5,6 +5,7 @@ __email__ = "johansta@nmbu.no, sabinal@nmbu.no"
 
 import textwrap
 import numpy as np
+
 np.random.seed(1)
 import matplotlib.pyplot as plt
 from biosim.landscapes import Water, Lowland, Highland, Desert
@@ -23,17 +24,15 @@ class Island:
          'pop':
              [{"species": "Herbivore", "age": 5, "weight": 20.0} for _ in range(50)]}
     ]
-    default_geogr = """\
+    default_geography = """\
                         WWWW
                         WLLW
                         WLLW
                         WWWW"""
-    default_geogr = textwrap.dedent(default_geogr)
-    years = 200
 
-    def __init__(self, island_map=default_geogr, ini_pop=None, sim_years=years):
-        self.default_geogr = textwrap.dedent(island_map)
-        self.island_lines = self.default_geogr.splitlines()
+    def __init__(self, island_map=default_geography, ini_pop=None):
+        self.geography = textwrap.dedent(island_map)
+        self.island_lines = self.geography.splitlines()
         self.island_map = {}
         self.num_herbivores = []
         self.num_carnivores = []
@@ -53,28 +52,14 @@ class Island:
         else:
             self.initial_pop = ini_pop
 
-        self.years = sim_years
         self.create_island_map()
         self.set_population_in_cell()
-
-        year = 0
-        while year < Island.years:
-            self.num_herbivores.append(len(self.island_map[(2, 2)].herbivore_list))
-            self.num_carnivores.append(len(self.island_map[(2, 2)].carnivore_list))
-            self.island_map[(2, 2)].food_grows()
-            self.island_map[(2, 2)].herbivore_eats()
-            self.island_map[(2, 2)].carnivore_eats()
-            self.island_map[(2, 2)].herbivore_reproduce()
-            self.island_map[(2, 2)].carnivore_reproduce()
-            self.island_map[(2, 2)].animals_age()
-            self.island_map[(2, 2)].animals_lose_weight()
-            self.island_map[(2, 2)].animals_die()
-            year += 1
+        self.cycle_island()
 
     def set_population_in_cell(self):
         for animal_loc in self.initial_pop:
             location = animal_loc['loc']
-            cell_type = self.island_map[location]
+            # cell_type = self.island_map[location]
             # if cell_type not in self.valid_landscapes.keys():
             #     raise NameError(f'Location {location} is not a valid location')
             population = animal_loc['pop']
@@ -84,6 +69,12 @@ class Island:
         for y_loc, lines in enumerate(self.island_lines):
             for x_loc, cell_type in enumerate(lines):
                 self.island_map[(1 + x_loc, 1 + y_loc)] = self.valid_landscapes[cell_type]()
+
+    def cycle_island(self,cell)
+
+
+
+
 
 
 if __name__ == "__main__":
@@ -104,5 +95,3 @@ if __name__ == "__main__":
     plt.plot(island.num_herbivores, 'b')
     plt.plot(island.num_carnivores, 'r')
     plt.show()
-
-
