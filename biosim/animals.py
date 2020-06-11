@@ -10,7 +10,8 @@ from numba import jit
 
 @jit  # Speeds it up at aprox 2 times faster.
 def q(sgn, x, x_half, phi):
-    """ Sigmoid function later used to calculate the fitness of animals
+    """ Logistical regression using the Sigmoid function later used to calculate
+     the fitness of animals.
 
     Parameters
     ----------
