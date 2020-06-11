@@ -47,7 +47,7 @@ class Landscape:
         self.sorted_carni = []
         self.carnivore_list = []
         self.available_food = 0
-        np.random.seed(1)
+        np.random.seed(seed)
 
     def set_population(self, input_dict):
         """Sets the populations of animals.

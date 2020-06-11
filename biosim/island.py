@@ -5,7 +5,6 @@ __email__ = "johansta@nmbu.no, sabinal@nmbu.no"
 
 import textwrap
 import numpy as np
-np.random.seed(1)
 from biosim.landscapes import Water, Lowland, Highland, Desert
 
 
@@ -34,7 +33,7 @@ class Island:
         self.default_geogr = textwrap.dedent(island_map)
         self.island_lines = self.default_geogr.splitlines()
         self.island_map = {}
-        np.random.seed(1)
+        np.random.seed(seed)
 
         for lines in self.island_lines:
             for cell_type in lines:

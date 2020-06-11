@@ -9,13 +9,13 @@ from numba import jit
 
 @jit  # Speeds it up at aprox 2 times faster.
 def q(sgn, x, x_half, phi):
-    """ Logistical regression using the Sigmoid function later used to calculate
+    """ Logistical regression using the Sigmoid function. Later used to calculate
      the fitness of animals.
 
     Parameters
     ----------
     sgn : int
-        Sign determining if positive or negative polarity. SJEKK OM DETTE BLIR RIKTIG Å SKRIVE!!!
+        Sign determining if positive or negative polarity.
     x  : int or float
         The age or weight of the animal.
     x_half  : float
@@ -26,7 +26,7 @@ def q(sgn, x, x_half, phi):
     Returns
     -------
     float
-        Value later used to determine fitness
+        Value later used to determine fitness.
     """
     return 1.0 / (1.0 + np.exp(sgn * phi * (x - x_half)))
 
@@ -56,7 +56,7 @@ class Animals:
         self._weight = weight
         self.phi = 0
         self.prob_death = 0
-        np.random.seed(1)
+        np.random.seed(seed)
 
         if self._weight is None:
             self._weight = self.weight_birth(self.params["w_birth"], self.params["sigma_birth"])
@@ -68,13 +68,13 @@ class Animals:
         Parameters
         ----------
         weight : float
-                The mean birth _weight wanted.
+                The mean birth weight wanted.
         sigma : float
-                The standard _weight deviation wanted.
+                The standard weight deviation wanted.
         Returns
         -------
         float
-            The birth _weight of a new animal.
+            The birth weight of a new animal.
         """
         return np.random.normal(weight, sigma)
 
@@ -139,9 +139,6 @@ class Animals:
         new_baby
              A new Herbivore or Carnivore object.
         """
-        # if type(self) is not Herbivore or Carnivore:
-        #     raise TypeError('This type is not valid in this simulation')
-
         if self._weight < self.params["zeta"] * (
                 self.params["w_birth"] + self.params["sigma_birth"]):
 
@@ -154,13 +151,13 @@ class Animals:
                     new_baby = Carnivore()
                 else:
                     raise TypeError(f'Type {type(self)} is not valid')
-                if new_baby._weight * self.params['xi'] < self._weight:
+                if new_baby.weight * self.params['xi'] < self.weight:
                     self._weight -= new_baby._weight * self.params['xi']
                     return new_baby
 
     def death(self):
         """Decides if an animal shall die or not based on randomness. The fitter an animal is
-        the chances it has for survival.
+        the higher chances it has for survival.
 
         Returns
         -------
@@ -230,8 +227,8 @@ class Carnivore(Animals):
 
         Parameters
         ----------
-        herb : object
-                A herbivore object containing all the information of that animal.
+        herb : instance
+                An instance of a herbivore object containing all the information of that animal.
         Returns
         -------
         bool
@@ -252,8 +249,8 @@ class Carnivore(Animals):
 
         Parameters
         ----------
-        herb : object
-                A herbivore object containing all the information of that animal.
+        herb : instance
+                An instance of a herbivore object containing all the information of that animal.
         Returns
         -------
         None
@@ -263,6 +260,3 @@ class Carnivore(Animals):
         else:
             self.amount_eaten += herb.weight
         self._weight += self.params['beta'] * self.amount_eaten
-
-
-
