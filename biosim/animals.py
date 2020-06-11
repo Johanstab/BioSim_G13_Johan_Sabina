@@ -139,23 +139,25 @@ class Animals:
         """
         if self.weight < self.params["zeta"] * (
                 self.params["w_birth"] + self.params["sigma_birth"]):
+            return None
 
-            b_prob = min(1, self.params["gamma"] * self.fitness * (nr_animals - 1))
+        b_prob = min(1, self.params["gamma"] * self.fitness * (nr_animals - 1))
 
-            if np.random.random() < b_prob:
-                if type(self) is Herbivore:
-                    new_baby = Herbivore()
-                elif type(self) is Carnivore:
-                    new_baby = Carnivore()
-                else:
-                    raise TypeError(f'Type {type(self)} is not valid')
-                if new_baby.weight * self.params['xi'] < self.weight:
-                    self._weight -= new_baby.weight * self.params['xi']
-                    return new_baby
-                else:
-                    return None
+        if np.random.random() < b_prob:
+            if type(self) is Herbivore:
+                new_baby = Herbivore()
+            elif type(self) is Carnivore:
+                new_baby = Carnivore()
+            else:
+                raise TypeError(f'Type {type(self)} is not valid')
+            if new_baby.weight * self.params['xi'] < self.weight:
+                self._weight -= new_baby.weight * self.params['xi']
+                return new_baby
             else:
                 return None
+        else:
+            return None
+
 
     def death(self):
         """Decides if an animal shall die or not based on randomness. The fitter an animal is

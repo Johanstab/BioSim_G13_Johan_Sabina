@@ -29,7 +29,7 @@ class Island:
                         WLLW
                         WWWW"""
     default_geogr = textwrap.dedent(default_geogr)
-    years = 100
+    years = 200
 
     def __init__(self, island_map=default_geogr, ini_pop=None, sim_years=years):
         self.default_geogr = textwrap.dedent(island_map)
