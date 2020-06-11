@@ -259,7 +259,7 @@ class Carnivore(Animals):
         None
         """
         # This should be if herb.weight is greater than self.params["F"] - amount_eaten
-        if herb.weight >= self.params['F'] - self.amount_eaten:
+        if herb.weight > self.params['F'] - self.amount_eaten:
             self.eaten = self.params['F']
             self.amount_eaten += self.eaten - self.amount_eaten# here it should also be self.params["F"] - amount eaten because right now you are checking if the herbivore's weight is greater than the apetite, but the apetite is static.
 
