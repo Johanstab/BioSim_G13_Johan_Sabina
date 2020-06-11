@@ -3,7 +3,7 @@
 __author__ = "Johan Stabekk, Sabina Langås"
 __email__ = "johansta@nmbu.no, sabinal@nmbu.no"
 
-import random
+
 import numpy as np
 from .animals import Herbivore, Carnivore
 
@@ -38,7 +38,7 @@ class Landscape:
 
         cls.params = new_params
 
-    def __init__(self):
+    def __init__(self, seed=1):
         "common traits are size."
 
         self.f_max = self.params["f_max"]
@@ -47,6 +47,7 @@ class Landscape:
         self.sorted_carni = []
         self.carnivore_list = []
         self.available_food = 0
+        np.random.seed(1)
 
     def set_population(self, input_dict):
         """Sets the populations of animals.
@@ -144,7 +145,6 @@ class Landscape:
         -------
 
         """
-
         nr_animals = len(self.carnivore_list)
 
         if nr_animals < 2:

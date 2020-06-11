@@ -3,13 +3,10 @@
 __author__ = "Johan Stabekk, Sabina Langås"
 __email__ = "johansta@nmbu.no, sabinal@nmbu.no"
 
-from biosim.landscapes import Water, Lowland, Highland, Desert
 import textwrap
 import numpy as np
-import random
-
-random.seed(1)
 np.random.seed(1)
+from biosim.landscapes import Water, Lowland, Highland, Desert
 
 
 class Island:
@@ -33,10 +30,11 @@ class Island:
     default_geogr = textwrap.dedent(default_geogr)
     years = 100
 
-    def __init__(self, island_map=default_geogr, ini_pop=None, sim_years=years):
+    def __init__(self, island_map=default_geogr, ini_pop=None, sim_years=years, seed=1):
         self.default_geogr = textwrap.dedent(island_map)
         self.island_lines = self.default_geogr.splitlines()
         self.island_map = {}
+        np.random.seed(1)
 
         for lines in self.island_lines:
             for cell_type in lines:

@@ -4,7 +4,6 @@ __author__ = "Johan Stabekk, Sabina Langås"
 __email__ = "johansta@nmbu.no, sabinal@nmbu.no"
 
 import numpy as np
-import random as random
 from numba import jit
 
 
@@ -52,11 +51,12 @@ class Animals:
             cls.params.update(iterator)
             # Implementer en metode med dict.update
 
-    def __init__(self, age=0, weight=None):
+    def __init__(self, age=0, weight=None, seed=1):
         self._age = age
         self._weight = weight
         self.phi = 0
         self.prob_death = 0
+        np.random.seed(1)
 
         if self._weight is None:
             self._weight = self.weight_birth(self.params["w_birth"], self.params["sigma_birth"])
@@ -115,7 +115,7 @@ class Animals:
         float
             The generated fitness of the animal.
         """
-        if self._weight <= 0:
+        if self.weight <= 0:
             self.phi = 0
         else:
             self.phi = q(
@@ -144,20 +144,19 @@ class Animals:
 
         if self._weight < self.params["zeta"] * (
                 self.params["w_birth"] + self.params["sigma_birth"]):
-            return False
 
-        b_prob = min(1, self.params["gamma"] * self.fitness * (nr_animals - 1))
+            b_prob = min(1, self.params["gamma"] * self.fitness * (nr_animals - 1))
 
-        if random.random() < b_prob:
-            if type(self) is Herbivore:
-                new_baby = Herbivore()
-            elif type(self) is Carnivore:
-                new_baby = Carnivore()
-            else:
-                raise TypeError(f'Type {type(self)} is not valid')
-            if new_baby._weight * self.params['xi'] < self._weight:
-                self._weight -= new_baby._weight * self.params['xi']
-                return new_baby
+            if np.random.random() < b_prob:
+                if type(self) is Herbivore:
+                    new_baby = Herbivore()
+                elif type(self) is Carnivore:
+                    new_baby = Carnivore()
+                else:
+                    raise TypeError(f'Type {type(self)} is not valid')
+                if new_baby._weight * self.params['xi'] < self._weight:
+                    self._weight -= new_baby._weight * self.params['xi']
+                    return new_baby
 
     def death(self):
         """Decides if an animal shall die or not based on randomness. The fitter an animal is
@@ -172,7 +171,7 @@ class Animals:
             return True
 
         prob_death = self.params['omega'] * (1 - self.fitness)
-        return random.random() < prob_death
+        return np.random.random() < prob_death
 
 
 class Herbivore(Animals):
@@ -225,44 +224,44 @@ class Carnivore(Animals):
         super().__init__(age, weight)
         self.amount_eaten = 0
 
-    def slay(self, herbivore):
+    def slay(self, herb):
         """Determines by probability and the fitness of both the herbivore and carnivore if
         the carnivore should kill the herbivore.
 
         Parameters
         ----------
-        herbivore : object
+        herb : object
                 A herbivore object containing all the information of that animal.
         Returns
         -------
         bool
             Should the herbivore be killed or not.
         """
-        if herbivore.fitness >= self.fitness:
+        if herb.fitness >= self.fitness:
             return False
-        if 0 < self.fitness - herbivore.fitness < self.params['DeltaPhiMax']:
-            return random.random() < (
-                        (self.fitness - herbivore.fitness) / self.params['DeltaPhiMax'])
+        if 0 < self.fitness - herb.fitness < self.params['DeltaPhiMax']:
+            return np.random.random() < (
+                        (self.fitness - herb.fitness) / self.params['DeltaPhiMax'])
         else:
             return True
 
-    def eat(self, herbivore):
+    def eat(self, herb):
         """Defining how much the carnivore should eat based on the weight of the herbivore and
         the amount it has already eaten. Gains weight based set parameters and how much it has
         eaten.
 
         Parameters
         ----------
-        herbivore : object
+        herb : object
                 A herbivore object containing all the information of that animal.
         Returns
         -------
         None
         """
-        if herbivore.weight >= self.params['F']:
+        if herb.weight >= self.params['F']:
             self.amount_eaten += self.params['F']
         else:
-            self.amount_eaten += herbivore.weight
+            self.amount_eaten += herb.weight
         self._weight += self.params['beta'] * self.amount_eaten
 
 
