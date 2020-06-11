@@ -132,9 +132,9 @@ class Animals:
         if self.weight <= 0:
             self.phi = 0
         else:
-            self.phi = Animals.q(
+            self.phi = self.q(
                 +1, self.age, self.params["a_half"], self.params["phi_age"]
-            ) * Animals.q(-1, self.weight, self.params["w_half"], self.params["phi_weight"])
+            ) * self.q(-1, self.weight, self.params["w_half"], self.params["phi_weight"])
         return self.phi
 
     def birth(self, nr_animals):
@@ -155,11 +155,11 @@ class Animals:
 
         if self.weight < self.params["zeta"] * (
                 self.params["w_birth"] + self.params["sigma_birth"]):
-            return False
+            return None
 
         b_prob = min(1, self.params["gamma"] * self.fitness * (nr_animals - 1))
 
-        if random.random() < b_prob:
+        if np.random.random() < b_prob:
             if type(self) is Herbivore:
                 new_baby = Herbivore()
             elif type(self) is Carnivore:
@@ -169,13 +169,17 @@ class Animals:
             if new_baby.weight * self.params['xi'] < self.weight:
                 self.weight -= new_baby.weight * self.params['xi']
                 return new_baby
+            else:
+                return None
+        else:
+            return None
 
     def death(self):
         if self.weight == 0:
             return True
 
         prob_death = self.params['omega'] * (1 - self.fitness)
-        return random.random() < prob_death
+        return np.random.random() < prob_death
 
 
 class Herbivore(Animals):
@@ -227,21 +231,21 @@ class Carnivore(Animals):
         super().__init__(age, weight)
         self.amount_eaten = 0
 
-    def slay(self, herbivore):
+    def slay(self, herb):
 
-        if herbivore.fitness >= self.fitness:
+        if herb.fitness >= self.fitness:
             return False
-        if 0 < self.fitness - herbivore.fitness < self.params['DeltaPhiMax']:
-            return random.random() < (
-                        (self.fitness - herbivore.fitness) / self.params['DeltaPhiMax'])
+        if 0 < self.fitness - herb.fitness < self.params['DeltaPhiMax']:
+            return np.random.random() < (
+                    (self.fitness - herb.fitness) / self.params['DeltaPhiMax'])
         else:
             return True
 
-    def eat(self, herbivore):
-        if herbivore.weight >= self.params['F']:
+    def eat(self, herb):
+        if herb.weight >= self.params['F']:
             self.amount_eaten += self.params['F']
         else:
-            self.amount_eaten += herbivore.weight
+            self.amount_eaten += herb.weight
         self.weight += self.params['beta'] * self.amount_eaten
 
 

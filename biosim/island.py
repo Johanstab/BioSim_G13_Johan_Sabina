@@ -3,10 +3,12 @@
 __author__ = "Johan Stabekk, Sabina Langås"
 __email__ = "johansta@nmbu.no, sabinal@nmbu.no"
 
-from biosim.landscapes import Landscape
 import numpy as np
+import matplotlib.pyplot as plt
 import random
-random.seed(123456)
+np.random.seed(1)
+from biosim.landscapes import Landscape
+
 
 tom_liste = []
 
@@ -14,13 +16,13 @@ tom_liste = []
 class Island:
     valid_landscape = ["W", "D", "L", "H"]
     initial_pop = [{'pop':
-                        [{"species": "Carnivore", "age": 5, "weight": 15.0}
-                         for _ in range(50)]},
+                        [{"species": "Carnivore", "age": 5, "weight": 20.0}
+                         for _ in range(20)]},
                    {'pop': [{"species": "Herbivore", "age": 5, "weight": 20.0}
-                            for _ in range(150)]
+                            for _ in range(50)]
                     }]
     default_island_map = "L"
-    years = 20
+    years = 200
 
     def __init__(self, island_map=default_island_map, ini_pop=None):
         self.island_map = island_map
@@ -33,9 +35,12 @@ class Island:
         for liste in self.initial_pop:
             pop = liste['pop']
             self.env.set_population(pop)
-
+        self.num_herbs = []
+        self.num_carns = []
         year = 0
         while year < Island.years:
+            self.num_herbs.append(len(self.env.herbivore_list))
+            self.num_carns.append(len(self.env.carnivore_list))
             self.env.f_max = 800
             self.env.food_grows()
             self.env.herbivore_eats()
@@ -82,3 +87,6 @@ if __name__ == "__main__":
     # print(mean)
     # print(island.env.death_list_herbi)
     # print(len(tom_liste))
+    plt.plot(island.num_herbs)
+    plt.plot(island.num_carns)
+    plt.show()
