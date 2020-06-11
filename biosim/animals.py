@@ -7,30 +7,6 @@ import numpy as np
 from numba import jit
 
 
-@jit  # Speeds it up at aprox 2 times faster.
-def q(sgn, x, x_half, phi):
-    """ Logistical regression using the Sigmoid function. Later used to calculate
-     the fitness of animals.
-
-    Parameters
-    ----------
-    sgn : int
-        Sign determining if positive or negative polarity.
-    x  : int or float
-        The age or weight of the animal.
-    x_half  : float
-        Parameter defining at which weight/age the fitness shall deteriorate or grow.
-    phi  : float
-        Defining the
-
-    Returns
-    -------
-    float
-        Value later used to determine fitness.
-    """
-    return 1.0 / (1.0 + np.exp(sgn * phi * (x - x_half)))
-
-
 class Animals:
     "Move params to different species and create a set_params method"
     params = {}
@@ -78,6 +54,30 @@ class Animals:
         """
         return np.random.normal(weight, sigma)
 
+    @staticmethod
+    @jit  # Speeds it up at aprox 2 times faster.
+    def q(sgn, x, x_half, phi):
+        """ Logistical regression using the Sigmoid function. Later used to calculate
+         the fitness of animals.
+
+        Parameters
+        ----------
+        sgn : int
+            Sign determining if positive or negative polarity.
+        x  : int or float
+            The age or weight of the animal.
+        x_half  : float
+            Parameter defining at which weight/age the fitness shall deteriorate or grow.
+        phi  : float
+            Defining the
+
+        Returns
+        -------
+        float
+            Value later used to determine fitness.
+        """
+        return 1.0 / (1.0 + np.exp(sgn * phi * (x - x_half)))
+
     @property
     def age(self):
         """"Getter for age"""
@@ -118,9 +118,9 @@ class Animals:
         if self.weight <= 0:
             self.phi = 0
         else:
-            self.phi = q(
+            self.phi = self.q(
                 +1, self.age, self.params["a_half"], self.params["phi_age"]
-            ) * q(-1, self.weight, self.params["w_half"], self.params["phi_weight"])
+            ) * self.q(-1, self.weight, self.params["w_half"], self.params["phi_weight"])
         return self.phi
 
     def birth(self, nr_animals):
@@ -154,6 +154,10 @@ class Animals:
                 if new_baby.weight * self.params['xi'] < self.weight:
                     self._weight -= new_baby._weight * self.params['xi']
                     return new_baby
+                else:
+                    return None
+            else:
+                return None
 
     def death(self):
         """Decides if an animal shall die or not based on randomness. The fitter an animal is

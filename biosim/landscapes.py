@@ -133,7 +133,7 @@ class Landscape:
         new_babies = []
         for herbivore in self.herbivore_list:
             new_baby = herbivore.birth(nr_animals)
-            if new_baby:
+            if new_baby is not None:
                 new_babies.append(new_baby)
 
         self.herbivore_list.extend(new_babies)
@@ -153,7 +153,7 @@ class Landscape:
         new_babies = []
         for carnivore in self.carnivore_list:
             new_baby = carnivore.birth(nr_animals)
-            if new_baby:
+            if new_baby is not None:
                 new_babies.append(new_baby)
 
         self.carnivore_list.extend(new_babies)

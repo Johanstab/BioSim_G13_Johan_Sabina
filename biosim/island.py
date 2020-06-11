@@ -5,6 +5,8 @@ __email__ = "johansta@nmbu.no, sabinal@nmbu.no"
 
 import textwrap
 import numpy as np
+np.random.seed(1)
+import matplotlib.pyplot as plt
 from biosim.landscapes import Water, Lowland, Highland, Desert
 
 
@@ -33,6 +35,8 @@ class Island:
         self.default_geogr = textwrap.dedent(island_map)
         self.island_lines = self.default_geogr.splitlines()
         self.island_map = {}
+        self.num_herbivores = []
+        self.num_carnivores = []
         np.random.seed(seed)
 
         for lines in self.island_lines:
@@ -56,6 +60,8 @@ class Island:
 
         year = 0
         while year < Island.years:
+            self.num_herbivores.append(len(self.island_map[(2, 2)].herbivore_list))
+            self.num_carnivores.append(len(self.island_map[(2, 2)].carnivore_list))
             self.island_map[(2, 2)].food_grows()
             self.island_map[(2, 2)].herbivore_eats()
             self.island_map[(2, 2)].carnivore_eats()
@@ -83,6 +89,7 @@ class Island:
 
 if __name__ == "__main__":
     island = Island()
+
     # print(map_.keys())
     # for x in range(1, 5):
     #     for y in range(1, 5):
@@ -94,5 +101,9 @@ if __name__ == "__main__":
     print(island.island_map[(2, 2)].herbivore_list[0].age)
     island.island_map[(2, 2)].carnivore_list.sort(key=lambda animal: animal.age, reverse=True)
     print(island.island_map[(2, 2)].carnivore_list[0].age)
+
+   # plt.plot(island.num_herbivores, 'b')
+   # plt.plot(island.num_carnivores, 'r')
+   # plt.show()
 
 
