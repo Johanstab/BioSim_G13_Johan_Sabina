@@ -38,7 +38,7 @@ class Landscape:
 
         cls.params = new_params
 
-    def __init__(self, seed=1):
+    def __init__(self):
         "common traits are size."
 
         self.f_max = self.params["f_max"]
@@ -47,7 +47,6 @@ class Landscape:
         self.sorted_carni = []
         self.carnivore_list = []
         self.available_food = 0
-        np.random.seed(seed)
 
     def set_population(self, input_dict):
         """Sets the populations of animals.

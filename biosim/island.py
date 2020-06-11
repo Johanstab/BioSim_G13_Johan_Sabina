@@ -31,13 +31,12 @@ class Island:
     default_geogr = textwrap.dedent(default_geogr)
     years = 100
 
-    def __init__(self, island_map=default_geogr, ini_pop=None, sim_years=years, seed=1):
+    def __init__(self, island_map=default_geogr, ini_pop=None, sim_years=years):
         self.default_geogr = textwrap.dedent(island_map)
         self.island_lines = self.default_geogr.splitlines()
         self.island_map = {}
         self.num_herbivores = []
         self.num_carnivores = []
-        np.random.seed(seed)
 
         for lines in self.island_lines:
             for cell_type in lines:
@@ -102,8 +101,8 @@ if __name__ == "__main__":
     island.island_map[(2, 2)].carnivore_list.sort(key=lambda animal: animal.age, reverse=True)
     print(island.island_map[(2, 2)].carnivore_list[0].age)
 
-   # plt.plot(island.num_herbivores, 'b')
-   # plt.plot(island.num_carnivores, 'r')
-   # plt.show()
+    plt.plot(island.num_herbivores, 'b')
+    plt.plot(island.num_carnivores, 'r')
+    plt.show()
 
 

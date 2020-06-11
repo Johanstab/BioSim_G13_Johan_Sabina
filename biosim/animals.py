@@ -27,12 +27,11 @@ class Animals:
             cls.params.update(iterator)
             # Implementer en metode med dict.update
 
-    def __init__(self, age=0, weight=None, seed=1):
+    def __init__(self, age=0, weight=None):
         self._age = age
         self._weight = weight
         self.phi = 0
         self.prob_death = 0
-        np.random.seed(seed)
 
         if self._weight is None:
             self._weight = self.weight_birth(self.params["w_birth"], self.params["sigma_birth"])
@@ -104,7 +103,7 @@ class Animals:
         -------
         None
         """
-        self._weight -= self.params["eta"] * self._weight
+        self._weight -= self.params["eta"] * self.weight
 
     @property
     def fitness(self):
@@ -116,12 +115,11 @@ class Animals:
             The generated fitness of the animal.
         """
         if self.weight <= 0:
-            self.phi = 0
+            return 0
         else:
-            self.phi = self.q(
+            return self.q(
                 +1, self.age, self.params["a_half"], self.params["phi_age"]
             ) * self.q(-1, self.weight, self.params["w_half"], self.params["phi_weight"])
-        return self.phi
 
     def birth(self, nr_animals):
         """ Determines if the animal should reproduce or not. Then updating the weight of the
@@ -139,7 +137,7 @@ class Animals:
         new_baby
              A new Herbivore or Carnivore object.
         """
-        if self._weight < self.params["zeta"] * (
+        if self.weight < self.params["zeta"] * (
                 self.params["w_birth"] + self.params["sigma_birth"]):
 
             b_prob = min(1, self.params["gamma"] * self.fitness * (nr_animals - 1))
@@ -152,7 +150,7 @@ class Animals:
                 else:
                     raise TypeError(f'Type {type(self)} is not valid')
                 if new_baby.weight * self.params['xi'] < self.weight:
-                    self._weight -= new_baby._weight * self.params['xi']
+                    self._weight -= new_baby.weight * self.params['xi']
                     return new_baby
                 else:
                     return None
@@ -168,7 +166,7 @@ class Animals:
         bool
             Determines if the animal shall die or not.
         """
-        if self._weight == 0:
+        if self.weight == 0:
             return True
 
         prob_death = self.params['omega'] * (1 - self.fitness)
