@@ -252,8 +252,8 @@ class Carnivore(Animals):
 
         Parameters
         ----------
-        herb : instance
-                An instance of a herbivore object containing all the information of that animal.
+        herb_sorted_least_fit : List
+                Sorted list containing all the herbivore objects.
         Returns
         -------
         None
@@ -261,7 +261,6 @@ class Carnivore(Animals):
         eaten = 0
         list_of_dead = []
 
-        # This should be if herb.weight is greater than self.params["F"] - amount_eaten
         for herb in herb_sorted_least_fit:
 
             if eaten >= self.params['F']:
@@ -274,7 +273,7 @@ class Carnivore(Animals):
                     list_of_dead.append(herb)
                     if herb.weight + eaten < self.params['F']:
                         eaten += herb.weight
-                        self.weight += eaten * self.params['beta']
+                        self.weight += herb.weight * self.params['beta']
                     else:
                         self.weight += (self.params['F'] - eaten) * self.params['beta']
                         eaten += self.params['F'] - eaten
@@ -283,11 +282,12 @@ class Carnivore(Animals):
                     list_of_dead.append(herb)
                     if herb.weight + eaten < self.params['F']:
                         eaten += herb.weight
-                        self.weight += eaten * self.params['beta']
+                        self.weight += herb.weight * self.params['beta']
                     else:
                         self.weight += (self.params['F'] - eaten) * self.params['beta']
                         eaten += self.params['F'] - eaten
 
-        self.weight += eaten * self.params['beta']
-        return list_of_dead
+        new_updated_list = [animal for animal in herb_sorted_least_fit if
+                            animal not in list_of_dead]
+        return new_updated_list
 
