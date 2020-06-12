@@ -176,9 +176,12 @@ class Landscape:
     def animal_migrate(self, map):
         animal_list = self.combine_species()
         for animals in animal_list:
-            if animals.has_moved is not True:
-                if animals.move:
-                    pass
+            if animals.has_moved is not True and animals.move:
+                animals.has_moved = True
+
+    def reset_migrate(self):
+        for animals in self.combine_species():
+            animals.has_moved = False
 
 
 class Lowland(Landscape):
