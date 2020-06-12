@@ -82,10 +82,18 @@ class Animals:
         """"Getter for age"""
         return self._age
 
+    @age.setter
+    def age(self, new_age):
+        self._age = new_age
+
     @property
     def weight(self):
         """Getter for weight"""
         return self._weight
+
+    @weight.setter
+    def weight(self, new_weight):
+        self._weight = new_weight
 
     def aging(self):
         """Function to increase the age of the animal.
@@ -221,8 +229,6 @@ class Carnivore(Animals):
 
     def __init__(self, age=0, weight=None):
         super().__init__(age, weight)
-        self.amount_eaten = 0
-        self.eaten = 0
 
     def slay(self, herb):
         """Determines by probability and the fitness of both the herbivore and carnivore if
@@ -237,15 +243,9 @@ class Carnivore(Animals):
         bool
             Should the herbivore be killed or not.
         """
-        if herb.fitness >= self.fitness:
-            return False
-        if 0 < self.fitness - herb.fitness < self.params['DeltaPhiMax']:
-            return np.random.random() < (
-                        (self.fitness - herb.fitness) / self.params['DeltaPhiMax'])
-        else:
-            return True
+        return np.random.random() < (self.fitness - herb.fitness) / self.params['DeltaPhiMax']
 
-    def eat(self, herb):
+    def eat(self, herb_sorted_least_fit):
         """Defining how much the carnivore should eat based on the weight of the herbivore and
         the amount it has already eaten. Gains weight based set parameters and how much it has
         eaten.
@@ -258,12 +258,36 @@ class Carnivore(Animals):
         -------
         None
         """
-        # This should be if herb.weight is greater than self.params["F"] - amount_eaten
-        if herb.weight > self.params['F'] - self.amount_eaten:
-            self.eaten = self.params['F']
-            self.amount_eaten += self.eaten - self.amount_eaten# here it should also be self.params["F"] - amount eaten because right now you are checking if the herbivore's weight is greater than the apetite, but the apetite is static.
+        eaten = 0
+        list_of_dead = []
 
-        else:
-            self.eaten = herb.weight
-            self.amount_eaten += self.eaten
-        self._weight += self.params['beta'] * self.eaten # Here it is not self.amount_eaten, but what it ATE this instance, because self.amount_eaten will grow to be immensely large, you are not reseting it for each for loop in Landscape
+        # This should be if herb.weight is greater than self.params["F"] - amount_eaten
+        for herb in herb_sorted_least_fit:
+
+            if eaten >= self.params['F']:
+                break
+
+            if herb.fitness >= self.fitness:
+                break
+            elif 0 < self.fitness - herb.fitness < self.params['DeltaPhiMax']:
+                if self.slay(herb):
+                    list_of_dead.append(herb)
+                    if herb.weight + eaten < self.params['F']:
+                        eaten += herb.weight
+                        self.weight += eaten * self.params['beta']
+                    else:
+                        self.weight += (self.params['F'] - eaten) * self.params['beta']
+                        eaten += self.params['F'] - eaten
+            else:
+                if self.slay(herb):
+                    list_of_dead.append(herb)
+                    if herb.weight + eaten < self.params['F']:
+                        eaten += herb.weight
+                        self.weight += eaten * self.params['beta']
+                    else:
+                        self.weight += (self.params['F'] - eaten) * self.params['beta']
+                        eaten += self.params['F'] - eaten
+
+        self.weight += eaten * self.params['beta']
+        return list_of_dead
+

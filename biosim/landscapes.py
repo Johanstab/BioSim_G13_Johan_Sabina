@@ -100,23 +100,12 @@ class Landscape:
         -------
         None
         """
-        dead_herbivores = []
-
         self.carnivore_list.sort(key=lambda animal: animal.fitness, reverse=True)
         self.herbivore_list.sort(key=lambda animal: animal.fitness)
 
         for carnivore in self.carnivore_list:
-            carnivore.amount_eaten = 0
-            for herbivore in self.herbivore_list:
-                if carnivore.amount_eaten >= carnivore.params['F']: # amount_eaten will not be reset till the next time this carnivore will eat i.e the next cycle. Resulting in this breakiung quite fast. You should implement it in a different way
-                    break
-                if carnivore.slay(herbivore):
-                    carnivore.eat(herbivore)
-                    dead_herbivores.append(herbivore)
-
-            self.herbivore_list = [animal for animal in self.herbivore_list if
-                                   animal not in dead_herbivores]
-            self.herbivore_list.sort(key=lambda animal: animal.fitness)
+            dead = carnivore.eat(self.herbivore_list)
+            self.herbivore_list.remove(dead)
 
     def herbivore_reproduce(self):
         """
