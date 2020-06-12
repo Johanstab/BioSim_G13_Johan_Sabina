@@ -30,8 +30,6 @@ class Animals:
     def __init__(self, age=0, weight=None):
         self._age = age
         self._weight = weight
-        self.phi = 0
-        self.prob_death = 0
         self.has_moved = False
 
         if self._weight is None:
@@ -177,7 +175,10 @@ class Animals:
         return np.random.random() < prob_death
 
     def move(self):
-        return np.random.random() < self.fitness * self.params["gamma"]
+        return np.random.random() < self.fitness * self.params["mu"]
+
+    def reset_has_move(self):
+        self.has_moved = False
 
 
 class Herbivore(Animals):
