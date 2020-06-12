@@ -5,6 +5,7 @@ __email__ = "johansta@nmbu.no, sabinal@nmbu.no"
 
 
 import numpy as np
+from itertools import chain
 from .animals import Herbivore, Carnivore
 
 """
@@ -48,19 +49,19 @@ class Landscape:
         self.carnivore_list = []
         self.available_food = 0
 
-    def set_population(self, input_dict):
+    def set_population(self, input_list):
         """Sets the populations of animals.
 
         Parameters
         ----------
-        input_dict : dict
-                Dictionary containing Herbivores and Carnivores.
+        input_list : list
+                List of dictionaries containing Herbivores and Carnivores.
 
         Returns
         -------
         None
         """
-        for animal in input_dict:
+        for animal in input_list:
             if animal["species"] == "Herbivore":
                 self.herbivore_list.append(Herbivore(age=animal["age"], weight=animal["weight"]))
             else:
@@ -157,6 +158,9 @@ class Landscape:
         self.herbivore_list = [animal for animal in self.herbivore_list if not animal.death()]
         self.carnivore_list = [animal for animal in self.carnivore_list if not animal.death()]
 
+    def combine_species(self):
+        return chain(self.herbivore_list, self.carnivore_list)
+
     def animals_age(self):
         """The animals increase one year in age"""
         for herbivore in self.herbivore_list:
@@ -172,10 +176,11 @@ class Landscape:
             carnivore.weight_loss()
 
     def animal_migrate(self, map):
-        animal_list = self.carnivore_list + self.herbivore_list
+        animal_list = self.combine_species()
         for animals in animal_list:
             if animals.has_moved is not True:
                 if animals.move:
+                    pass
 
 
 class Lowland(Landscape):

@@ -4,15 +4,15 @@ __author__ = "Johan Stabekk, Sabina Langås"
 __email__ = "johansta@nmbu.no, sabinal@nmbu.no"
 
 import numpy as np
-from .island import Island
+from biosim.island import Island
 
 
 class BioSim:
     def __init__(
         self,
-        island_map,
-        ini_pop,
-        seed,
+        island_map=None,
+        ini_pop=None,
+        seed=1,
         ymax_animals=None,
         cmax_animals=None,
         hist_specs=None,
@@ -69,6 +69,14 @@ class BioSim:
         :param img_years: years between visualizations saved to files (default: vis_years)
         Image files will be numbered consecutively.
         """
+        y = 0
+        island = Island()
+        self.island_map = island.create_island_map()
+        self.ini_pop = island.set_population_in_cell()
+        while y < num_years:
+            island.cycle_island()
+            y += 1
+
 
     def add_population(self, population):
         """
@@ -90,3 +98,8 @@ class BioSim:
 
     def make_movie(self):
         """Create MPEG4 movie from visualization images saved."""
+
+
+if __name__ == '__main__':
+    BioSim = BioSim()
+    BioSim.simulate(200)

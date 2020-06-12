@@ -52,17 +52,13 @@ class Island:
         else:
             self.initial_pop = ini_pop
 
-        self.create_island_map()
-        self.set_population_in_cell()
-        self.cycle_island()
-
     def set_population_in_cell(self):
-        for animal_loc in self.initial_pop:
-            location = animal_loc['loc']
+        for animal in self.initial_pop:
+            location = animal['loc']
             # cell_type = self.island_map[location]
             # if cell_type not in self.valid_landscapes.keys():
             #     raise NameError(f'Location {location} is not a valid location')
-            population = animal_loc['pop']
+            population = animal['pop']
             self.island_map[location].set_population(population)
 
     def create_island_map(self):
@@ -76,8 +72,8 @@ class Island:
             for x_loc in enumerate(lines):
                 self.num_herbivores.append(len(self.island_map[(x_loc, y_loc)].herbivore_list))
                 self.num_carnivores.append(len(self.island_map[(x_loc, y_loc)].carnivore_list))
-        return {"Herbivore":sum(self.num_herbivores),
-                "Carnivore":sum(self.num_carnivores)}
+        return {"Herbivore": sum(self.num_herbivores),
+                "Carnivore": sum(self.num_carnivores)}
 
     def nr_animals(self):
         """Create function which returns total nr of animals on island."""
