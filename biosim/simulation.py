@@ -6,6 +6,7 @@ __email__ = "johansta@nmbu.no, sabinal@nmbu.no"
 import numpy as np
 import matplotlib.pyplot as plt
 from biosim.island import Island
+from biosim.visualization import standard_map, animal_distribution
 
 
 class BioSim:
@@ -88,8 +89,12 @@ class BioSim:
         """
         y = 0
         island = Island(self.island_map, self.ini_pop)
-        self.island_map = island.create_island_map()
-        self.ini_pop = island.set_population_in_cell()
+        standard_map(self.island_map)
+        island.create_island_map()
+        island.set_population_in_cell()
+        animal_distribution(island.island_map)
+        plt.show()
+
         while y < num_years:
             island.cycle_island()
             y += 1
