@@ -182,10 +182,7 @@ class Animals:
         return np.random.random() < prob_death
 
     def move(self):
-        if np.random.random() < self.fitness * self.params["gamma"]:
-            return True
-        else:
-            return False
+        return np.random.random() < self.fitness * self.params["gamma"]
 
 
 class Herbivore(Animals):
