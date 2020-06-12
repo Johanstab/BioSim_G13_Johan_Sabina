@@ -171,6 +171,12 @@ class Landscape:
         for carnivore in self.carnivore_list:
             carnivore.weight_loss()
 
+    def animal_migrate(self, map):
+        animal_list = self.carnivore_list + self.herbivore_list
+        for animals in animal_list:
+            if animals.has_moved is not True:
+                if animals.move:
+
 
 class Lowland(Landscape):
     params = {"f_max": 800}

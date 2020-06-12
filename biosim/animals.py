@@ -32,6 +32,7 @@ class Animals:
         self._weight = weight
         self.phi = 0
         self.prob_death = 0
+        self.has_moved = False
 
         if self._weight is None:
             self._weight = self.weight_birth(self.params["w_birth"], self.params["sigma_birth"])
@@ -179,6 +180,12 @@ class Animals:
 
         prob_death = self.params['omega'] * (1 - self.fitness)
         return np.random.random() < prob_death
+
+    def move(self):
+        if np.random.random() < self.fitness * self.params["gamma"]:
+            return True
+        else:
+            return False
 
 
 class Herbivore(Animals):
