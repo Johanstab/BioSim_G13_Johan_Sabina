@@ -16,21 +16,8 @@ class Island:
                         "D": Desert,
                         "L": Lowland,
                         "H": Highland}
-    initial_pop = [
-        {'loc': (2, 2),
-         'pop':
-             [{"species": "Carnivore", "age": 5, "weight": 20.0} for _ in range(20)]},
-        {'loc': (2, 2),
-         'pop':
-             [{"species": "Herbivore", "age": 5, "weight": 20.0} for _ in range(50)]}
-    ]
-    default_geography = """\
-                        WWWW
-                        WLLW
-                        WLLW
-                        WWWW"""
 
-    def __init__(self, island_map=default_geography, ini_pop=None):
+    def __init__(self, island_map=None, ini_pop=None):
         self.geography = textwrap.dedent(island_map)
         self.island_lines = self.geography.splitlines()
         self.island_map = {}
@@ -64,7 +51,7 @@ class Island:
     def create_island_map(self):
         for y_loc, lines in enumerate(self.island_lines):
             for x_loc, cell_type in enumerate(lines):
-                self.island_map[(1 + x_loc, 1 + y_loc)] = self.valid_landscapes[cell_type]
+                self.island_map[(1 + x_loc, 1 + y_loc)] = self.valid_landscapes[cell_type]()
 
     def nr_animals_pr_species(self):
         """Create function returning the total nr of herbivores and carnivores in a dict."""
@@ -81,14 +68,14 @@ class Island:
         return total_pop
 
     def cycle_island(self):
-        for y_loc, lines in enumerate(self.island_map):
-            for x_loc in enumerate(lines):
+        for y_loc in range(1, 5):
+            for x_loc in range(1, 5):
                 self.island_map[(x_loc, y_loc)].food_grows()
                 self.island_map[(x_loc, y_loc)].herbivore_eats()
                 self.island_map[(x_loc, y_loc)].carnivore_eats()
                 self.island_map[(x_loc, y_loc)].herbivore_reproduce()
                 self.island_map[(x_loc, y_loc)].carnivore_reproduce()
-                self.island_map[(x_loc, y_loc)].animals_migrate()  # NEEDS TO BE MADE
+                #self.island_map[(x_loc, y_loc)].animals_migrate()
                 self.island_map[(x_loc, y_loc)].animals_age()
                 self.island_map[(x_loc, y_loc)].animals_lose_weight()
                 self.island_map[(x_loc, y_loc)].animals_die()

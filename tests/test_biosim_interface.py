@@ -33,7 +33,7 @@ def test_empty_island():
 
 
 def test_minimal_island():
-    """Island of single jungle cell"""
+    """Island of single lowland cell"""
     BioSim(island_map="WWW\nWLW\nWWW", ini_pop=[], seed=1)
 
 

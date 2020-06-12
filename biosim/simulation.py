@@ -4,10 +4,27 @@ __author__ = "Johan Stabekk, Sabina Langås"
 __email__ = "johansta@nmbu.no, sabinal@nmbu.no"
 
 import numpy as np
+import matplotlib.pyplot as plt
 from biosim.island import Island
 
 
 class BioSim:
+
+    initial_pop = [
+        {'loc': (2, 2),
+         'pop':
+             [{"species": "Carnivore", "age": 5, "weight": 20.0} for _ in range(20)]},
+        {'loc': (2, 2),
+         'pop':
+             [{"species": "Herbivore", "age": 5, "weight": 20.0} for _ in range(50)]}
+    ]
+
+    default_geography = """\
+                        WWWW
+                        WLLW
+                        WLLW
+                        WWWW"""
+
     def __init__(
         self,
         island_map=None,
@@ -43,8 +60,8 @@ class BioSim:
         where img_no are consecutive image numbers starting from 0.
         img_base should contain a path and beginning of a file name.
         """
-        self.island_map = island_map
-        self.ini_pop = ini_pop
+        self.island_map = self.default_geography
+        self.ini_pop = self.initial_pop
         np.random.seed(seed)
 
     def set_animal_parameters(self, species, params):
@@ -70,13 +87,12 @@ class BioSim:
         Image files will be numbered consecutively.
         """
         y = 0
-        island = Island()
+        island = Island(self.island_map, self.ini_pop)
         self.island_map = island.create_island_map()
         self.ini_pop = island.set_population_in_cell()
         while y < num_years:
             island.cycle_island()
             y += 1
-
 
     def add_population(self, population):
         """
@@ -103,3 +119,5 @@ class BioSim:
 if __name__ == '__main__':
     BioSim = BioSim()
     BioSim.simulate(200)
+
+
