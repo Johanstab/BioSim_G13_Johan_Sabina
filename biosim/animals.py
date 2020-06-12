@@ -152,12 +152,7 @@ class Animals:
         b_prob = min(1, self.params["gamma"] * self.fitness * (nr_animals - 1))
 
         if np.random.random() < b_prob:
-            if type(self) is Herbivore:
-                new_baby = Herbivore()
-            elif type(self) is Carnivore:
-                new_baby = Carnivore()
-            else:
-                raise TypeError(f'Type {type(self)} is not valid')
+            new_baby = type(self)()
             if new_baby.weight * self.params['xi'] < self.weight:
                 self._weight -= new_baby.weight * self.params['xi']
                 return new_baby

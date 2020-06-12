@@ -44,8 +44,6 @@ class Landscape:
 
         self.f_max = self.params["f_max"]
         self.herbivore_list = []
-        self.sorted_herbi = []
-        self.sorted_carni = []
         self.carnivore_list = []
         self.available_food = 0
 
@@ -105,8 +103,8 @@ class Landscape:
         self.herbivore_list.sort(key=lambda animal: animal.fitness)
 
         for carnivore in self.carnivore_list:
-            dead = carnivore.eat(self.herbivore_list)
-            self.herbivore_list.remove(dead)
+            self.herbivore_list = carnivore.eat(self.herbivore_list)
+
 
     def herbivore_reproduce(self):
         """
@@ -191,8 +189,6 @@ class Lowland(Landscape):
         super().__init__()
         self.f_max = self.params["f_max"]
 
-    "Make function for available fodder and population growth"
-
 
 class Highland(Landscape):
     params = {"f_max": 300}
@@ -211,9 +207,8 @@ class Water(Landscape):
 
 
 class Desert(Landscape):
-    params = {"f_max": 0}
     passable = True
 
     def __init__(self):
         super().__init__()
-        self.f_max = self.params['f_max']
+

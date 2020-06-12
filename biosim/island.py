@@ -68,17 +68,16 @@ class Island:
         return total_pop
 
     def cycle_island(self):
-        for y_loc in range(1, 5):
-            for x_loc in range(1, 5):
-                self.island_map[(x_loc, y_loc)].food_grows()
-                self.island_map[(x_loc, y_loc)].herbivore_eats()
-                self.island_map[(x_loc, y_loc)].carnivore_eats()
-                self.island_map[(x_loc, y_loc)].herbivore_reproduce()
-                self.island_map[(x_loc, y_loc)].carnivore_reproduce()
-                #self.island_map[(x_loc, y_loc)].animals_migrate()
-                self.island_map[(x_loc, y_loc)].animals_age()
-                self.island_map[(x_loc, y_loc)].animals_lose_weight()
-                self.island_map[(x_loc, y_loc)].animals_die()
+        for cell in self.island_map:
+            self.island_map[cell].food_grows()
+            self.island_map[cell].herbivore_eats()
+            self.island_map[cell].carnivore_eats()
+            self.island_map[cell].herbivore_reproduce()
+            self.island_map[cell].carnivore_reproduce()
+            #self.island_map[(x_loc, y_loc)].animals_migrate()
+            self.island_map[cell].animals_age()
+            self.island_map[cell].animals_lose_weight()
+            self.island_map[cell].animals_die()
 
 
 if __name__ == "__main__":
