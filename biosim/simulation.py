@@ -88,8 +88,8 @@ class BioSim:
         """
         y = 0
         island = Island(self.island_map, self.ini_pop)
-        self.island_map = island.create_island_map()
-        self.ini_pop = island.set_population_in_cell()
+        island.create_island_map()
+        island.set_population_in_cell()
         while y < num_years:
             island.cycle_island()
             y += 1

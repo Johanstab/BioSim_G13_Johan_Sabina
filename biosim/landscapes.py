@@ -65,6 +65,12 @@ class Landscape:
             else:
                 self.carnivore_list.append(Carnivore(age=animal["age"], weight=animal["weight"]))
 
+    def add_population(self, animal):
+        if type(animal).__name__ == "Herbivore":
+            self.herbivore_list.append(animal)
+        elif type(animal).__name__ == "Carnivore":
+            self.carnivore_list.append(animal)
+
     def food_grows(self):
         """Updates food for each year."""
         self.available_food = self.f_max
@@ -104,7 +110,6 @@ class Landscape:
 
         for carnivore in self.carnivore_list:
             self.herbivore_list = carnivore.eat(self.herbivore_list)
-
 
     def herbivore_reproduce(self):
         """
@@ -156,9 +161,6 @@ class Landscape:
         self.herbivore_list = [animal for animal in self.herbivore_list if not animal.death()]
         self.carnivore_list = [animal for animal in self.carnivore_list if not animal.death()]
 
-    def combine_species(self):
-        return chain(self.herbivore_list, self.carnivore_list)
-
     def animals_age(self):
         """The animals increase one year in age"""
         for herbivore in self.herbivore_list:
@@ -173,15 +175,37 @@ class Landscape:
         for carnivore in self.carnivore_list:
             carnivore.weight_loss()
 
-    def animal_migrate(self, map):
-        animal_list = self.combine_species()
-        for animals in animal_list:
-            if animals.has_moved is not True and animals.move:
-                animals.has_moved = True
+    def animals_migrate(self):
+        """
+        1. - Need to check if the herbivore should move.
+        2. - If the animal should move, then draw a random probability of where to move.
+        3. - Then move the animal there by returning the new location to island and change there,
+             should also set herb/carn.has_moved to True.
+        4. - Do this for all the herbivores and carnivores - use list comprehension to remove.
+
+
+        Returns
+        -------
+
+        """
+        moved_herbs = []
+        moved_carns = []
+
+        for herb in self.herbivore_list:
+            if herb.has_moved is not True and herb.move():
+                moved_herbs.append(herb)
+
+        for carn in self.carnivore_list:
+            if carn.has_moved is not True and carn.move():
+                moved_carns.append(carn)
+
+        return moved_herbs, moved_carns
 
     def reset_migrate(self):
-        for animals in self.combine_species():
-            animals.has_moved = False
+        for herb in self.herbivore_list:
+            herb.has_moved = False
+        for carn in self.carnivore_list:
+            carn.has_moved = False
 
 
 class Lowland(Landscape):

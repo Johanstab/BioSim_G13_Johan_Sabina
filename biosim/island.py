@@ -67,7 +67,7 @@ class Island:
         total_pop = sum(self.num_herbivores) + sum(self.num_carnivores)
         return total_pop
 
-    def migration_cells(self, cell):
+    def next_cell(self, cell):
 
         y_cord, x_cord = cell
         loc_1 = (y_cord - 1, x_cord)
@@ -79,12 +79,43 @@ class Island:
         option_3 = self.island_map[loc_3]
         option_4 = self.island_map[loc_4]
 
-        list_ = [(loc_1, option_1), (loc_2, option_2),
-                 (loc_3, option_3), (loc_4, option_4)]
+        list_ = [loc_1, loc_2,
+                 loc_3, loc_4]
 
-        choosen_cell = np.random.choice(list_)
+        chosen_cell = np.random.choice(len(list_))
+        chosen_cell = list_[chosen_cell]
 
-        return choosen_cell
+        return chosen_cell
+
+    def migrate_animals(self, cell):
+        if self.island_map[cell].passable:
+            herb_move, carn_move = self.island_map[cell].animals_migrate()
+            for herb in herb_move:
+                new_loc = self.next_cell(cell)
+                if not self.island_map[new_loc].passable:
+                    break
+                else:
+                    self.island_map[new_loc].add_population(herb)
+                    herb.has_moved = True
+                    self.island_map[cell].herbivore_list.remove(herb)
+            for carn in carn_move:
+                new_loc = self.next_cell(cell)
+                if not self.island_map[new_loc].passable:
+                    break
+                else:
+                    self.island_map[new_loc].add_population(carn)
+                    carn.has_moved = True
+                    self.island_map[cell].carnivore_list.remove(carn)
+
+
+
+        # for row, map_object in enumerate(self.island_map):
+        #     for col, cell in enumerate(map_object):
+        #         if self.island_map[(row, col)].passable is not True:
+        #             break
+        #         else:
+        #             self.cells_probability(cell)
+        pass
 
     def cycle_island(self):
         for cell in self.island_map:
@@ -93,10 +124,13 @@ class Island:
             self.island_map[cell].carnivore_eats()
             self.island_map[cell].herbivore_reproduce()
             self.island_map[cell].carnivore_reproduce()
-            # self.island_map[(x_loc, y_loc)].animals_migrate()
+            self.migrate_animals(cell)
             self.island_map[cell].animals_age()
             self.island_map[cell].animals_lose_weight()
             self.island_map[cell].animals_die()
+
+        for cell in self.island_map:
+            self.island_map[cell].reset_migrate()
 
 
 if __name__ == "__main__":
