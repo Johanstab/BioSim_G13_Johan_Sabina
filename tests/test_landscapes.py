@@ -13,9 +13,10 @@ random.seed(12345)
 
 @pytest.fixture()
 def initial_populations():
-    init_pop = [{"species": "Herbivore", "age": 1, "weight": 10.0},
-                {"species": "Carnivore", "age": 3, "weight": 14.0}]
-    return init_pop
+    init_herb = [{"species": "Herbivore", "age": 1, "weight": 10.0} for _ in range(10)]
+
+    init_carn = [{"species": "Carnivore", "age": 3, "weight": 14.0} for _ in range(10)]
+    return init_herb, init_carn
 
 
 def test_set_population(initial_populations):
@@ -23,6 +24,8 @@ def test_set_population(initial_populations):
     l_scape.set_population(initial_populations)
     assert type(l_scape.herbivore_list[0]) == Herbivore
     assert type(l_scape.carnivore_list[0]) == Carnivore
+    assert len(l_scape.herbivore_list) == 10
+    assert len(l_scape.carnivore_list) == 10
 
 
 def test_food_grows():
