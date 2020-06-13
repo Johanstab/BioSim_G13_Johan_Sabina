@@ -41,7 +41,6 @@ class Landscape:
     def __init__(self):
         "common traits are size."
 
-        self.f_max = self.params["f_max"]
         self.herbivore_list = []
         self.carnivore_list = []
         self.available_food = 0
@@ -72,7 +71,10 @@ class Landscape:
 
     def food_grows(self):
         """Updates food for each year."""
-        self.available_food = self.f_max
+        if type(self) == Lowland:
+            self.available_food = self.params['f_max']
+        elif type(self) == Highland:
+            self.available_food = self.params['f_max']
 
     def herbivore_eats(self):
         """Cycle where all herbivores eats fodder in a random order according to how much
@@ -213,7 +215,6 @@ class Lowland(Landscape):
 
     def __init__(self):
         super().__init__()
-        self.f_max = self.params['f_max']
 
 
 class Highland(Landscape):
@@ -222,7 +223,6 @@ class Highland(Landscape):
 
     def __init__(self):
         super().__init__()
-        self.f_max = self.params['f_max']
 
 
 class Water(Landscape):
