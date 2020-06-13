@@ -4,7 +4,29 @@ __author__ = "Johan Stabekk, Sabina Langås"
 __email__ = "johansta@nmbu.no, sabinal@nmbu.no"
 
 import pytest
-from biosim.animals import Herbivore, Carnivore
+from biosim.animals import Animals, Herbivore, Carnivore
+
+
+def test_set_params():
+    params = Herbivore.params
+    new_params = {
+        "w_birth": 12.0,
+        "sigma_birth": 1.2,
+        "beta": 0.8,
+        "eta": 0.01,
+        "a_half": 35.0,
+        "phi_age": 0.4,
+        "w_half": 14.0,
+        "phi_weight": 0.2,
+        "mu": 0.50,
+        "gamma": 0.3,
+        "zeta": 3.75,
+        "xi": 1.552,
+        "omega": 0.41,
+        "F": 12.0,
+    }
+    new_params = Herbivore.set_params(new_params)
+    assert new_params != params
 
 
 def test_init():
