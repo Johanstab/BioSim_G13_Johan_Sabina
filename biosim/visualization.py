@@ -7,12 +7,18 @@ import textwrap
 import matplotlib.pyplot as plt
 from matplotlib import colors
 import pandas as pd
+import numpy as np
+import seaborn as sns
 from biosim import island
 
 
 class Visualization:
 
-    def animal_distribution(island_map):
+    def __init__(self):
+        self.dataframe = None
+        self.herb_density = None
+
+    def animal_distribution(self, island_map):
         """
         Pandas DataFrame with animal count per species for
         each cell on island.
@@ -24,25 +30,26 @@ class Visualization:
         herbs = []
         carns = []
         for coord, cell in island_map.items():
-            herbs.append(cell.herbivore_list)
-            carns.append(cell.carnivore_list)
+            herbs.append(len(cell.herbivore_list))
+            carns.append(len(cell.carnivore_list))
             rows.append(coord[0])
             col.append(coord[1])
         data['Row'] = rows
         data['Col'] = col
         data['Herbivore'] = herbs
         data['Carnivore'] = carns
-        return pd.DataFrame(data)
+        self.dataframe = pd.DataFrame(data)
 
+    @staticmethod
     def standard_map(default_geography):
         island_string = default_geography
         string_map = textwrap.dedent(island_string)
         string_map.replace('\n', ' ')
 
         color_code = {'W': colors.to_rgb('blue'),
-                      'L': colors.to_rgb('forestgreen'),
+                      'L': colors.to_rgb('darkgreen'),
                       'H': colors.to_rgb('lightgreen'),
-                      'D': colors.to_rgb('khaki')}
+                      'D': colors.to_rgb('lightyellow')}
 
         island_map = [[color_code[column] for column in row]
                       for row in string_map.splitlines()]
@@ -64,15 +71,39 @@ class Visualization:
         """
         Creates heat map plot of carnivores on the island
         """
+        herb_cell = self.dataframe.pivot('Row', 'Col', 'Herbivore')
+        fig = plt.figure()
 
-        herb_cell = self.animal_distribution.pivot('Row', 'Col', 'Herbivore')
+        ax_heat_h = fig.add_subplot(224)
 
-        self.herb_density = self.ax_heat_h.imshow(herb_cell,
-                                              vmax=self.cmax_animals
-                                              ['Herbivore'],
-                                              interpolation='nearest',
-                                              cmap='Greens')
-        self.ax_heat_h.set_title('Herbivore population density')
+        ax_heat_h.imshow(herb_cell,
+                         vmax=100,
+                         interpolation='nearest',
+                         cmap='Greens')
+
+        ax_heat_h.set_title('Herbivore population density')
+
+    def heat_map_carnivore(self):
+        """
+        Creates heat map plot of carnivores on the island
+        """
+        carn_cell = self.dataframe.pivot('Row', 'Col', 'Carnivore')
+
+        fig = plt.figure()
+        ax_heat_c = fig.add_subplot(224)
+
+        ax_heat_c.imshow(carn_cell,
+                         vmax=75,
+                         interpolation='nearest',
+                         cmap='Reds')
+        ax_heat_c.set_title('Carnivore population density')
+
+    def update_all(self):
+        """
+        Updates plots for simulation
+        """
+        self.heat_map_carnivore()
+        self.heat_map_herbivore()
 
 
 if __name__ == '__main__':
