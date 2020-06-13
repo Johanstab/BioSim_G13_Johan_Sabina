@@ -6,7 +6,7 @@ __email__ = "johansta@nmbu.no, sabinal@nmbu.no"
 import numpy as np
 import matplotlib.pyplot as plt
 from biosim.island import Island
-from biosim.visualization import standard_map, animal_distribution
+from biosim.visualization import Visualization
 
 
 class BioSim:
@@ -14,10 +14,10 @@ class BioSim:
     initial_pop = [
         {'loc': (2, 2),
          'pop':
-             [{"species": "Carnivore", "age": 5, "weight": 20.0} for _ in range(20)]},
+             [{'species': 'Carnivore', 'age': 5, 'weight': 20.0} for _ in range(20)]},
         {'loc': (2, 2),
          'pop':
-             [{"species": "Herbivore", "age": 5, "weight": 20.0} for _ in range(50)]}
+             [{'species': 'Herbivore', 'age': 5, 'weight': 20.0} for _ in range(50)]}
     ]
 
     default_geography = """\
@@ -89,10 +89,11 @@ class BioSim:
         """
         y = 0
         island = Island(self.island_map, self.ini_pop)
-        standard_map(self.island_map)
+        vis = Visualization()
+        vis.standard_map(self.island_map)
         island.create_island_map()
         island.set_population_in_cell()
-        animal_distribution(island.island_map)
+        vis.animal_distribution(island.island_map)
         plt.show()
 
         while y < num_years:

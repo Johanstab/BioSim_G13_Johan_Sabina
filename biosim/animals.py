@@ -14,7 +14,7 @@ class Animals:
     @classmethod
     def set_params(cls, new_params):
         for key in new_params:
-            if key not in Animals.params:
+            if key not in cls.params:
                 raise KeyError("Invalid parameter name: " + key)
 
         for iterator in new_params:
@@ -24,8 +24,8 @@ class Animals:
                 raise ValueError("DeltaPhiMax must be positive!")
             if new_params[iterator] < 0:
                 raise ValueError("{} cannot be negative".format(iterator))
-            cls.params.update(iterator)
-            # Implementer en metode med dict.update
+        cls.params.update(new_params)
+        # Implementer en metode med dict.update
 
     def __init__(self, age=0, weight=None):
         self._age = age
