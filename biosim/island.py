@@ -67,17 +67,14 @@ class Island:
         total_pop = sum(self.num_herbivores) + sum(self.num_carnivores)
         return total_pop
 
-    def next_cell(self, cell):
+    @staticmethod
+    def next_cell(cell):
 
         y_cord, x_cord = cell
         loc_1 = (y_cord - 1, x_cord)
         loc_2 = (y_cord + 1, x_cord)
         loc_3 = (y_cord, x_cord - 1)
         loc_4 = (y_cord, x_cord + 1)
-        option_1 = self.island_map[loc_1]
-        option_2 = self.island_map[loc_2]
-        option_3 = self.island_map[loc_3]
-        option_4 = self.island_map[loc_4]
 
         list_ = [loc_1, loc_2,
                  loc_3, loc_4]
@@ -107,14 +104,9 @@ class Island:
                     carn.has_moved = True
                     self.island_map[cell].carnivore_list.remove(carn)
 
-
-
-        # for row, map_object in enumerate(self.island_map):
-        #     for col, cell in enumerate(map_object):
-        #         if self.island_map[(row, col)].passable is not True:
-        #             break
-        #         else:
-        #             self.cells_probability(cell)
+    def reset_migration(self):
+        for cell in self.island_map:
+            self.island_map[cell].reset_migrate()
 
     def cycle_island(self):
         for cell in self.island_map:
@@ -128,8 +120,7 @@ class Island:
             self.island_map[cell].animals_lose_weight()
             self.island_map[cell].animals_die()
 
-        for cell in self.island_map:
-            self.island_map[cell].reset_migrate()
+        self.reset_migration()
 
 
 if __name__ == "__main__":

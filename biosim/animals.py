@@ -177,7 +177,7 @@ class Animals:
     def move(self):
         return np.random.random() < self.fitness * self.params["mu"]
 
-    def reset_has_move(self):
+    def reset_has_moved(self):
         self.has_moved = False
 
 
