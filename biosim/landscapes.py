@@ -25,19 +25,18 @@ Defines the order of what happens in a year:
 
 
 class Landscape:
-    keys = ["f_max"]
-    params = dict.fromkeys(keys)
+    params = {}
 
     @classmethod
     def set_params(cls, new_params):
 
-        if new_params[0] not in Landscape.keys:
+        if new_params[0] not in cls.params:
             raise KeyError("Invalid parameter name: " + new_params[0])
 
         if new_params == "f_max" and new_params["f_max"] < 0:
             raise ValueError("f_max must be positive")
 
-        cls.params = new_params
+        cls.params.update(new_params)
 
     def __init__(self):
         "common traits are size."
