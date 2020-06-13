@@ -60,15 +60,15 @@ class Landscape:
         None
         """
         for animal in input_list:
-            if animal["species"] == "Herbivore":
+            if animal['species'] == 'Herbivore':
                 self.herbivore_list.append(Herbivore(age=animal["age"], weight=animal["weight"]))
-            else:
+            elif animal['species'] == 'Carnivore':
                 self.carnivore_list.append(Carnivore(age=animal["age"], weight=animal["weight"]))
 
     def add_population(self, animal):
-        if type(animal).__name__ == "Herbivore":
+        if type(animal).__name__ == 'Herbivore':
             self.herbivore_list.append(animal)
-        elif type(animal).__name__ == "Carnivore":
+        elif type(animal).__name__ == 'Carnivore':
             self.carnivore_list.append(animal)
 
     def food_grows(self):
@@ -209,21 +209,21 @@ class Landscape:
 
 
 class Lowland(Landscape):
-    params = {"f_max": 800}
+    params = {'f_max': 800}
     passable = True
 
     def __init__(self):
         super().__init__()
-        self.f_max = self.params["f_max"]
+        self.f_max = self.params['f_max']
 
 
 class Highland(Landscape):
-    params = {"f_max": 300}
+    params = {'f_max': 300}
     passable = True
 
     def __init__(self):
         super().__init__()
-        self.f_max = self.params["f_max"]
+        self.f_max = self.params['f_max']
 
 
 class Water(Landscape):

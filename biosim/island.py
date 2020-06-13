@@ -12,10 +12,10 @@ from biosim.landscapes import Water, Lowland, Highland, Desert
 
 
 class Island:
-    valid_landscapes = {"W": Water,
-                        "D": Desert,
-                        "L": Lowland,
-                        "H": Highland}
+    valid_landscapes = {'W': Water,
+                        'D': Desert,
+                        'L': Lowland,
+                        'H': Highland}
 
     def __init__(self, island_map=None, ini_pop=None):
         self.geography = textwrap.dedent(island_map)
@@ -115,7 +115,6 @@ class Island:
         #             break
         #         else:
         #             self.cells_probability(cell)
-        pass
 
     def cycle_island(self):
         for cell in self.island_map:
