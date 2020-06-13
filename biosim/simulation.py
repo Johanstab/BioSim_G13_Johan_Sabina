@@ -10,7 +10,6 @@ from biosim.visualization import Visualization
 
 
 class BioSim:
-
     initial_pop = [
         {'loc': (2, 2),
          'pop':
@@ -27,15 +26,15 @@ class BioSim:
                         WWWW"""
 
     def __init__(
-        self,
-        island_map=None,
-        ini_pop=None,
-        seed=1,
-        ymax_animals=None,
-        cmax_animals=None,
-        hist_specs=None,
-        img_base=None,
-        img_fmt="png",
+            self,
+            island_map=None,
+            ini_pop=None,
+            seed=1,
+            ymax_animals=None,
+            cmax_animals=None,
+            hist_specs=None,
+            img_base=None,
+            img_fmt="png",
     ):
         """
         :param island_map: Multi-line string specifying island geography
@@ -61,9 +60,18 @@ class BioSim:
         where img_no are consecutive image numbers starting from 0.
         img_base should contain a path and beginning of a file name.
         """
-        self.island_map = self.default_geography
+        self.num_images = 0
+        self.current_year = 0
+        self.seed = seed
         self.ini_pop = self.initial_pop
-        np.random.seed(seed)
+        self.island_map = self.default_geography
+        self.ymax_animals = ymax_animals
+        self.img_fmt = img_fmt
+        self.img_base = img_base
+        self.cmax_animals = cmax_animals
+
+        if self.cmax_animals is None:
+            self.cmax_animals = {'Herbivore': 150, 'Carnivore': 90}
 
     def set_animal_parameters(self, species, params):
         """
@@ -90,15 +98,20 @@ class BioSim:
         y = 0
         island = Island(self.island_map, self.ini_pop)
         vis = Visualization()
+        vis.set_graphics(self.ymax_animals, num_years)
         vis.standard_map(self.island_map)
         island.create_island_map()
         island.set_population_in_cell()
-        vis.animal_distribution(island.island_map)
-        plt.show()
 
         while y < num_years:
             island.cycle_island()
             y += 1
+
+        # vis.animal_distribution(island.island_map)
+        # vis.update_herb_ax(200)
+        # vis.update_carn_ax(100)
+        # vis.update_mean_ax()
+        # plt.show()
 
     def add_population(self, population):
         """
@@ -125,5 +138,4 @@ class BioSim:
 if __name__ == '__main__':
     BioSim = BioSim()
     BioSim.simulate(200)
-
-
+    var = BioSim.
