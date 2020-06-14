@@ -148,8 +148,6 @@ class BioSim:
             vis.animal_distribution(self.island.island_map)
             vis.update_herb_ax(200)
             vis.update_carn_ax(100)
-            vis.update_mean_ax(self.num_animals_per_species['Herbivores'],
-                               self.num_animals_per_species['Carnivores'])
             vis.update_graphics(self.num_animals_per_species, self.cmax_animals)
 
     def add_population(self, population):

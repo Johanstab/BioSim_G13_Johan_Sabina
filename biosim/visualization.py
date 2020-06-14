@@ -78,7 +78,7 @@ class Visualization:
             self._carn_line = carn_plot[0]
             self._mean_ax.legend(loc="upper right")
 
-     
+
     def animal_distribution(self, island_map):
 
         data = {}
