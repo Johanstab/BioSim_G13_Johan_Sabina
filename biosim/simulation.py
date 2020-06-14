@@ -104,6 +104,9 @@ class BioSim:
         self.island.set_population_in_cell()
 
         while self.current_year < num_years:
+            if self.current_year == 50:
+                input('Press enter to continue....')
+                self.island.set_population_in_cell()
             self.island.cycle_island()
             self.current_year += 1
 

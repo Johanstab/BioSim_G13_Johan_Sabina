@@ -39,8 +39,12 @@ class Island:
         else:
             self.initial_pop = ini_pop
 
-    def set_population_in_cell(self):
-        for animal in self.initial_pop:
+    def set_population_in_cell(self, new_pop=None):
+        if new_pop is None:
+            add_pop = self.initial_pop
+        else:
+            add_pop = new_pop
+        for animal in add_pop:
             location = animal['loc']
             # cell_type = self.island_map[location]
             # if cell_type not in self.valid_landscapes.keys():
