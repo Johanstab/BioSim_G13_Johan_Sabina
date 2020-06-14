@@ -4,6 +4,7 @@ __author__ = "Johan Stabekk, Sabina Langås"
 __email__ = "johansta@nmbu.no, sabinal@nmbu.no"
 
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 from biosim.island import Island
 from biosim.visualization import Visualization
@@ -146,7 +147,7 @@ class BioSim:
         elif landscape == 'Highland':
             Highland.set_params(params)
 
-    def simulate(self, num_years, vis_years=1, img_years=None):
+    def simulate(self, num_years, vis_years=2, img_years=None):
         """
         Run simulation while visualizing the result.
         :param num_years: number of years to simulate
@@ -155,19 +156,22 @@ class BioSim:
         Image files will be numbered consecutively.
         """
         num_years = self._current_year + num_years
-        vis = Visualization()
+        vis = Visualization(self.cmax_animals)
         vis.set_graphics(self.ymax_animals, num_years + 1, self.year)
         vis.standard_map(self.island_map)
+        vis.update_herb_heatmap(200, self.animal_distribution)
+        vis.update_carn_heatmap(100, self.animal_distribution)
 
+        count = 1
         while self._current_year < num_years:
             self.island.cycle_island()
             self._current_year += 1
-
-            vis.animal_distribution(self.island.island_map)
-            vis.update_herb_heatmap(200)
-            vis.update_carn_heatmap(100)
-            vis.update_graphics(self.num_animals_per_species,
-                                self.cmax_animals, self.year)
+            if count % vis_years == 0:
+                vis.update_graphics(self.island,
+                                    self.animal_distribution,
+                                    self.num_animals_per_species
+                                    , self.year)
+            count += 1
 
     def add_population(self, population):
         """
@@ -190,6 +194,27 @@ class BioSim:
     def num_animals_per_species(self):
         """Number of animals per species in island, as dictionary."""
         return self.island.nr_animals_pr_species()
+
+    @property
+    def animal_distribution(self):
+        data = {}
+        rows = []
+        col = []
+        herbs = []
+        carns = []
+        for coord, cell in self.island.island_map.items():
+            herbs.append(len(cell.herbivore_list))
+            carns.append(len(cell.carnivore_list))
+            rows.append(coord[0])
+            col.append(coord[1])
+        data['Row'] = rows
+        data['Col'] = col
+        data['Herbivore'] = herbs
+        data['Carnivore'] = carns
+        df = pd.DataFrame(data)
+        return df
+        #self._dataframe = pd.DataFrame(data)
+
 
     def _save_file(self):
         """
