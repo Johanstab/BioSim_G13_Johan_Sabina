@@ -97,7 +97,7 @@ class BioSim:
 
         self.island = Island(island_map, ini_pop)
         self.num_images = 0
-        self.current_year = 0
+        self._current_year = 0
         self.seed = seed
         self.ymax_animals = ymax_animals
         # self.img_fmt = img_fmt
@@ -154,15 +154,10 @@ class BioSim:
         vis = Visualization()
         vis.set_graphics(self.ymax_animals, num_years)
         vis.standard_map(self.island_map)
-        self.island.set_population_in_cell()
 
-        while self.current_year < num_years:
-            if self.current_year == 50:
-                input('Press enter to continue....')
-                self.island.set_population_in_cell([{'loc': (4, 4), 'pop':
-                    [{'species': 'Herbivore', 'age': 5, 'weight': 20.0} for _ in range(50)]}])
+        while self._current_year < num_years:
             self.island.cycle_island()
-            self.current_year += 1
+            self._current_year += 1
 
             vis.animal_distribution(self.island.island_map)
             vis.update_herb_ax(200)
@@ -178,7 +173,7 @@ class BioSim:
     @property
     def year(self):
         """Last year simulated."""
-        return self.current_year
+        return self._current_year
 
     @property
     def num_animals(self):
@@ -226,6 +221,5 @@ class BioSim:
 
 if __name__ == '__main__':
     pass
-    #BioSim = BioSim()
-    #BioSim.simulate(20)
-
+    # BioSim = BioSim()
+    # BioSim.simulate(20)

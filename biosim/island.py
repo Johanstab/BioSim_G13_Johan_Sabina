@@ -73,13 +73,13 @@ class Island:
                 nr_herbs += len(self.island_map[cell].herbivore_list)
                 nr_carns += len(self.island_map[cell].carnivore_list)
 
-        nr_animals = {'Herbivores': nr_herbs, 'Carnivores': nr_carns}
+        nr_animals = {'Herbivore': nr_herbs, 'Carnivore': nr_carns}
         return nr_animals
 
     def nr_animals(self):
         """Create function which returns total nr of animals on island."""
         total_species = self.nr_animals_pr_species()
-        total_pop = total_species['Herbivores'] + total_species['Carnivores']
+        total_pop = total_species['Herbivore'] + total_species['Carnivore']
         return total_pop
 
     @staticmethod
