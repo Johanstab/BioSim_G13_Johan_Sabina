@@ -186,7 +186,7 @@ class Visualization:
         self.update_carn_ax(carn_pos, carn_limit)
         self.update_mean_ax(num_animals_per_sp["Herbivore"],
                             num_animals_per_sp["Carnivore"])
-        plt.pause(1e-9)
+        #plt.pause(1e-9)
 
 
 if __name__ == '__main__':

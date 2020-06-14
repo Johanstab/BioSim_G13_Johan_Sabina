@@ -95,17 +95,17 @@ class BioSim:
         :param img_years: years between visualizations saved to files (default: vis_years)
         Image files will be numbered consecutively.
         """
-        y = 0
         island = Island(self.island_map, self.ini_pop)
         vis = Visualization()
         vis.set_graphics(self.ymax_animals, num_years)
         vis.standard_map(self.island_map)
         island.create_island_map()
         island.set_population_in_cell()
+        print(island.nr_animals_pr_species())
 
-        while y < num_years:
+        while self.current_year < num_years:
             island.cycle_island()
-            y += 1
+            self.current_year += 1
 
         # vis.animal_distribution(island.island_map)
         # vis.update_herb_ax(200)
@@ -122,6 +122,7 @@ class BioSim:
     @property
     def year(self):
         """Last year simulated."""
+        return self.current_year
 
     @property
     def num_animals(self):
@@ -138,4 +139,4 @@ class BioSim:
 if __name__ == '__main__':
     BioSim = BioSim()
     BioSim.simulate(200)
-    var = BioSim.
+
