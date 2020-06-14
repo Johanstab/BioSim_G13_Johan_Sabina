@@ -36,6 +36,12 @@ class Island:
             if len(lines) is not top_row:
                 raise ValueError('Each row in the multiline string should be equal in length')
 
+        accepted_landscape = ['W', 'D', 'L', 'H']
+        for lines in self.island_lines:
+            for cell_type in lines:
+                if cell_type not in accepted_landscape:
+                    raise ValueError('That is an invalid landscape')
+
         if ini_pop is None:
             self.initial_pop = self.initial_pop
         else:
