@@ -36,11 +36,15 @@ class Island:
             if len(lines) is not top_row:
                 raise ValueError('Each row in the multiline string should be equal in length')
 
-        accepted_landscape = ['W', 'D', 'L', 'H']
-        for lines in self.island_lines:
-            for cell_type in lines:
-                if cell_type not in accepted_landscape:
-                    raise ValueError('That is an invalid landscape')
+        for index in range(len(self.island_lines[0])):
+            if self.island_lines[0][index] is not 'W' or self.island_lines[-1][index] is not 'W':
+                raise ValueError('This island is out out boundary. Islands should be '
+                                 'surrounded by water')
+
+        for index in range(len(self.island_lines)):
+            if self.island_lines[index][0] is not 'W' or self.island_lines[index][-1] is not 'W':
+                raise ValueError('This island is out out boundary. Islands should be '
+                                 'surrounded by water')
 
         if ini_pop is None:
             self.initial_pop = self.initial_pop
@@ -58,7 +62,8 @@ class Island:
             if location not in self.island_map.keys():
                 raise ValueError(f'Location {location} is not a valid location.')
             elif self.island_map[location].passable is False:
-                raise ValueError(f'Location {self.island_map[location]} is not habitable landscape.')
+                raise ValueError(
+                    f'Location {self.island_map[location]} is not habitable landscape.')
             population = animal['pop']
             self.island_map[location].set_population(population)
 
