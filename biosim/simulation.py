@@ -60,6 +60,7 @@ class BioSim:
         where img_no are consecutive image numbers starting from 0.
         img_base should contain a path and beginning of a file name.
         """
+        self.island = None
         self.num_images = 0
         self.current_year = 0
         self.seed = seed
@@ -95,16 +96,15 @@ class BioSim:
         :param img_years: years between visualizations saved to files (default: vis_years)
         Image files will be numbered consecutively.
         """
-        island = Island(self.island_map, self.ini_pop)
+        self.island = Island(self.island_map, self.ini_pop)
         vis = Visualization()
         vis.set_graphics(self.ymax_animals, num_years)
         vis.standard_map(self.island_map)
-        island.create_island_map()
-        island.set_population_in_cell()
-        print(island.nr_animals_pr_species())
+        self.island.create_island_map()
+        self.island.set_population_in_cell()
 
         while self.current_year < num_years:
-            island.cycle_island()
+            self.island.cycle_island()
             self.current_year += 1
 
         # vis.animal_distribution(island.island_map)
@@ -127,10 +127,12 @@ class BioSim:
     @property
     def num_animals(self):
         """Total number of animals on island."""
+        return self.island.nr_animals()
 
     @property
     def num_animals_per_species(self):
         """Number of animals per species in island, as dictionary."""
+        return self.island.nr_animals_pr_species()
 
     def make_movie(self):
         """Create MPEG4 movie from visualization images saved."""
@@ -139,4 +141,7 @@ class BioSim:
 if __name__ == '__main__':
     BioSim = BioSim()
     BioSim.simulate(200)
+    print(BioSim.num_animals)
+    print(BioSim.num_animals_per_species)
+
 
