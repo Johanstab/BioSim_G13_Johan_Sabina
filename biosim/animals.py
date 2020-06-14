@@ -25,7 +25,6 @@ class Animals:
             if new_params[iterator] < 0:
                 raise ValueError("{} cannot be negative".format(iterator))
         cls.params.update(new_params)
-        # Implementer en metode med dict.update
 
     def __init__(self, age=0, weight=None):
         self._age = age

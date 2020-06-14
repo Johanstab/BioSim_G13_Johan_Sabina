@@ -21,13 +21,15 @@ class Island:
         self.geography = textwrap.dedent(island_map)
         self.island_lines = self.geography.splitlines()
         self.island_map = {}
+        self.create_island_map()
+        self.set_population_in_cell(ini_pop)
         self.num_herbivores = []
         self.num_carnivores = []
 
         for lines in self.island_lines:
             for cell_type in lines:
                 if cell_type not in self.valid_landscapes.keys():
-                    raise NameError(f'Cell type {cell_type} does not exist')
+                    raise ValueError(f'Cell type {cell_type} does not exist')
 
         top_row = len(self.island_lines[0])
         for lines in self.island_lines:
@@ -41,23 +43,26 @@ class Island:
 
     def set_population_in_cell(self, new_pop=None):
         if new_pop is None:
-            add_pop = self.initial_pop
+            init_pop = self.initial_pop
         else:
-            add_pop = new_pop
+            init_pop = new_pop
 
-        for animal in add_pop:
+        for animal in init_pop:
             location = animal['loc']
             if location not in self.island_map.keys():
-                raise KeyError(f'Location {location} is not a valid location.')
+                raise ValueError(f'Location {location} is not a valid location.')
             elif self.island_map[location].passable is False:
-                raise ValueError(f'Location {location} is not habitable landscape.')
+                raise ValueError(f'Location {self.island_map[location]} is not habitable landscape.')
             population = animal['pop']
             self.island_map[location].set_population(population)
 
     def create_island_map(self):
         for y_loc, lines in enumerate(self.island_lines):
             for x_loc, cell_type in enumerate(lines):
-                self.island_map[(1 + x_loc, 1 + y_loc)] = self.valid_landscapes[cell_type]()
+                if cell_type not in self.valid_landscapes.keys():
+                    raise ValueError(f'Cell type: {cell_type} is not valid')
+                self.island_map[(1 + y_loc, 1 + x_loc)] = self.valid_landscapes[cell_type]()
+        return self.island_map
 
     def nr_animals_pr_species(self):
         """Create function returning the total nr of herbivores and carnivores in a dict."""

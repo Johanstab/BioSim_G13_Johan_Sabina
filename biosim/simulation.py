@@ -7,6 +7,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from biosim.island import Island
 from biosim.visualization import Visualization
+from biosim.animals import Herbivore, Carnivore
+from biosim.landscapes import Lowland, Highland
 
 import os
 import subprocess
@@ -24,7 +26,7 @@ DEFAULT_IMAGE_BASE = os.path.join(_DEFAULT_GRAPHICS_DIR, _DEFAULT_IMAGE_NAME)
 
 
 class BioSim:
-    initial_pop = [
+    default_pop = [
         {'loc': (4, 4),
          'pop':
              [{'species': 'Carnivore', 'age': 5, 'weight': 20.0} for _ in range(20)]},
@@ -83,12 +85,20 @@ class BioSim:
         where img_no are consecutive image numbers starting from 0.
         img_base should contain a path and beginning of a file name.
         """
-        self.island = None
+        if ini_pop is None:
+            self.ini_pop = self.default_pop
+        else:
+            self.ini_pop = ini_pop
+
+        if island_map is None:
+            self.island_map = self.default_geography
+        else:
+            self.island_map = island_map
+
+        self.island = Island(island_map, ini_pop)
         self.num_images = 0
         self.current_year = 0
         self.seed = seed
-        self.ini_pop = self.initial_pop
-        self.island_map = self.default_geography
         self.ymax_animals = ymax_animals
         # self.img_fmt = img_fmt
         # self.img_base = img_base
@@ -109,19 +119,29 @@ class BioSim:
 
         self._image_counter = 0
 
-    def set_animal_parameters(self, species, params):
+    @staticmethod
+    def set_animal_parameters(species, params):
         """
         Set parameters for animal species.
         :param species: String, name of animal species
         :param params: Dict with valid parameter specification for species
         """
+        if species == 'Herbivore':
+            Herbivore.set_params(params)
+        elif species == 'Carnivore':
+            Carnivore.set_params(params)
 
-    def set_landscape_parameters(self, landscape, params):
+    @staticmethod
+    def set_landscape_parameters(landscape, params):
         """
         Set parameters for landscape type.
         :param landscape: String, code letter for landscape
         :param params: Dict with valid parameter specification for landscape
         """
+        if landscape == 'Lowland':
+            Lowland.set_params(params)
+        elif landscape == 'Highland':
+            Highland.set_params(params)
 
     def simulate(self, num_years, vis_years=1, img_years=None):
         """
@@ -131,17 +151,16 @@ class BioSim:
         :param img_years: years between visualizations saved to files (default: vis_years)
         Image files will be numbered consecutively.
         """
-        self.island = Island(self.island_map, self.ini_pop)
         vis = Visualization()
         vis.set_graphics(self.ymax_animals, num_years)
         vis.standard_map(self.island_map)
-        self.island.create_island_map()
         self.island.set_population_in_cell()
 
         while self.current_year < num_years:
             if self.current_year == 50:
                 input('Press enter to continue....')
-                self.island.set_population_in_cell()
+                self.island.set_population_in_cell([{'loc': (4, 4), 'pop':
+                    [{'species': 'Herbivore', 'age': 5, 'weight': 20.0} for _ in range(50)]}])
             self.island.cycle_island()
             self.current_year += 1
 
@@ -206,5 +225,7 @@ class BioSim:
 
 
 if __name__ == '__main__':
-    BioSim = BioSim()
-    BioSim.simulate(50)
+    pass
+    #BioSim = BioSim()
+    #BioSim.simulate(20)
+
