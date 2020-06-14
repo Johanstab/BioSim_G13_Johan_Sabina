@@ -44,11 +44,13 @@ class Island:
             add_pop = self.initial_pop
         else:
             add_pop = new_pop
+
         for animal in add_pop:
             location = animal['loc']
-            # cell_type = self.island_map[location]
-            # if cell_type not in self.valid_landscapes.keys():
-            #     raise NameError(f'Location {location} is not a valid location')
+            if location not in self.island_map.keys():
+                raise KeyError(f'Location {location} is not a valid location.')
+            elif self.island_map[location].passable is False:
+                raise ValueError(f'Location {location} is not habitable landscape.')
             population = animal['pop']
             self.island_map[location].set_population(population)
 
