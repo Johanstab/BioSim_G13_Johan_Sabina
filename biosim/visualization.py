@@ -20,6 +20,7 @@ class Visualization:
         self._img_axis = None
         self._mean_ax = None
         self._year_ax = None
+        self._text = None
         self._herb_ax = None
         self._carn_ax = None
         self._herb_axis = None
@@ -41,11 +42,14 @@ class Visualization:
             self._img_axis = None
             self._map_ax.set_yticklabels([])
             self._map_ax.set_xticklabels([])
-            self._map_ax.title.set_text('Island Map')
+            self._map_ax.title.set_text('Island')
 
         if self._year_ax is None:
             self._year_ax = self._fig.add_subplot(2, 3, 2)
-            self._year_ax.set_title(f'Year: {year}')
+            self._text = self._year_ax.text(0.5, 0.5, f'Year: {year}',
+                                            horizontalalignment='center',
+                                            verticalalignment='center',
+                                            transform=self._year_ax.transAxes)
             self._year_ax.axis('off')
 
         if self._mean_ax is None:
@@ -53,8 +57,8 @@ class Visualization:
             self._mean_ax.set_ylim(0, y_lim)
             self._mean_ax.set_xlim(0, x_lim)
             self._mean_ax.set_xlabel('Years')
-            self._mean_ax.set_ylabel('Number of Species')
-            self._mean_ax.title.set_text('Number of Species')
+            self._mean_ax.set_ylabel('Nr animals pr species')
+            self._mean_ax.title.set_text('Animal count')
             self._mean_ax.legend()
 
         if self._herb_ax is None:
@@ -62,14 +66,14 @@ class Visualization:
             self._herb_axis = None
             self._herb_ax.set_yticklabels([])
             self._herb_ax.set_xticklabels([])
-            self._herb_ax.title.set_text('Herbivore HeatMap')
+            self._herb_ax.title.set_text('Herbivore distribution')
 
         if self._carn_ax is None:
             self._carn_ax = self._fig.add_subplot(2, 3, 5)
             self._carn_axis = None
             self._carn_ax.set_yticklabels([])
             self._carn_ax.set_xticklabels([])
-            self._carn_ax.title.set_text('Carnivore HeatMap')
+            self._carn_ax.title.set_text('Carnivore distribution')
 
         if self._herb_line is None:
             herb_plot = self._mean_ax.plot(np.arange(0, x_lim),
@@ -117,8 +121,7 @@ class Visualization:
         self._map_ax.imshow(island_map, interpolation='nearest')
         axlg = self._fig.add_axes([0.03, 0.525, 0.1, 0.4])
         axlg.axis('off')
-        for ix, name in enumerate(('W', 'L', 'H',
-                                   'D')):
+        for ix, name in enumerate(('W', 'L', 'H', 'D')):
             axlg.add_patch(plt.Rectangle((0., ix * 0.2), 0.3, 0.1,
                                          edgecolor='none',
                                          facecolor=color_code[name[0]]))
@@ -134,7 +137,7 @@ class Visualization:
                                                    cmap="Greens", vmin=0,
                                                    vmax=herb_limit)
             self._herb_ax.figure.colorbar(self._herb_axis, ax=self._herb_ax,
-                                          orientation='horizontal',
+                                          orientation='vertical',
                                           fraction=0.07, pad=0.04)
 
     def update_carn_heatmap(self, carn_limit):
@@ -147,7 +150,7 @@ class Visualization:
                                                    cmap="OrRd", vmin=0,
                                                    vmax=carn_limit)
             self._carn_ax.figure.colorbar(self._carn_axis, ax=self._carn_ax,
-                                          orientation='horizontal',
+                                          orientation='vertical',
                                           fraction=0.07, pad=0.04)
 
     def update_animal_count(self, num_herbs, num_carns, year):
@@ -162,7 +165,7 @@ class Visualization:
         self._carn_line.set_ydata(carn)
 
     def update_year_count(self, island_year):
-        self._year_ax.set_title(f'Year: {island_year}')
+        self._text.set_text(f'Year:{island_year}')
 
     def update_graphics(self, num_animals_per_species, col_limits, year):
 
@@ -174,7 +177,7 @@ class Visualization:
                                  num_animals_per_species['Carnivore'], year)
         self.update_year_count(year)
 
-        plt.pause(1e-9)
+        plt.pause(1e-3)
 
 
 if __name__ == '__main__':
