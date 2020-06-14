@@ -37,12 +37,12 @@ class Island:
                 raise ValueError('Each row in the multiline string should be equal in length')
 
         for index in range(len(self.island_lines[0])):
-            if self.island_lines[0][index] is not 'W' or self.island_lines[-1][index] is not 'W':
+            if self.island_lines[0][index] != 'W' or self.island_lines[-1][index] != 'W':
                 raise ValueError('This island is out out boundary. Islands should be '
                                  'surrounded by water')
 
         for index in range(len(self.island_lines)):
-            if self.island_lines[index][0] is not 'W' or self.island_lines[index][-1] is not 'W':
+            if self.island_lines[index][0] != 'W' or self.island_lines[index][-1] !='W':
                 raise ValueError('This island is out out boundary. Islands should be '
                                  'surrounded by water')
 
