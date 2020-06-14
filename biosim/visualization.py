@@ -177,16 +177,16 @@ class Visualization:
         self._carn_line.set_ydata(ydata)
         self._step += 1
 
-    def update_graphics(self, herb_pos, carn_pos, num_animals_per_sp,
+    def update_graphics(self, num_animals_per_species,
                         col_limits):
 
         herb_limit = col_limits['Herbivore']
         carn_limit = col_limits['Carnivore']
-        self.update_herb_ax(herb_pos, herb_limit)
-        self.update_carn_ax(carn_pos, carn_limit)
-        self.update_mean_ax(num_animals_per_sp["Herbivore"],
-                            num_animals_per_sp["Carnivore"])
-        #plt.pause(1e-9)
+        self.update_herb_ax(herb_limit)
+        self.update_carn_ax(carn_limit)
+        self.update_mean_ax(num_animals_per_species['Herbivores'],
+                            num_animals_per_species['Carnivores'])
+        plt.pause(1e-9)
 
 
 if __name__ == '__main__':
