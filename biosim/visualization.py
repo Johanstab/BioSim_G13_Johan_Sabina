@@ -26,6 +26,8 @@ class Visualization:
 
         self._herb_line = None
         self._carn_line = None
+        self._mean_line = None
+        self._final_step = None
 
     def set_graphics(self, y_lim, x_lim):
 
@@ -75,6 +77,18 @@ class Visualization:
                                            label='Carnivore')
             self._carn_line = carn_plot[0]
             self._mean_ax.legend(loc="upper right")
+
+        if self._mean_line is None:
+            mean_plot = self._mean_ax.plot(np.arange(0, self._final_step),
+                                           np.full(self._final_step, np.nan))
+            self._mean_line = mean_plot[0]
+        else:
+            xdata, ydata = self._mean_line.get_data()
+            xnew = np.arange(xdata[-1] + 1, self._final_step)
+            if len(xnew) > 0:
+                ynew = np.full(xnew.shape, np.nan)
+                self._mean_line.set_data(np.hstack((xdata, xnew)),
+                                         np.hstack((ydata, ynew)))
 
     def animal_distribution(self, island_map):
 
@@ -167,15 +181,23 @@ class Visualization:
                                           orientation='horizontal',
                                           fraction=0.07, pad=0.04)
 
-    def update_mean_ax(self, herb_num, carn_num):
-        ydata = self._herb_line.get_ydata()
-        ydata[self._step] = herb_num
-        self._herb_line.set_ydata(ydata)
-
-        ydata = self._carn_line.get_ydata()
-        ydata[self._step] = carn_num
-        self._carn_line.set_ydata(ydata)
-        self._step += 1
+    def make_line_plot(self, final_year):
+        """
+        Creates the herbivore and carnivore interactive plot, i.e. the graph
+        in the interactive graphics window showing the total number of
+         herbivores on the island.
+        """
+        if self._herb_line is None:
+            herb_plot = self._mean_ax.plot(np.arange(
+                0, final_year), np.full(final_year, np.nan))
+            self._herb_line = herb_plot[0]
+        else:
+            x, y = self._herb_line.get_data()
+            new_x = np.arange(x[-1] + 1, final_year)
+            if len(new_x) > 0:
+                new_y = np.full(new_x.shape, np.nan)
+                self._herb_line.set_data(
+                    np.hstack((x, new_x)), np.hstack((y, new_y)))
 
     def update_graphics(self, num_animals_per_species,
                         col_limits):
