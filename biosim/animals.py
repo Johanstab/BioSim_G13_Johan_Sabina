@@ -8,11 +8,23 @@ from numba import jit
 
 
 class Animals:
-    "Move params to different species and create a set_params method"
+    """
+    This is the Superclass for animals in BioSim
+
+    """
     params = {}
 
     @classmethod
     def set_params(cls, new_params):
+        """
+        Parameters
+        ----------
+        new_params
+
+        Returns
+        -------
+
+        """
         for key in new_params:
             if key not in cls.params:
                 raise KeyError("Invalid parameter name: " + key)
@@ -82,6 +94,7 @@ class Animals:
 
     @age.setter
     def age(self, new_age):
+        """Setter for age"""
         self._age = new_age
 
     @property
@@ -91,6 +104,7 @@ class Animals:
 
     @weight.setter
     def weight(self, new_weight):
+        """Setter for weight"""
         self._weight = new_weight
 
     def aging(self):
@@ -123,7 +137,7 @@ class Animals:
         if self.weight <= 0:
             return 0
         else:
-            return self.q(+1, self.age, self.params["a_half"], self.params["phi_age"])\
+            return self.q(+1, self.age, self.params["a_half"], self.params["phi_age"]) \
                    * self.q(-1, self.weight, self.params["w_half"], self.params["phi_weight"])
 
     def birth(self, nr_animals):
@@ -181,6 +195,10 @@ class Animals:
 
 
 class Herbivore(Animals):
+    """
+    Subclass of class Animals. This is the class
+    for the herbivore species in Biosim.
+    """
     params = {
         "w_birth": 8.0,
         "sigma_birth": 1.5,
@@ -208,6 +226,10 @@ class Herbivore(Animals):
 
 
 class Carnivore(Animals):
+    """Subclass of class Animals.This is the class
+    for the herbivore species in Biosim.
+    """
+
     params = {
         "w_birth": 6.0,
         "sigma_birth": 1.0,
@@ -289,4 +311,3 @@ class Carnivore(Animals):
         new_updated_list = [animal for animal in herb_sorted_least_fit if
                             animal not in list_of_dead]
         return new_updated_list
-
