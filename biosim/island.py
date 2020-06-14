@@ -55,16 +55,20 @@ class Island:
 
     def nr_animals_pr_species(self):
         """Create function returning the total nr of herbivores and carnivores in a dict."""
-        for y_loc, lines in enumerate(self.island_map):
-            for x_loc in enumerate(lines):
-                self.num_herbivores.append(len(self.island_map[(x_loc, y_loc)].herbivore_list))
-                self.num_carnivores.append(len(self.island_map[(x_loc, y_loc)].carnivore_list))
-        return {"Herbivore": sum(self.num_herbivores),
-                "Carnivore": sum(self.num_carnivores)}
+        nr_herbs = 0
+        nr_carns = 0
+        for cell in self.island_map:
+            if self.island_map[cell].passable:
+                nr_herbs += len(self.island_map[cell].herbivore_list)
+                nr_carns += len(self.island_map[cell].carnivore_list)
+
+        nr_animals = {'Herbivores': nr_herbs, 'Carnivores': nr_carns}
+        return nr_animals
 
     def nr_animals(self):
         """Create function which returns total nr of animals on island."""
-        total_pop = sum(self.num_herbivores) + sum(self.num_carnivores)
+        total_species = self.nr_animals_pr_species()
+        total_pop = total_species['Herbivores'] + total_species['Carnivores']
         return total_pop
 
     @staticmethod
