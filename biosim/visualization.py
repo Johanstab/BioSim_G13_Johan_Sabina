@@ -13,12 +13,13 @@ import numpy as np
 class Visualization:
 
     def __init__(self):
-        self.dataframe = None
+        self._dataframe = None
         self._step = 0
         self._fig = None
         self._map_ax = None
         self._img_axis = None
         self._mean_ax = None
+        self._year_ax = None
         self._herb_ax = None
         self._carn_ax = None
         self._herb_axis = None
@@ -29,41 +30,46 @@ class Visualization:
         self._mean_line = None
         self._final_step = None
 
-    def set_graphics(self, y_lim, x_lim):
+    def set_graphics(self, y_lim, x_lim, year):
 
         if self._fig is None:
             self._fig = plt.figure(figsize=(16, 9))
             plt.axis('off')
 
         if self._map_ax is None:
-            self._map_ax = self._fig.add_subplot(2, 2, 1)
+            self._map_ax = self._fig.add_subplot(2, 3, 1)
             self._img_axis = None
             self._map_ax.set_yticklabels([])
             self._map_ax.set_xticklabels([])
             self._map_ax.title.set_text('Island Map')
 
-        if self._herb_ax is None:
-            self._herb_ax = self._fig.add_subplot(2, 2, 2)
-            self._herb_axis = None
-            self._herb_ax.set_yticklabels([])
-            self._herb_ax.set_xticklabels([])
-            self._herb_ax.title.set_text('Herbivore HeatMap')
-
-        if self._carn_ax is None:
-            self._carn_ax = self._fig.add_subplot(2, 2, 3)
-            self._carn_axis = None
-            self._carn_ax.set_yticklabels([])
-            self._carn_ax.set_xticklabels([])
-            self._carn_ax.title.set_text('Carnivore HeatMap')
+        if self._year_ax is None:
+            self._year_ax = self._fig.add_subplot(2, 3, 2)
+            self._year_ax.set_title(f'Year: {year}')
+            self._year_ax.axis('off')
 
         if self._mean_ax is None:
-            self._mean_ax = self._fig.add_subplot(2, 2, 4)
+            self._mean_ax = self._fig.add_subplot(2, 3, 3)
             self._mean_ax.set_ylim(0, y_lim)
             self._mean_ax.set_xlim(0, x_lim)
             self._mean_ax.set_xlabel('Years')
             self._mean_ax.set_ylabel('Number of Species')
             self._mean_ax.title.set_text('Number of Species')
             self._mean_ax.legend()
+
+        if self._herb_ax is None:
+            self._herb_ax = self._fig.add_subplot(2, 3, 4)
+            self._herb_axis = None
+            self._herb_ax.set_yticklabels([])
+            self._herb_ax.set_xticklabels([])
+            self._herb_ax.title.set_text('Herbivore HeatMap')
+
+        if self._carn_ax is None:
+            self._carn_ax = self._fig.add_subplot(2, 3, 5)
+            self._carn_axis = None
+            self._carn_ax.set_yticklabels([])
+            self._carn_ax.set_xticklabels([])
+            self._carn_ax.title.set_text('Carnivore HeatMap')
 
         if self._herb_line is None:
             herb_plot = self._mean_ax.plot(np.arange(0, x_lim),
@@ -78,9 +84,7 @@ class Visualization:
             self._carn_line = carn_plot[0]
             self._mean_ax.legend(loc="upper right")
 
-
     def animal_distribution(self, island_map):
-
         data = {}
         rows = []
         col = []
@@ -95,7 +99,7 @@ class Visualization:
         data['Col'] = col
         data['Herbivore'] = herbs
         data['Carnivore'] = carns
-        self.dataframe = pd.DataFrame(data)
+        self._dataframe = pd.DataFrame(data)
 
     def standard_map(self, default_geography):
         island_string = default_geography
@@ -144,12 +148,12 @@ class Visualization:
     #                           cmap='Reds')
     #     ax_heat_c.set_title('Carnivore population density')
 
-    def update_herb_ax(self, herb_limit):
+    def update_herb_heatmap(self, herb_limit):
 
         if self._herb_axis is not None:
-            self._herb_axis.set_data(self.dataframe.pivot('Row', 'Col', 'Herbivore'))
+            self._herb_axis.set_data(self._dataframe.pivot('Row', 'Col', 'Herbivore'))
         else:
-            self._herb_axis = self._herb_ax.imshow(self.dataframe.pivot('Row', 'Col', 'Herbivore'),
+            self._herb_axis = self._herb_ax.imshow(self._dataframe.pivot('Row', 'Col', 'Herbivore'),
                                                    interpolation='nearest',
                                                    cmap="Greens", vmin=0,
                                                    vmax=herb_limit)
@@ -157,12 +161,12 @@ class Visualization:
                                           orientation='horizontal',
                                           fraction=0.07, pad=0.04)
 
-    def update_carn_ax(self, carn_limit):
+    def update_carn_heatmap(self, carn_limit):
 
         if self._carn_axis is not None:
-            self._carn_axis.set_data(self.dataframe.pivot('Row', 'Col', 'Carnivore'))
+            self._carn_axis.set_data(self._dataframe.pivot('Row', 'Col', 'Carnivore'))
         else:
-            self._carn_axis = self._carn_ax.imshow(self.dataframe.pivot('Row', 'Col', 'Carnivore'),
+            self._carn_axis = self._carn_ax.imshow(self._dataframe.pivot('Row', 'Col', 'Carnivore'),
                                                    interpolation='nearest',
                                                    cmap="OrRd", vmin=0,
                                                    vmax=carn_limit)
@@ -170,14 +174,29 @@ class Visualization:
                                           orientation='horizontal',
                                           fraction=0.07, pad=0.04)
 
+    def update_animal_count(self, num_herbs, num_carns, year):
+        herb = self._herb_line.get_ydata()
+        herb[year] = num_herbs
+        self._herb_line.set_ydata(herb)
+        if self._mean_ax.get_ylim()[1] < num_herbs:
+            self._mean_ax.autoscale(enable=True, axis='y')
 
-    def update_graphics(self, num_animals_per_species,
-                        col_limits):
+        carn = self._carn_line.get_ydata()
+        carn[year] = num_carns
+        self._carn_line.set_ydata(carn)
+
+    def update_year_count(self, island_year):
+        self._year_ax.set_title(f'Year: {island_year}')
+
+    def update_graphics(self, num_animals_per_species, col_limits, year):
 
         herb_limit = col_limits['Herbivore']
         carn_limit = col_limits['Carnivore']
-        self.update_herb_ax(herb_limit)
-        self.update_carn_ax(carn_limit)
+        self.update_herb_heatmap(herb_limit)
+        self.update_carn_heatmap(carn_limit)
+        self.update_animal_count(num_animals_per_species['Herbivore'],
+                                 num_animals_per_species['Carnivore'], year)
+        self.update_year_count(year)
 
         plt.pause(1e-9)
 

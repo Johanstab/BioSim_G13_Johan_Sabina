@@ -36,19 +36,19 @@ class BioSim:
     ]
 
     default_geography = """\
-    WWWWWWWWWWWWWWWWWWWWW
-    WWWWWWWWHWWWWLLLLLLLW
-    WHHHHHLLLLWWLLLLLLLWW
-    WHHHHHHHHHWWLLLLLLWWW
-    WHHHHHLLLLLLLLLLLLWWW
-    WHHHHHLLLDDLLLHLLLWWW
-    WHHLLLLLDDDLLLHHHHWWW
-    WWHHHHLLLDDLLLHWWWWWW
-    WHHHLLLLLDDLLLLLLLWWW
-    WHHHHLLLLDDLLLLWWWWWW
-    WWHHHHLLLLLLLLWWWWWWW
-    WWWHHHHLLLLLLLWWWWWWW
-    WWWWWWWWWWWWWWWWWWWWW"""
+                            WWWWWWWWWWWWWWWWWWWWW
+                            WWWWWWWWHWWWWLLLLLLLW
+                            WHHHHHLLLLWWLLLLLLLWW
+                            WHHHHHHHHHWWLLLLLLWWW
+                            WHHHHHLLLLLLLLLLLLWWW
+                            WHHHHHLLLDDLLLHLLLWWW
+                            WHHLLLLLDDDLLLHHHHWWW
+                            WWHHHHLLLDDLLLHWWWWWW
+                            WHHHLLLLLDDLLLLLLLWWW
+                            WHHHHLLLLDDLLLLWWWWWW
+                            WWHHHHLLLLLLLLWWWWWWW
+                            WWWHHHHLLLLLLLWWWWWWW
+                            WWWWWWWWWWWWWWWWWWWWW"""
 
     def __init__(
             self,
@@ -95,7 +95,7 @@ class BioSim:
         else:
             self.island_map = island_map
 
-        self.island = Island(island_map, ini_pop)
+        self.island = Island(self.island_map, self.ini_pop)
         self.num_images = 0
         self._current_year = 0
         self.seed = seed
@@ -104,6 +104,9 @@ class BioSim:
         # self.img_base = img_base
         self.cmax_animals = cmax_animals
         self._image_counter = 0
+
+        if self.ymax_animals is None:
+            self.ymax_animals = 15000
 
         if self.cmax_animals is None:
             self.cmax_animals = {'Herbivore': 150, 'Carnivore': 90}
@@ -153,7 +156,7 @@ class BioSim:
         """
         num_years = self._current_year + num_years
         vis = Visualization()
-        vis.set_graphics(self.ymax_animals, num_years)
+        vis.set_graphics(self.ymax_animals, num_years + 1, self.year)
         vis.standard_map(self.island_map)
 
         while self._current_year < num_years:
@@ -161,9 +164,10 @@ class BioSim:
             self._current_year += 1
 
             vis.animal_distribution(self.island.island_map)
-            vis.update_herb_ax(200)
-            vis.update_carn_ax(100)
-            vis.update_graphics(self.num_animals_per_species, self.cmax_animals)
+            vis.update_herb_heatmap(200)
+            vis.update_carn_heatmap(100)
+            vis.update_graphics(self.num_animals_per_species,
+                                self.cmax_animals, self.year)
 
     def add_population(self, population):
         """
@@ -223,5 +227,5 @@ class BioSim:
 
 if __name__ == '__main__':
     pass
-    # BioSim = BioSim()
-    # BioSim.simulate(20)
+    BioSim = BioSim()
+    BioSim.simulate(200)
