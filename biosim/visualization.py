@@ -124,30 +124,6 @@ class Visualization:
                                          facecolor=color_code[name[0]]))
             axlg.text(0.35, ix * 0.2, name, transform=axlg.transAxes)
 
-    # def heat_map_herbivore(self):
-    #
-    #     herb_cell = self.dataframe.pivot('Row', 'Col', 'Herbivore')
-    #     fig = plt.figure()
-    #
-    #     ax_heat_h = fig.add_subplot(224)
-    #
-    #     ax_heat_h.imshow(herb_cell,
-    #                      vmax=100,
-    #                      interpolation='nearest',
-    #                      cmap='Greens')
-    #
-    #     ax_heat_h.set_title('Herbivore population density')
-
-    # def heat_map_carnivore(self):
-    #
-    #     carn_cell = self.dataframe.pivot('Row', 'Col', 'Carnivore')
-    #
-    #     self.ax_heat_c.imshow(carn_cell,
-    #                           vmax=75,
-    #                           interpolation='nearest',
-    #                           cmap='Reds')
-    #     ax_heat_c.set_title('Carnivore population density')
-
     def update_herb_heatmap(self, herb_limit):
 
         if self._herb_axis is not None:
