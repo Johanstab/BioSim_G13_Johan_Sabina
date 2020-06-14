@@ -151,6 +151,7 @@ class BioSim:
         :param img_years: years between visualizations saved to files (default: vis_years)
         Image files will be numbered consecutively.
         """
+        num_years = self._current_year + num_years
         vis = Visualization()
         vis.set_graphics(self.ymax_animals, num_years)
         vis.standard_map(self.island_map)
@@ -169,6 +170,7 @@ class BioSim:
         Add a population to the island
         :param population: List of dictionaries specifying population
         """
+        self.island.set_population_in_cell(population)
 
     @property
     def year(self):
