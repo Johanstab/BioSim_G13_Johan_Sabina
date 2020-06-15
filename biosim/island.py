@@ -35,7 +35,7 @@ class Island:
                         'H': Highland}
 
     def __init__(self, island_map=None, ini_pop=None):
-        """ Constructor that initiates Island class instances.
+        """Constructor that initiates Island class instances.
 
         Parameters
         ----------
@@ -44,9 +44,6 @@ class Island:
 
         ini_pop: list
                 List of dictionaries indicating initial population and location
-
-        Returns
-        -------
         """
         self.geography = textwrap.dedent(island_map)
         self.island_lines = self.geography.splitlines()
@@ -89,9 +86,6 @@ class Island:
         new_pop: list
                 List of dicts that contains the new population that you want to place in the current
                 cell
-
-        Returns
-        -------
         """
         if new_pop is None:
             init_pop = self.initial_pop
@@ -143,11 +137,7 @@ class Island:
         ----------
         cell: tuple
              The position/coordinates of the current landscape cell.
-
-        Returns
-        -------
         """
-
         y_cord, x_cord = cell
         loc_1 = (y_cord - 1, x_cord)
         loc_2 = (y_cord + 1, x_cord)
@@ -171,9 +161,6 @@ class Island:
         ----------
         cell: object
             The current landscape cell that the animal i positioned in.
-
-        Returns
-        -------
         """
         if self.island_map[cell].passable:
             herb_move, carn_move = self.island_map[cell].animals_migrate()

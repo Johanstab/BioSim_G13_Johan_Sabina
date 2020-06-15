@@ -102,8 +102,7 @@ class Landscape:
 
     def herbivore_eats(self):
         """Cycle where all herbivores eats fodder in a random order according to how much
-        the parameters defines. If there is no fodder left then no more herbivores get to eat.
-        """
+        the parameters defines. If there is no fodder left then no more herbivores get to eat."""
         np.random.shuffle(self.herbivore_list)
 
         for herbivore in self.herbivore_list:
@@ -120,8 +119,7 @@ class Landscape:
         """Cycle where all carnivores eats herbivores. The fittest carnivore tries to kill the
         least fit herbivore and continues until it has eaten according to the parameters. When
         the fittest carnivore has is satisfied the next in order of fitness will proceed until
-        until everyone is satisfied or all herbivores are killed.
-        """
+        until everyone is satisfied or all herbivores are killed."""
         self.carnivore_list.sort(key=lambda animal: animal.fitness, reverse=True)
         self.herbivore_list.sort(key=lambda animal: animal.fitness)
 
@@ -132,8 +130,7 @@ class Landscape:
         """Gives the herbivore the ability to reproduce. The function checks that at least two
         herbivore are present in the cell, so reproduction can happen. If birth function returns
         True, a new herbivore will be made. It will be put in a list of new herbivores,
-        before its added to the rest of the population.
-        """
+        before its added to the rest of the population."""
         nr_animals = len(self.herbivore_list)
 
         if nr_animals < 2:

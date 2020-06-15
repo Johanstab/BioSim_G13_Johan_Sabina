@@ -58,21 +58,18 @@ class Visualization:
         self._final_step = None
 
     def set_graphics(self, y_lim, x_lim, year):
-        """Sets up the graphics for visualization of the different plots
+        """Sets up the graphics for visualization of the different plots.
 
         Parameters
         ----------
         y_lim : int
-            y-axis upper limit for graphics
+            y-axis upper limit for graphics.
 
         x_lim : int
-            x-axis upper limit for graphics
+            x-axis upper limit for graphics.
 
         year : int
-            the start year of the simulation graphics
-
-        Returns
-        -------
+            the start year of the simulation graphics.
         """
         if self._fig is None:
             self._fig = plt.figure(figsize=(16, 9))
@@ -152,9 +149,6 @@ class Visualization:
         ----------
         default_geography : str
             Multiline string indicating geography of the island.
-
-        Returns
-        -------
         """
         island_string = default_geography
         string_map = textwrap.dedent(island_string)
@@ -186,11 +180,7 @@ class Visualization:
         df : df
             Dataframe that contains the information of how many herbivores that is in each cell of
             the island.
-
-        Returns
-        -------
         """
-
         if self._herb_axis is not None:
             self._herb_axis.set_data(df.pivot('Row', 'Col', 'Herbivore'))
         else:
@@ -211,11 +201,7 @@ class Visualization:
         df : df
             Dataframe that contains the information of how many carnivores that is in each cell of
             the island.
-
-        Returns
-        -------
         """
-
         if self._carn_axis is not None:
             self._carn_axis.set_data(df.pivot('Row', 'Col', 'Carnivore'))
         else:
@@ -241,9 +227,6 @@ class Visualization:
 
         year      : int
                 The current year of the simulation of the island
-
-        Returns
-        -------
         """
         herb = self._herb_line.get_ydata()
         herb[year] = num_herbs
@@ -261,10 +244,7 @@ class Visualization:
         Parameters
         ----------
         island_year : int
-                The current year of the simulation
-
-        Returns
-        -------
+                The current year of the simulation.
         """
         self._text.set_text(f'Year:{island_year}')
 
@@ -282,9 +262,6 @@ class Visualization:
 
         year : int
                 The current year of the simulation
-
-        Returns
-        -------
         """
         self.update_herb_heatmap(df)
         self.update_carn_heatmap(df)
