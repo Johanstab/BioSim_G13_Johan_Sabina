@@ -29,6 +29,25 @@ def test_set_params():
     assert new_params != params
 
 
+def test_set_params_errors():
+    new_params = {'birth': 12.0}
+    new_params_1 = {'eta': 5}
+    new_params_2 = {'DeltaPhiMax': 0}
+    new_params_3 = {'F': -5}
+
+    with pytest.raises(KeyError):
+        Herbivore.set_params(new_params)
+
+    with pytest.raises(ValueError):
+        Herbivore.set_params(new_params_1)
+
+    with pytest.raises(ValueError):
+        Herbivore.set_params(new_params_2)
+
+    with pytest.raises(ValueError):
+        Herbivore.set_params(new_params_3)
+
+
 def test_init():
     """
     Test that the init method works for both carnivores and herbivores.
@@ -179,7 +198,8 @@ def test_fitness_weight_zero():
     herb = Herbivore(5, 0)
     carn = Carnivore(5, 0)
     assert herb.fitness == 0
-    assert carn.fitness == 0
+    assert carn.fitness
+  
 
 
 def test_fitness_function():
@@ -199,7 +219,7 @@ def test_death_weight():
     """
 
     herb = Herbivore(3, 0)
-    carn= Carnivore(5, 0)
+    carn = Carnivore(5, 0)
 
     assert herb.death() is True
     assert carn.death() is True
@@ -266,5 +286,3 @@ def test_reset_move():
     herb.has_moved = True
     herb.reset_has_moved()
     assert herb.has_moved is False
-
-
