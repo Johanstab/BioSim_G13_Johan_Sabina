@@ -36,7 +36,7 @@ class Visualization:
 
         Parameters
         ----------
-        cmax : int
+        cmax : dict
             Sets the max value of number of animals in the heat map distribution
         """
         self.cmax = cmax
@@ -124,12 +124,15 @@ class Visualization:
 
         if self._fitness_axis is None:
             self._fitness_axis = self._fig.add_subplot(3, 3, 7)
+            self._fitness_axis.set_title('Fitness')
 
         if self._age_axis is None:
             self._age_axis = self._fig.add_subplot(3, 3, 8)
+            self._age_axis.set_title('Age')
 
         if self._weight_axis is None:
             self._weight_axis = self._fig.add_subplot(3, 3, 9)
+            self._weight_axis.set_title('Weight')
 
         if self._herb_line is None:
             herb_plot = self._mean_ax.plot(np.arange(0, x_lim),
@@ -160,6 +163,10 @@ class Visualization:
                 y_new = np.full(x_new.shape, np.nan)
                 self._carn_line.set_data(np.hstack((xdata, x_new)),
                                          np.hstack((ydata, y_new)))
+
+        if self._fitness_hist is None:
+            fitness_plot = self._fitness_axis.hist(bins=hist_dict['Fitness'][1],
+                                                   range=(0, hist_dict['Fitness'][0]))
 
     def standard_map(self, default_geography):
         """Makes a visualisation of the given island geography. Assigns different colors to the
