@@ -1,11 +1,38 @@
 # -*- coding: utf-8 -*-
 
+"""
+mod: 'bisosim.landscapesl' gives the user information about different kinds of cells on Rossumøya,
+      and which kind of information these cells holds.
+
+The island that is Rossumøya, is dived into squared formed cells. These cells have there own
+numerical location and one type of valid landscape. The superclass and subclasses holds the
+information that is stored in the different cells that makes up Rossumøya.
+
+This file can be imported as a module and contains the following classes:
+
+    *   Landscape - Superclass that contains basic characteristics that all of the cell types in
+        Rossumøya has in common. The function that will make the 'cycle" of Rossumøya work, could
+        also be find her.
+
+    *   Desert(Landscape) - Subclass of Landscape with characteristics for the cell type Desert.
+
+    *   Lowland(Landscape) - Subclass of Landscape with characteristics for the cell type Jungle.
+
+    *   Highland(Landscape) - Subclass of Landscape with characteristics for the cell type Highland.
+
+    *   Water(Landscape) - Subclass of Landscape with characteristics for the cell type Ocean.
+
+Notes
+-----
+    To run this script, its required to have  'numpy' and installed in the Python environment that
+    your going to run this script in.
+"""
+
 __author__ = "Johan Stabekk, Sabina Langås"
 __email__ = "johansta@nmbu.no, sabinal@nmbu.no"
 
 
 import numpy as np
-from itertools import chain
 from .animals import Herbivore, Carnivore
 
 
