@@ -82,6 +82,13 @@ class Animals:
         if self._weight is None:
             self._weight = self.weight_birth(self.params["w_birth"], self.params["sigma_birth"])
 
+        if self._weight < 0:
+            raise ValueError('Weight must be a positive!')
+
+        if self._age < 0:
+            raise ValueError('Weight must be a positive!')
+
+
     @staticmethod
     def weight_birth(weight, sigma):
         """ Calculates a birth _weight for the animal class based on Gaussian distribution.

@@ -29,14 +29,17 @@ def test_set_params():
     assert new_params != params
 
 
-def test_set_params_errors():
+def test_set_params_key_error():
     new_params = {'birth': 12.0}
+
+    with pytest.raises(KeyError):
+        Animals.set_params(new_params)
+
+
+def test_set_params_value_error():
     new_params_1 = {'eta': 5}
     new_params_2 = {'DeltaPhiMax': 0}
     new_params_3 = {'F': -5}
-
-    with pytest.raises(KeyError):
-        Herbivore.set_params(new_params)
 
     with pytest.raises(ValueError):
         Herbivore.set_params(new_params_1)
@@ -88,6 +91,20 @@ def test_ageing():
     carn.aging()
     assert herb.age == 11
     assert carn.age == 11
+
+
+def test_value_error_for_age_and_weight():
+    with pytest.raises(ValueError):
+        Herbivore(age=-9)
+
+    with pytest.raises(ValueError):
+        Herbivore(weight=-4)
+
+    with pytest.raises(ValueError):
+        Carnivore(age=-40)
+
+    with pytest.raises(ValueError):
+        Carnivore(weight=-8)
 
 
 def test_weight():
@@ -198,8 +215,7 @@ def test_fitness_weight_zero():
     herb = Herbivore(5, 0)
     carn = Carnivore(5, 0)
     assert herb.fitness == 0
-    assert carn.fitness
-  
+    assert carn.fitness == 0
 
 
 def test_fitness_function():
@@ -211,6 +227,12 @@ def test_fitness_function():
 
     assert herb.fitness == 0.49999999962087194
     assert carn.fitness == 0.998313708904945
+
+
+def test_p_function():
+    q = Animals.q(1, 1, 0.5, 0.5)
+
+    assert q == 0.43782349911420193
 
 
 def test_death_weight():
@@ -231,6 +253,12 @@ def test_death_probability(mocker):
     carn = Carnivore(6, 15)
     assert herb.death() is True
     assert carn.death() is True
+
+    mocker.patch('numpy.random.random', return_value=1)
+    herb = Herbivore(5, 10)
+    carn = Carnivore(6, 15)
+    assert herb.death() is False
+    assert carn.death() is False
 
 
 def test_birth(mocker):
