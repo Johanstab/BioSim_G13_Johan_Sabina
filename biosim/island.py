@@ -1,23 +1,50 @@
 # -*- coding: utf-8 -*-
 
+"""
+mod: 'biosim.island' provides the user with the annual cycle on Rossumøya.
+
+This script provide the annual cycle of events that accrue on Rossumøya ever year. The island of
+Rossumøya is also made in this script.
+
+This file can be imported as a module and contains the following classes:
+
+    * Island - Superclass that contains the ways of making the map of Rossumøya and setting its
+     population. It also contains the function that makes the annual cycle of Rossumøya.
+
+Notes
+-----
+    To run this script, its required to have 'numpy', 'matplotlib.pyplot' and 'textwrap' installed
+    in the Python environment that your going to run this script in.
+"""
+
 __author__ = "Johan Stabekk, Sabina Langås"
 __email__ = "johansta@nmbu.no, sabinal@nmbu.no"
 
-import textwrap
 import numpy as np
+import textwrap
 
-np.random.seed(1)
-import matplotlib.pyplot as plt
 from biosim.landscapes import Water, Lowland, Highland, Desert
 
 
 class Island:
+    """Class for island in Biosim"""
+
     valid_landscapes = {'W': Water,
                         'D': Desert,
                         'L': Lowland,
                         'H': Highland}
 
     def __init__(self, island_map=None, ini_pop=None):
+        """ Constructor that initiates Island class instances.
+
+        Parameters
+        ----------
+        island_map: str
+                Multiline string indicating geography of the island
+
+        ini_pop: list
+                List of dictionaries indicating initial population and location
+        """
         self.geography = textwrap.dedent(island_map)
         self.island_lines = self.geography.splitlines()
         self.island_map = {}
@@ -42,7 +69,7 @@ class Island:
                                  'surrounded by water')
 
         for index in range(len(self.island_lines)):
-            if self.island_lines[index][0] != 'W' or self.island_lines[index][-1] !='W':
+            if self.island_lines[index][0] != 'W' or self.island_lines[index][-1] != 'W':
                 raise ValueError('This island is out out boundary. Islands should be '
                                  'surrounded by water')
 
@@ -52,6 +79,18 @@ class Island:
             self.initial_pop = ini_pop
 
     def set_population_in_cell(self, new_pop=None):
+        """Makes it possible to put out a 'new' set of population in any cell on the island
+
+        Parameters
+        ----------
+        new_pop: list
+                List of dicts that contains the new population that you want to place in the current
+                cell
+
+        Returns
+        -------
+
+        """
         if new_pop is None:
             init_pop = self.initial_pop
         else:
@@ -68,6 +107,7 @@ class Island:
             self.island_map[location].set_population(population)
 
     def create_island_map(self):
+        """Creates the island map form the given geography"""
         for y_loc, lines in enumerate(self.island_lines):
             for x_loc, cell_type in enumerate(lines):
                 if cell_type not in self.valid_landscapes.keys():
@@ -95,6 +135,17 @@ class Island:
 
     @staticmethod
     def next_cell(cell):
+        """Finds the neighboring cells of the cell were the animal want to move from.
+
+        Parameters
+        ----------
+        cell: tuple
+             The position/coordinates of the current landscape cell.
+
+        Returns
+        -------
+
+        """
 
         y_cord, x_cord = cell
         loc_1 = (y_cord - 1, x_cord)
@@ -111,6 +162,19 @@ class Island:
         return chosen_cell
 
     def migrate_animals(self, cell):
+        """Checks if the cell in question have animals in it (if it passable). Makes a list of all
+        animals i the current cell that wants to move, and checks if the cell that the animals want
+        to move to is passable. Places the animal in its new cell and removes it for the old one.
+
+        Parameters
+        ----------
+        cell: object
+            The current landscape cell that the animal i positioned in.
+
+        Returns
+        -------
+
+        """
         if self.island_map[cell].passable:
             herb_move, carn_move = self.island_map[cell].animals_migrate()
             for herb in herb_move:
@@ -131,10 +195,12 @@ class Island:
                     self.island_map[cell].carnivore_list.remove(carn)
 
     def reset_migration(self):
+        """Resets if the animal has moved or not, so the value can be updated each year."""
         for cell in self.island_map:
             self.island_map[cell].reset_migrate()
 
     def cycle_island(self):
+        """Simulates annual cycle of Rossumøya for all the cells the island i made out of."""
         for cell in self.island_map:
             self.island_map[cell].food_grows()
             self.island_map[cell].herbivore_eats()
@@ -147,23 +213,3 @@ class Island:
             self.island_map[cell].animals_die()
 
         self.reset_migration()
-
-
-if __name__ == "__main__":
-    island = Island()
-
-    # print(map_.keys())
-    # for x in range(1, 5):
-    #     for y in range(1, 5):
-    #         print(map_[(y, x)])
-
-    print(len(island.island_map[(2, 2)].herbivore_list))
-    print(len(island.island_map[(2, 2)].carnivore_list))
-    island.island_map[(2, 2)].herbivore_list.sort(key=lambda animal: animal.age, reverse=True)
-    print(island.island_map[(2, 2)].herbivore_list[0].age)
-    island.island_map[(2, 2)].carnivore_list.sort(key=lambda animal: animal.age, reverse=True)
-    print(island.island_map[(2, 2)].carnivore_list[0].age)
-
-    plt.plot(island.num_herbivores, 'b')
-    plt.plot(island.num_carnivores, 'r')
-    plt.show()

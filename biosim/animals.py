@@ -1,9 +1,36 @@
 # -*- coding: utf-8 -*-
 
+"""
+mod: 'bisosim.animal' gives the user information about animals and there fauna on
+      Rossumøya
+
+There is two different species living on Rossumøya, Herbivores and Carnivores. The species bare
+certain characteristics in common, but also have characteristics unique to there species. This
+script has all the species characteristics stored in superclass and subclasses.
+
+This file can be imported as a module and contains the following classes:
+
+    *   Animals - Superclass that contains all of the common characteristics of the species living
+        on Rossumøya.
+
+    *   Herbivore(Animals) - Subclass of Animals that contains the special characteristics for the
+        herbivore species.
+
+    *   Carnivore(Animals) - Subclass of Animals that contains the special characteristics of the
+        carnivore species.
+
+Notes
+-----
+    To run this script, its required to have both 'numpy' and 'numba' installed in the Python
+    environment that your going to run this script in.
+"""
+
+
 __author__ = "Johan Stabekk, Sabina Langås"
 __email__ = "johansta@nmbu.no, sabinal@nmbu.no"
 
 import numpy as np
+
 from numba import jit
 
 
