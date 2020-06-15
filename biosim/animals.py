@@ -214,17 +214,16 @@ class Animals:
         return np.random.random() < prob_death
 
     def move(self):
+        """Checks if the animal will move or not."""
         return np.random.random() < self.fitness * self.params["mu"]
 
     def reset_has_moved(self):
+        """Reset the 'has_moved§ value for the animal."""
         self.has_moved = False
 
 
 class Herbivore(Animals):
-    """
-    Subclass of class Animals. This is the class
-    for the herbivore species in Biosim.
-    """
+    """ Subclass of class Animals. This is the class for the herbivore species in Biosim."""
     params = {
         "w_birth": 8.0,
         "sigma_birth": 1.5,
@@ -244,6 +243,17 @@ class Herbivore(Animals):
     }
 
     def __init__(self, age=0, weight=None):
+        """Constructor that initiates class instances of Herbivore.
+
+        Parameters
+        ----------
+        age : int
+                Sets the age of a new instance of a herbivore. The default value is set to be 0.
+
+        weight : int
+                Sets the weight of a new instance of a herbivore. The default weight is drawn from a
+                Gaussian distribution based on mean and standard deviation.
+        """
         super().__init__(age, weight)
 
     def eats(self, cell):
@@ -252,10 +262,7 @@ class Herbivore(Animals):
 
 
 class Carnivore(Animals):
-    """Subclass of class Animals.This is the class
-    for the herbivore species in Biosim.
-    """
-
+    """Subclass of class Animals. This is the class for the carnivore species in Biosim."""
     params = {
         "w_birth": 6.0,
         "sigma_birth": 1.0,
@@ -275,6 +282,17 @@ class Carnivore(Animals):
     }
 
     def __init__(self, age=0, weight=None):
+        """Constructor that initiates class instances of Carnivores.
+
+        Parameters
+        ----------
+         age : int
+                Sets the age of a new instance of a carnivore. The default value is set to be 0.
+
+        weight : int
+                Sets the weight of a new instance of a carnivore. The default weight is drawn from a
+                Gaussian distribution based on mean and standard deviation.
+        """
         super().__init__(age, weight)
 
     def slay(self, herb):
@@ -301,9 +319,6 @@ class Carnivore(Animals):
         ----------
         herb_sorted_least_fit : List
                 Sorted list containing all the herbivore objects.
-        Returns
-        -------
-        None
         """
         eaten = 0
         list_of_dead = []
