@@ -164,10 +164,6 @@ class Visualization:
                 self._carn_line.set_data(np.hstack((xdata, x_new)),
                                          np.hstack((ydata, y_new)))
 
-        if self._fitness_hist is None:
-            fitness_plot = self._fitness_axis.hist(bins=hist_dict['Fitness'][1],
-                                                   range=(0, hist_dict['Fitness'][0]))
-
     def standard_map(self, default_geography):
         """Makes a visualisation of the given island geography. Assigns different colors to the
         different types of landscapes given.
@@ -277,7 +273,12 @@ class Visualization:
         """
         self._text.set_text(f'Year:{island_year}')
 
-    def update_graphics(self, df, num_animals, year):
+    def update_fitness(self, data):
+        fitness_plot = self._fitness_axis.hist(data, bins=10,
+                                               range=(0, 1), histtype='step')
+        self._fitness_hist = fitness_plot
+
+    def update_graphics(self, df, num_animals, year, data):
         """Updates the graphs in the visualization for each year of the simulation.
 
         Parameters
@@ -298,5 +299,6 @@ class Visualization:
                                  num_animals['Carnivore'],
                                  year)
         self.update_year_count(year)
+        self.update_fitness(data)
 
         plt.pause(1e-3)

@@ -174,6 +174,7 @@ class BioSim:
         self.vis.standard_map(self.island_map)
         self.vis.update_herb_heatmap(self.animal_distribution)
         self.vis.update_carn_heatmap(self.animal_distribution)
+        self.vis.update_fitness(self.island.fitness_age_weight[0]['fitness'])
 
         while self._current_year < num_years:
             self.island.cycle_island()
@@ -181,7 +182,7 @@ class BioSim:
             if self._count % vis_years == 0:
                 self.vis.update_graphics(self.animal_distribution,
                                          self.num_animals_per_species,
-                                         self.year)
+                                         self.year, self.island.fitness_age_weight[0]['fitness'])
 
             if img_years % vis_years == 0:
                 pass
