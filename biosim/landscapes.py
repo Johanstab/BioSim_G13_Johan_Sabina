@@ -24,7 +24,7 @@ This file can be imported as a module and contains the following classes:
 
 Notes
 -----
-    To run this script, its required to have  'numpy' and installed in the Python environment that
+    To run this script, its required to have 'numpy' installed in the Python environment that
     your going to run this script in.
 """
 

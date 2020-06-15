@@ -1,12 +1,29 @@
 # -*- coding: utf-8 -*-
 
+"""
+mod: 'biosim.island' provides the user with the annual cycle on Rossumøya.
+
+This script provide the annual cycle of events that accrue on Rossumøya ever year. The island of
+Rossumøya is also made in this script.
+
+This file can be imported as a module and contains the following classes:
+
+    * Island - Superclass that contains the ways of making the map of Rossumøya and setting its
+     population. It also contains the function that makes the annual cycle of Rossumøya.
+
+Notes
+-----
+    To run this script, its required to have both 'numpy' and  'matplotlib.pyplot' installed in
+    the Python environment that your going to run this script in.
+
+"""
+
 __author__ = "Johan Stabekk, Sabina Langås"
 __email__ = "johansta@nmbu.no, sabinal@nmbu.no"
 
 import textwrap
 import numpy as np
 
-np.random.seed(1)
 import matplotlib.pyplot as plt
 from biosim.landscapes import Water, Lowland, Highland, Desert
 
