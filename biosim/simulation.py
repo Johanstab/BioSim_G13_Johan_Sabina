@@ -130,7 +130,7 @@ class BioSim:
         self._image_format = img_fmt
 
         self._image_counter = 0
-        self.vis = Visualization(self.cmax_animals)
+        self.vis = Visualization(self.cmax_animals, self.hist_specs)
 
     @staticmethod
     def set_animal_parameters(species, params):
@@ -170,7 +170,7 @@ class BioSim:
         Image files will be numbered consecutively.
         """
         num_years = self._current_year + num_years
-        self.vis.set_graphics(self.ymax_animals, num_years + 1, self.hist_specs, self.year)
+        self.vis.set_graphics(self.ymax_animals, num_years + 1, self.year)
         self.vis.standard_map(self.island_map)
         self.vis.update_herb_heatmap(self.animal_distribution)
         self.vis.update_carn_heatmap(self.animal_distribution)

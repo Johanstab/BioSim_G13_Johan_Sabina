@@ -31,7 +31,7 @@ from matplotlib import colors
 class Visualization:
     """Class for Visualization in Biosim"""
 
-    def __init__(self, cmax=None):
+    def __init__(self, cmax=None, hist_dict=None):
         """Constructor that initiates Visualization class instances
 
         Parameters
@@ -40,6 +40,7 @@ class Visualization:
             Sets the max value of number of animals in the heat map distribution
         """
         self.cmax = cmax
+        self.hist_dict = hist_dict
         self._has_run = False
         self._final_step = None
         self._fig = None
@@ -62,7 +63,7 @@ class Visualization:
         self._age_hist = None
         self._weight_hist = None
 
-    def set_graphics(self, y_lim, x_lim, hist_dict, year):
+    def set_graphics(self, y_lim, x_lim, year):
         """Sets up the graphics for visualization of the different plots.
 
         Parameters
@@ -163,6 +164,10 @@ class Visualization:
                 y_new = np.full(x_new.shape, np.nan)
                 self._carn_line.set_data(np.hstack((xdata, x_new)),
                                          np.hstack((ydata, y_new)))
+
+        # if self._fitness_hist is None:
+        #     fitness_plot = self._fitness_axis.hist(bins=hist_dict['fitness'][1],
+        #                                            range=(0, hist_dict['fitness'][0]))
 
     def standard_map(self, default_geography):
         """Makes a visualisation of the given island geography. Assigns different colors to the
@@ -274,9 +279,11 @@ class Visualization:
         self._text.set_text(f'Year:{island_year}')
 
     def update_fitness(self, data):
-        fitness_plot = self._fitness_axis.hist(data, bins=10,
-                                               range=(0, 1), histtype='step')
-        self._fitness_hist = fitness_plot
+        if self._fitness_hist is None:
+            n = np.ceil((self.hist_dict['fitness']['max'] - 0) / self.hist_dict['fitness']['delta'])
+            self._fitness_axis.hist(data, bins=int(n),
+                                    range=(0, self.hist_dict['fitness']['max']),
+                                    histtype='step', color='r')
 
     def update_graphics(self, df, num_animals, year, data):
         """Updates the graphs in the visualization for each year of the simulation.
