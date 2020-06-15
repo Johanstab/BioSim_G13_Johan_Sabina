@@ -37,13 +37,19 @@ from .animals import Herbivore, Carnivore
 
 
 class Landscape:
-    """
-    Superclass for landscape cells in BioSim
-    """
+    """Superclass for landscape cells in BioSim"""
     params = {}
 
     @classmethod
     def set_params(cls, new_params):
+        """This method gives the ability to change the default params of the different landscape
+        cells.
+
+        Parameters
+        ----------
+        new_params : dict
+                Dictionary that contains new parameters for the landscape cell.
+        """
         for param in new_params:
             if param not in cls.params:
                 raise KeyError("Invalid parameter name: " + new_params[0])
@@ -54,10 +60,7 @@ class Landscape:
         cls.params.update(new_params)
 
     def __init__(self):
-        """
-        Constructor that initiates class Landscapes
-        """
-
+        """Constructor that initiates class Landscapes."""
         self.herbivore_list = []
         self.carnivore_list = []
         self.available_food = 0
@@ -69,9 +72,6 @@ class Landscape:
         ----------
         input_list : list
                 List of dictionaries containing Herbivores and Carnivores.
-
-        Returns
-        -------
         """
         for animal in input_list:
             if animal['species'] == 'Herbivore':
@@ -81,15 +81,12 @@ class Landscape:
 
     def add_population(self, animal):
         """Makes it possible to add new animal populations to
-        different landscape cells
+        different landscape cells.
 
         Parameters
         ----------
         animal: dict
-            Dict containing information about the animal that being added to the landscape cell
-
-        Returns
-        -------
+            Dict containing information about the animal that being added to the landscape cell.
         """
         if type(animal).__name__ == 'Herbivore':
             self.herbivore_list.append(animal)
@@ -106,9 +103,6 @@ class Landscape:
     def herbivore_eats(self):
         """Cycle where all herbivores eats fodder in a random order according to how much
         the parameters defines. If there is no fodder left then no more herbivores get to eat.
-
-        Returns
-        -------
         """
         np.random.shuffle(self.herbivore_list)
 
@@ -127,9 +121,6 @@ class Landscape:
         least fit herbivore and continues until it has eaten according to the parameters. When
         the fittest carnivore has is satisfied the next in order of fitness will proceed until
         until everyone is satisfied or all herbivores are killed.
-
-        Returns
-        -------
         """
         self.carnivore_list.sort(key=lambda animal: animal.fitness, reverse=True)
         self.herbivore_list.sort(key=lambda animal: animal.fitness)
@@ -142,9 +133,6 @@ class Landscape:
         herbivore are present in the cell, so reproduction can happen. If birth function returns
         True, a new herbivore will be made. It will be put in a list of new herbivores,
         before its added to the rest of the population.
-
-        Returns
-        -------
         """
         nr_animals = len(self.herbivore_list)
 
@@ -163,11 +151,7 @@ class Landscape:
         """Gives the carnivore the ability to reproduce. The function checks that at least two
         carnivore are present in the cell, so reproduction can happen. If birth function returns
         True, a new carnivore will be made. It will be put in a list of new carnivores,
-        before its added to the rest of the population.
-
-        Returns
-        -------
-        """
+        before its added to the rest of the population."""
         nr_animals = len(self.carnivore_list)
 
         if nr_animals < 2:
@@ -187,14 +171,14 @@ class Landscape:
         self.carnivore_list = [animal for animal in self.carnivore_list if not animal.death()]
 
     def animals_age(self):
-        """The animals increase one year in age"""
+        """The animals increase one year in age."""
         for herbivore in self.herbivore_list:
             herbivore.aging()
         for carnivore in self.carnivore_list:
             carnivore.aging()
 
     def animals_lose_weight(self):
-        """The animals loose weight"""
+        """The animals loose weigh.t"""
         for herbivore in self.herbivore_list:
             herbivore.weight_loss()
         for carnivore in self.carnivore_list:
@@ -208,10 +192,10 @@ class Landscape:
         Returns
         -------
         moved_herbs : list
-            List of dicts over the herbivores that want to move current year
+            List of dicts over the herbivores that want to move current year.
 
         moved_carns : list
-            List of dicts over the carnivores that want to move current year
+            List of dicts over the carnivores that want to move current year.
         """
         moved_herbs = []
         moved_carns = []
@@ -227,6 +211,7 @@ class Landscape:
         return moved_herbs, moved_carns
 
     def reset_migrate(self):
+        """Reset the migration for all animals, so they will able to move the next year."""
         for herb in self.herbivore_list:
             herb.has_moved = False
         for carn in self.carnivore_list:
@@ -234,18 +219,17 @@ class Landscape:
 
 
 class Lowland(Landscape):
-    """Class instance of class Landscape for the cell type Lowland"""
+    """Class instance of class Landscape for the cell type Lowland."""
     params = {'f_max': 800}
     passable = True
 
     def __init__(self):
-        """Constructor that initiate class instance Lowland. """
+        """Constructor that initiate class instance Lowland."""
         super().__init__()
 
 
 class Highland(Landscape):
-    """Class instance of class Landscape for the cell type Highland"""
-
+    """Class instance of class Landscape for the cell type Highland."""
     params = {'f_max': 300}
     passable = True
 
@@ -255,8 +239,7 @@ class Highland(Landscape):
 
 
 class Water(Landscape):
-    """Class instance of class Landscape for the cell type Water"""
-
+    """Class instance of class Landscape for the cell type Water."""
     passable = False
 
     def __init__(self):
@@ -266,7 +249,6 @@ class Water(Landscape):
 
 class Desert(Landscape):
     """Class instance of class Landscape for the cell type Desert"""
-
     passable = True
 
     def __init__(self):

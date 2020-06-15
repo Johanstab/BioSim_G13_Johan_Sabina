@@ -47,10 +47,7 @@ class Animals:
         Parameters
         ----------
         new_params : dict
-                Dictionary that contains new parameters for the animals/species
-
-        Returns
-        -------
+                Dictionary that contains new parameters for the animals/species.
         """
         for key in new_params:
             if key not in cls.params:
@@ -67,7 +64,7 @@ class Animals:
 
     def __init__(self, age=0, weight=None):
         """
-        Constructor that initiates class Animals
+        Constructor that initiates class Animals.
 
         Parameters
         ----------
@@ -117,7 +114,7 @@ class Animals:
         x_half  : float
             Parameter defining at which weight/age the fitness shall deteriorate or grow.
         phi  : float
-            Defining the
+            Defining a factor for weight/age that will be used to calculate the fitness.
 
         Returns
         -------
@@ -128,40 +125,30 @@ class Animals:
 
     @property
     def age(self):
-        """"Getter for age"""
+        """"Getter for age."""
         return self._age
 
     @age.setter
     def age(self, new_age):
-        """Setter for age"""
+        """Setter for age."""
         self._age = new_age
 
     @property
     def weight(self):
-        """Getter for weight"""
+        """Getter for weigh."""
         return self._weight
 
     @weight.setter
     def weight(self, new_weight):
-        """Setter for weight"""
+        """Setter for weight."""
         self._weight = new_weight
 
     def aging(self):
-        """Function to increase the age of the animal.
-
-        Returns
-        -------
-        None
-        """
+        """Function to increase the age of the animal."""
         self._age += 1
 
     def weight_loss(self):
-        """ The natural weight loss an animal goes through each year.
-
-        Returns
-        -------
-        None
-        """
+        """ The natural weight loss an animal goes through each year."""
         self._weight -= self.params["eta"] * self.weight
 
     @property
