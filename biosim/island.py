@@ -13,22 +13,22 @@ This file can be imported as a module and contains the following classes:
 
 Notes
 -----
-    To run this script, its required to have both 'numpy' and  'matplotlib.pyplot' installed in
-    the Python environment that your going to run this script in.
-
+    To run this script, its required to have 'numpy', 'matplotlib.pyplot' and 'textwrap' installed
+    in the Python environment that your going to run this script in.
 """
 
 __author__ = "Johan Stabekk, Sabina Langås"
 __email__ = "johansta@nmbu.no, sabinal@nmbu.no"
 
-import textwrap
 import numpy as np
+import textwrap
 
-import matplotlib.pyplot as plt
 from biosim.landscapes import Water, Lowland, Highland, Desert
 
 
 class Island:
+    """Class for island in Biosim"""
+
     valid_landscapes = {'W': Water,
                         'D': Desert,
                         'L': Lowland,
@@ -69,6 +69,19 @@ class Island:
             self.initial_pop = ini_pop
 
     def set_population_in_cell(self, new_pop=None):
+        """
+        Makes it possible to put out a 'new' set of population in any cell on the island
+
+        Parameters
+        ----------
+        new_pop: list
+                List of dicts that contains the new population that you want to place in the current
+                cell
+
+        Returns
+        -------
+
+        """
         if new_pop is None:
             init_pop = self.initial_pop
         else:
@@ -85,6 +98,7 @@ class Island:
             self.island_map[location].set_population(population)
 
     def create_island_map(self):
+        """Creates the island map form the given geography"""
         for y_loc, lines in enumerate(self.island_lines):
             for x_loc, cell_type in enumerate(lines):
                 if cell_type not in self.valid_landscapes.keys():
@@ -112,6 +126,19 @@ class Island:
 
     @staticmethod
     def next_cell(cell):
+        """
+        Finds the neighboring cells of the cell were the animal want to move from.
+
+        Parameters
+        ----------
+        cell: tuple
+             The position/coordinates of the current landscape cell.
+
+
+        Returns
+        -------
+
+        """
 
         y_cord, x_cord = cell
         loc_1 = (y_cord - 1, x_cord)
@@ -128,6 +155,20 @@ class Island:
         return chosen_cell
 
     def migrate_animals(self, cell):
+        """
+        Checks if the cell in question have animals in it (if it passable). Makes a list of all
+        animals i the current cell that wants to move, and checks if the cell that the animals want
+        to move to is passable. Places the animal in its new cell and removes it for the old one.
+
+        Parameters
+        ----------
+        cell: object
+            The current landscape cell that the animal i positioned in.
+
+        Returns
+        -------
+
+        """
         if self.island_map[cell].passable:
             herb_move, carn_move = self.island_map[cell].animals_migrate()
             for herb in herb_move:
@@ -148,10 +189,12 @@ class Island:
                     self.island_map[cell].carnivore_list.remove(carn)
 
     def reset_migration(self):
+        """ Resets if the animal has moved or not, so the value can be updated each year."""
         for cell in self.island_map:
             self.island_map[cell].reset_migrate()
 
     def cycle_island(self):
+        """Simulates annual cycle of Rossumøya for all the cells the island i made out of."""
         for cell in self.island_map:
             self.island_map[cell].food_grows()
             self.island_map[cell].herbivore_eats()
@@ -165,22 +208,3 @@ class Island:
 
         self.reset_migration()
 
-
-if __name__ == "__main__":
-    island = Island()
-
-    # print(map_.keys())
-    # for x in range(1, 5):
-    #     for y in range(1, 5):
-    #         print(map_[(y, x)])
-
-    print(len(island.island_map[(2, 2)].herbivore_list))
-    print(len(island.island_map[(2, 2)].carnivore_list))
-    island.island_map[(2, 2)].herbivore_list.sort(key=lambda animal: animal.age, reverse=True)
-    print(island.island_map[(2, 2)].herbivore_list[0].age)
-    island.island_map[(2, 2)].carnivore_list.sort(key=lambda animal: animal.age, reverse=True)
-    print(island.island_map[(2, 2)].carnivore_list[0].age)
-
-    plt.plot(island.num_herbivores, 'b')
-    plt.plot(island.num_carnivores, 'r')
-    plt.show()

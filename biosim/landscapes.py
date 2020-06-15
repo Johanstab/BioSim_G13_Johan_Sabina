@@ -31,8 +31,8 @@ Notes
 __author__ = "Johan Stabekk, Sabina Langås"
 __email__ = "johansta@nmbu.no, sabinal@nmbu.no"
 
-
 import numpy as np
+
 from .animals import Herbivore, Carnivore
 
 
