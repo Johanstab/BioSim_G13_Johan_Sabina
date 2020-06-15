@@ -1,16 +1,35 @@
 # -*- coding: utf-8 -*-
 
+"""mod: 'bisosim.visualization' provides the user with visualization functions for the island
+         simulation
+
+This script provides the users with the necessary function to make a full on visualization of the
+given island when running a simulation. The script provides visualization of the island map, the
+species count and the distribution of the different animals on the island.
+
+This file can be imported as a module and contains the following class:
+
+    *   Visualization - Class that contains all the visualization part and the updating of the
+        graphs.
+
+Notes
+-----
+    To run this script, its required to have 'numpy', 'matplotlib.pyplot' and 'textwrap"
+    installed in the Python environment that your going to run this script in.
+"""
+
 __author__ = "Johan Stabekk, Sabina Langås"
 __email__ = "johansta@nmbu.no, sabinal@nmbu.no"
 
-import textwrap
 import matplotlib.pyplot as plt
-from matplotlib import colors
-import pandas as pd
 import numpy as np
+import textwrap
+
+from matplotlib import colors
 
 
 class Visualization:
+    """Class for Visualization in Biosim"""
 
     def __init__(self, cmax=None):
         self.cmax = cmax

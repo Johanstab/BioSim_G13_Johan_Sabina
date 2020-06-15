@@ -6,9 +6,9 @@ mod: 'biosim.island' provides the user with the annual cycle on Rossumøya.
 This script provide the annual cycle of events that accrue on Rossumøya ever year. The island of
 Rossumøya is also made in this script.
 
-This file can be imported as a module and contains the following classes:
+This file can be imported as a module and contains the following class:
 
-    * Island - Superclass that contains the ways of making the map of Rossumøya and setting its
+    * Island - Class that contains the ways of making the map of Rossumøya and setting its
      population. It also contains the function that makes the annual cycle of Rossumøya.
 
 Notes
@@ -27,7 +27,7 @@ from biosim.landscapes import Water, Lowland, Highland, Desert
 
 
 class Island:
-    """Class for island in Biosim"""
+    """Class for Island in Biosim"""
 
     valid_landscapes = {'W': Water,
                         'D': Desert,
