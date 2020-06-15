@@ -72,7 +72,6 @@ class Landscape:
 
         Returns
         -------
-
         """
         for animal in input_list:
             if animal['species'] == 'Herbivore':
@@ -91,7 +90,6 @@ class Landscape:
 
         Returns
         -------
-
         """
         if type(animal).__name__ == 'Herbivore':
             self.herbivore_list.append(animal)
@@ -111,7 +109,6 @@ class Landscape:
 
         Returns
         -------
-
         """
         np.random.shuffle(self.herbivore_list)
 
@@ -133,7 +130,6 @@ class Landscape:
 
         Returns
         -------
-
         """
         self.carnivore_list.sort(key=lambda animal: animal.fitness, reverse=True)
         self.herbivore_list.sort(key=lambda animal: animal.fitness)
@@ -149,7 +145,6 @@ class Landscape:
 
         Returns
         -------
-
         """
         nr_animals = len(self.herbivore_list)
 
@@ -172,7 +167,6 @@ class Landscape:
 
         Returns
         -------
-
         """
         nr_animals = len(self.carnivore_list)
 
@@ -188,12 +182,7 @@ class Landscape:
         self.carnivore_list.extend(new_babies)
 
     def animals_die(self):
-        """Checks if a animal should die or not and removes the dead animal from the lists.
-
-        Returns
-        -------
-
-        """
+        """Checks if a animal should die or not and removes the dead animal from the lists."""
         self.herbivore_list = [animal for animal in self.herbivore_list if not animal.death()]
         self.carnivore_list = [animal for animal in self.carnivore_list if not animal.death()]
 
@@ -223,7 +212,6 @@ class Landscape:
 
         moved_carns : list
             List of dicts over the carnivores that want to move current year
-
         """
         moved_herbs = []
         moved_carns = []
@@ -251,45 +239,37 @@ class Lowland(Landscape):
     passable = True
 
     def __init__(self):
-        """
-        Constructor that initiate class instance Lowland.
-        """
+        """Constructor that initiate class instance Lowland. """
         super().__init__()
 
 
 class Highland(Landscape):
-    """
-    Class instance of class Landscape for the cell type Highland"
-    """
+    """Class instance of class Landscape for the cell type Highland"""
+
     params = {'f_max': 300}
     passable = True
 
     def __init__(self):
-        """
-        Constructor that initiate class instance Highland.
-        """
+        """Constructor that initiate class instance Highland."""
         super().__init__()
 
 
 class Water(Landscape):
     """Class instance of class Landscape for the cell type Water"""
+
     passable = False
 
     def __init__(self):
-        """
-        Constructor that initiate class instance Water.
-        """
+        """Constructor that initiate class instance Water."""
         super().__init__()
 
 
 class Desert(Landscape):
     """Class instance of class Landscape for the cell type Desert"""
+
     passable = True
 
     def __init__(self):
-        """
-        Constructor that initiate class instance Desert.
-
-        """
+        """Constructor that initiate class instance Desert."""
         super().__init__()
 

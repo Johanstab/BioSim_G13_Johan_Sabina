@@ -37,20 +37,20 @@ from numba import jit
 class Animals:
     """
     This is the Superclass for animals in BioSim
-
     """
     params = {}
 
     @classmethod
     def set_params(cls, new_params):
-        """
+        """ This method gives the ability to change the default params of the different species.
+
         Parameters
         ----------
-        new_params
+        new_params : dict
+                Dictionary that contains new parameters for the animals/species
 
         Returns
         -------
-
         """
         for key in new_params:
             if key not in cls.params:
@@ -66,6 +66,18 @@ class Animals:
         cls.params.update(new_params)
 
     def __init__(self, age=0, weight=None):
+        """
+        Constructor that initiates class Animals
+
+        Parameters
+        ----------
+        age : int
+                Sets the age of a new instance of a species. The default value is set to be 0.
+
+        weight : int
+                Sets the weight of a new instance of a species. The default weight is drawn from a
+                Gaussian distribution based on mean and standard deviation.
+        """
         self._age = age
         self._weight = weight
         self.has_moved = False

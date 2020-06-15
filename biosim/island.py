@@ -44,6 +44,9 @@ class Island:
 
         ini_pop: list
                 List of dictionaries indicating initial population and location
+
+        Returns
+        -------
         """
         self.geography = textwrap.dedent(island_map)
         self.island_lines = self.geography.splitlines()
@@ -89,7 +92,6 @@ class Island:
 
         Returns
         -------
-
         """
         if new_pop is None:
             init_pop = self.initial_pop
@@ -144,7 +146,6 @@ class Island:
 
         Returns
         -------
-
         """
 
         y_cord, x_cord = cell
@@ -173,7 +174,6 @@ class Island:
 
         Returns
         -------
-
         """
         if self.island_map[cell].passable:
             herb_move, carn_move = self.island_map[cell].animals_migrate()
