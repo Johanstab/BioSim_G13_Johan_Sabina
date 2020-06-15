@@ -35,6 +35,16 @@ class Island:
                         'H': Highland}
 
     def __init__(self, island_map=None, ini_pop=None):
+        """ Constructor that initiates Island class instances.
+
+        Parameters
+        ----------
+        island_map: str
+                Multiline string indicating geography of the island
+
+        ini_pop: list
+                List of dictionaries indicating initial population and location
+        """
         self.geography = textwrap.dedent(island_map)
         self.island_lines = self.geography.splitlines()
         self.island_map = {}
@@ -59,7 +69,7 @@ class Island:
                                  'surrounded by water')
 
         for index in range(len(self.island_lines)):
-            if self.island_lines[index][0] != 'W' or self.island_lines[index][-1] !='W':
+            if self.island_lines[index][0] != 'W' or self.island_lines[index][-1] != 'W':
                 raise ValueError('This island is out out boundary. Islands should be '
                                  'surrounded by water')
 
@@ -69,8 +79,7 @@ class Island:
             self.initial_pop = ini_pop
 
     def set_population_in_cell(self, new_pop=None):
-        """
-        Makes it possible to put out a 'new' set of population in any cell on the island
+        """Makes it possible to put out a 'new' set of population in any cell on the island
 
         Parameters
         ----------
@@ -126,14 +135,12 @@ class Island:
 
     @staticmethod
     def next_cell(cell):
-        """
-        Finds the neighboring cells of the cell were the animal want to move from.
+        """Finds the neighboring cells of the cell were the animal want to move from.
 
         Parameters
         ----------
         cell: tuple
              The position/coordinates of the current landscape cell.
-
 
         Returns
         -------
@@ -155,8 +162,7 @@ class Island:
         return chosen_cell
 
     def migrate_animals(self, cell):
-        """
-        Checks if the cell in question have animals in it (if it passable). Makes a list of all
+        """Checks if the cell in question have animals in it (if it passable). Makes a list of all
         animals i the current cell that wants to move, and checks if the cell that the animals want
         to move to is passable. Places the animal in its new cell and removes it for the old one.
 
@@ -189,7 +195,7 @@ class Island:
                     self.island_map[cell].carnivore_list.remove(carn)
 
     def reset_migration(self):
-        """ Resets if the animal has moved or not, so the value can be updated each year."""
+        """Resets if the animal has moved or not, so the value can be updated each year."""
         for cell in self.island_map:
             self.island_map[cell].reset_migrate()
 
@@ -207,4 +213,3 @@ class Island:
             self.island_map[cell].animals_die()
 
         self.reset_migration()
-
