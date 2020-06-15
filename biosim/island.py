@@ -200,3 +200,37 @@ class Island:
             self.island_map[cell].animals_die()
 
         self.reset_migration()
+
+    @property
+    def fitness_age_weight(self):
+        list1_herb = []
+        list1_carn = []
+        list2_herb = []
+        list2_carn = []
+        list3_herb = []
+        list3_carn = []
+        plot_attributes_herb = {'fitness': [],
+                           'age': [],
+                           'weight': []}
+        plot_attributes_carn = {'fitness': [],
+                                'age': [],
+                                'weight': []}
+        for cell in self.island_map:
+            if self.island_map[cell].passable:
+                for animal in self.island_map[cell].herbivore_list:
+                    list1_herb.append(animal.fitness)
+                    list2_herb.append(animal.age)
+                    list3_herb.append(animal.weight)
+
+                for animal in self.island_map[cell].carnivore_list:
+                    list1_carn.append(animal.fitness)
+                    list2_carn.append(animal.age)
+                    list3_carn.append(animal.weight)
+        plot_attributes_herb['fitness'] = np.array(list1_herb)
+        plot_attributes_herb['age'] = np.array(list2_herb)
+        plot_attributes_herb['weight'] = np.array(list3_herb)
+
+        plot_attributes_carn['fitness'] = np.array(list1_carn)
+        plot_attributes_carn['age'] = np.array(list2_carn)
+        plot_attributes_carn['weight'] = np.array(list3_carn)
+        return plot_attributes_herb, plot_attributes_carn

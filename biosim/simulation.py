@@ -96,18 +96,26 @@ class BioSim:
         else:
             self.island_map = island_map
 
+        if hist_specs is None:
+            self.hist_specs = {'weight': {'max': 60, 'delta': 2},
+                               'fitness': {'max': 1.0, 'delta': 0.05},
+                               'age': {'max': 60, 'delta': 2}}
+        else:
+            self.hist_specs = hist_specs
+
+        np.random.seed(seed)
         self.island = Island(self.island_map, self.ini_pop)
         self.num_images = 0
         self._current_year = 0
-        self.seed = seed
         self.ymax_animals = ymax_animals
         # self.img_fmt = img_fmt
         # self.img_base = img_base
         self.cmax_animals = cmax_animals
         self._image_counter = 0
+        self._count = 0
 
         if self.ymax_animals is None:
-            self.ymax_animals = 15000
+            self.ymax_animals = 20000
 
         if self.cmax_animals is None:
             self.cmax_animals = {'Herbivore': 150, 'Carnivore': 90}
@@ -148,6 +156,11 @@ class BioSim:
         elif landscape == 'Highland':
             Highland.set_params(params)
 
+    def simple_sim(self, num_years):
+        while self._current_year < num_years:
+            self.island.cycle_island()
+            self._current_year += 1
+
     def simulate(self, num_years, vis_years=1, img_years=None):
         """
         Run simulation while visualizing the result.
@@ -157,23 +170,22 @@ class BioSim:
         Image files will be numbered consecutively.
         """
         num_years = self._current_year + num_years
-        self.vis.set_graphics(self.ymax_animals, num_years + 1, self.year)
+        self.vis.set_graphics(self.ymax_animals, num_years + 1, self.hist_specs, self.year)
         self.vis.standard_map(self.island_map)
         self.vis.update_herb_heatmap(self.animal_distribution)
         self.vis.update_carn_heatmap(self.animal_distribution)
 
-        count = 1
         while self._current_year < num_years:
             self.island.cycle_island()
             self._current_year += 1
-            if count % vis_years == 0:
+            if self._count % vis_years == 0:
                 self.vis.update_graphics(self.animal_distribution,
                                          self.num_animals_per_species,
                                          self.year)
 
             if img_years % vis_years == 0:
                 pass
-            count += 1
+            self._count += 1
 
     def add_population(self, population):
         """
@@ -251,6 +263,6 @@ class BioSim:
 
 
 if __name__ == '__main__':
-    pass
     BioSim = BioSim()
-    BioSim.simulate(200)
+    BioSim.simple_sim(50)
+    print(len(BioSim.island.fitness_age_weight['age']))

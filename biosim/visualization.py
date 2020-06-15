@@ -40,7 +40,8 @@ class Visualization:
             Sets the max value of number of animals in the heat map distribution
         """
         self.cmax = cmax
-        self._step = 0
+        self._has_run = False
+        self._final_step = None
         self._fig = None
         self._map_ax = None
         self._img_axis = None
@@ -51,13 +52,17 @@ class Visualization:
         self._carn_ax = None
         self._herb_axis = None
         self._carn_axis = None
+        self._fitness_axis = None
+        self._age_axis = None
+        self._weight_axis = None
 
         self._herb_line = None
         self._carn_line = None
-        self._mean_line = None
-        self._final_step = None
+        self._fitness_hist = None
+        self._age_hist = None
+        self._weight_hist = None
 
-    def set_graphics(self, y_lim, x_lim, year):
+    def set_graphics(self, y_lim, x_lim, hist_dict, year):
         """Sets up the graphics for visualization of the different plots.
 
         Parameters
@@ -77,14 +82,14 @@ class Visualization:
             plt.axis('off')
 
         if self._map_ax is None:
-            self._map_ax = self._fig.add_subplot(2, 3, 1)
+            self._map_ax = self._fig.add_subplot(3, 3, 1)
             self._img_axis = None
             self._map_ax.set_yticklabels([])
             self._map_ax.set_xticklabels([])
             self._map_ax.title.set_text('Island')
 
         if self._year_ax is None:
-            self._year_ax = self._fig.add_subplot(2, 3, 2)
+            self._year_ax = self._fig.add_subplot(3, 3, 2)
             self._text = self._year_ax.text(0.5, 0.5, f'Year: {year}',
                                             horizontalalignment='center',
                                             verticalalignment='center',
@@ -93,7 +98,7 @@ class Visualization:
             self._year_ax.axis('off')
 
         if self._mean_ax is None:
-            self._mean_ax = self._fig.add_subplot(2, 3, 3)
+            self._mean_ax = self._fig.add_subplot(3, 3, 3)
             self._mean_ax.set_ylim(0, y_lim)
             self._mean_ax.set_xlim(0, x_lim)
             self._mean_ax.set_xlabel('Years')
@@ -104,18 +109,27 @@ class Visualization:
             self._mean_ax.set_xlim(0, x_lim)
 
         if self._herb_ax is None:
-            self._herb_ax = self._fig.add_subplot(2, 3, 4)
+            self._herb_ax = self._fig.add_subplot(3, 3, 4)
             self._herb_axis = None
             self._herb_ax.set_yticklabels([])
             self._herb_ax.set_xticklabels([])
             self._herb_ax.title.set_text('Herbivore distribution')
 
         if self._carn_ax is None:
-            self._carn_ax = self._fig.add_subplot(2, 3, 5)
+            self._carn_ax = self._fig.add_subplot(3, 3, 5)
             self._carn_axis = None
             self._carn_ax.set_yticklabels([])
             self._carn_ax.set_xticklabels([])
             self._carn_ax.title.set_text('Carnivore distribution')
+
+        if self._fitness_axis is None:
+            self._fitness_axis = self._fig.add_subplot(3, 3, 7)
+
+        if self._age_axis is None:
+            self._age_axis = self._fig.add_subplot(3, 3, 8)
+
+        if self._weight_axis is None:
+            self._weight_axis = self._fig.add_subplot(3, 3, 9)
 
         if self._herb_line is None:
             herb_plot = self._mean_ax.plot(np.arange(0, x_lim),
@@ -123,10 +137,14 @@ class Visualization:
                                            label='Herbivore')
             self._herb_line = herb_plot[0]
         elif self._herb_line is not None:
-            herb_plot = self._mean_ax.plot(np.arange(0, x_lim),
-                                           np.full(x_lim, np.nan),
-                                           label='Herbivore after break')
-            self._herb_line = herb_plot[0]
+            self._final_step = x_lim
+
+            xdata, ydata = self._herb_line.get_data()
+            x_new = np.arange(xdata[-1] + 1, self._final_step)
+            if len(x_new) > 0:
+                y_new = np.full(x_new.shape, np.nan)
+                self._herb_line.set_data(np.hstack((xdata, x_new)),
+                                         np.hstack((ydata, y_new)))
 
         if self._carn_line is None:
             carn_plot = self._mean_ax.plot(np.arange(0, x_lim),
@@ -135,11 +153,13 @@ class Visualization:
             self._carn_line = carn_plot[0]
             self._mean_ax.legend(loc="upper right", prop={'size': 6})
         elif self._carn_line is not None:
-            carn_plot = self._mean_ax.plot(np.arange(0, x_lim),
-                                           np.full(x_lim, np.nan),
-                                           label='Carnivore after break')
-            self._carn_line = carn_plot[0]
-            self._mean_ax.legend(loc="upper right", prop={'size': 6})
+            self._final_step = x_lim
+            xdata, ydata = self._carn_line.get_data()
+            x_new = np.arange(xdata[-1] + 1, self._final_step)
+            if len(x_new) > 0:
+                y_new = np.full(x_new.shape, np.nan)
+                self._carn_line.set_data(np.hstack((xdata, x_new)),
+                                         np.hstack((ydata, y_new)))
 
     def standard_map(self, default_geography):
         """Makes a visualisation of the given island geography. Assigns different colors to the
@@ -150,26 +170,28 @@ class Visualization:
         default_geography : str
             Multiline string indicating geography of the island.
         """
-        island_string = default_geography
-        string_map = textwrap.dedent(island_string)
-        string_map.replace('\n', ' ')
+        if self._has_run is not True:
+            self._has_run = True
+            island_string = default_geography
+            string_map = textwrap.dedent(island_string)
+            string_map.replace('\n', ' ')
 
-        color_code = {'W': colors.to_rgb('blue'),
-                      'L': colors.to_rgb('darkgreen'),
-                      'H': colors.to_rgb('lightgreen'),
-                      'D': colors.to_rgb('lightyellow')}
+            color_code = {'W': colors.to_rgb('blue'),
+                          'L': colors.to_rgb('darkgreen'),
+                          'H': colors.to_rgb('lightgreen'),
+                          'D': colors.to_rgb('lightyellow')}
 
-        island_map = [[color_code[column] for column in row]
-                      for row in string_map.splitlines()]
+            island_map = [[color_code[column] for column in row]
+                          for row in string_map.splitlines()]
 
-        self._map_ax.imshow(island_map, interpolation='nearest')
-        axlg = self._fig.add_axes([0.03, 0.525, 0.1, 0.4])
-        axlg.axis('off')
-        for ix, name in enumerate(('W', 'L', 'H', 'D')):
-            axlg.add_patch(plt.Rectangle((0., ix * 0.2), 0.3, 0.1,
-                                         edgecolor='none',
-                                         facecolor=color_code[name[0]]))
-            axlg.text(0.35, ix * 0.2, name, transform=axlg.transAxes)
+            self._map_ax.imshow(island_map, interpolation='nearest')
+            axlg = self._fig.add_axes([0.03, 0.525, 0.1, 0.4])
+            axlg.axis('off')
+            for ix, name in enumerate(('W', 'L', 'H', 'D')):
+                axlg.add_patch(plt.Rectangle((0., ix * 0.2), 0.3, 0.1,
+                                             edgecolor='none',
+                                             facecolor=color_code[name[0]]))
+                axlg.text(0.35, ix * 0.2, name, transform=axlg.transAxes)
 
     def update_herb_heatmap(self, df):
         """Updates the value of how many herbivores that is present i each cell of the island every
