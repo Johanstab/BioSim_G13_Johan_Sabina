@@ -31,9 +31,9 @@ class Island:
                 if cell_type not in self.valid_landscapes.keys():
                     raise ValueError(f'Cell type {cell_type} does not exist')
 
-        top_row = len(self.island_lines[0])
+        row = len(self.island_lines[0])
         for lines in self.island_lines:
-            if len(lines) is not top_row:
+            if len(lines) is not row:
                 raise ValueError('Each row in the multiline string should be equal in length')
 
         for index in range(len(self.island_lines[0])):

@@ -122,6 +122,7 @@ class BioSim:
         self._image_format = img_fmt
 
         self._image_counter = 0
+        self.vis = Visualization(self.cmax_animals)
 
     @staticmethod
     def set_animal_parameters(species, params):
@@ -147,7 +148,7 @@ class BioSim:
         elif landscape == 'Highland':
             Highland.set_params(params)
 
-    def simulate(self, num_years, vis_years=2, img_years=None):
+    def simulate(self, num_years, vis_years=1, img_years=None):
         """
         Run simulation while visualizing the result.
         :param num_years: number of years to simulate
@@ -156,21 +157,22 @@ class BioSim:
         Image files will be numbered consecutively.
         """
         num_years = self._current_year + num_years
-        vis = Visualization(self.cmax_animals)
-        vis.set_graphics(self.ymax_animals, num_years + 1, self.year)
-        vis.standard_map(self.island_map)
-        vis.update_herb_heatmap(200, self.animal_distribution)
-        vis.update_carn_heatmap(100, self.animal_distribution)
+        self.vis.set_graphics(self.ymax_animals, num_years + 1, self.year)
+        self.vis.standard_map(self.island_map)
+        self.vis.update_herb_heatmap(self.animal_distribution)
+        self.vis.update_carn_heatmap(self.animal_distribution)
 
         count = 1
         while self._current_year < num_years:
             self.island.cycle_island()
             self._current_year += 1
             if count % vis_years == 0:
-                vis.update_graphics(self.island,
-                                    self.animal_distribution,
-                                    self.num_animals_per_species
-                                    , self.year)
+                self.vis.update_graphics(self.animal_distribution,
+                                         self.num_animals_per_species,
+                                         self.year)
+
+            if img_years % vis_years == 0:
+                pass
             count += 1
 
     def add_population(self, population):
@@ -213,8 +215,7 @@ class BioSim:
         data['Carnivore'] = carns
         df = pd.DataFrame(data)
         return df
-        #self._dataframe = pd.DataFrame(data)
-
+        # self._dataframe = pd.DataFrame(data)
 
     def _save_file(self):
         """
