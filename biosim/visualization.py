@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""mod: 'bisosim.visualization' provides the user with visualization functions for the island
+"""mod : 'bisosim.visualization' provides the user with visualization functions for the island
          simulation
 
 This script provides the users with the necessary function to make a full on visualization of the
@@ -32,6 +32,13 @@ class Visualization:
     """Class for Visualization in Biosim"""
 
     def __init__(self, cmax=None):
+        """Constructor that initiates Visualization class instances
+
+        Parameters
+        ----------
+        cmax : int
+            Sets the max value of number of animals in the heat map distribution
+        """
         self.cmax = cmax
         self._step = 0
         self._fig = None
@@ -51,7 +58,22 @@ class Visualization:
         self._final_step = None
 
     def set_graphics(self, y_lim, x_lim, year):
+        """Sets up the graphics for visualization of the different plots
 
+        Parameters
+        ----------
+        y_lim : int
+            y-axis upper limit for graphics
+
+        x_lim : int
+            x-axis upper limit for graphics
+
+        year : int
+            the start year of the simulation graphics
+
+        Returns
+        -------
+        """
         if self._fig is None:
             self._fig = plt.figure(figsize=(16, 9))
             self._fig.tight_layout()
@@ -123,6 +145,17 @@ class Visualization:
             self._mean_ax.legend(loc="upper right", prop={'size': 6})
 
     def standard_map(self, default_geography):
+        """Makes a visualisation of the given island geography. Assigns different colors to the
+        different types of landscapes given.
+
+        Parameters
+        ----------
+        default_geography : str
+            Multiline string indicating geography of the island.
+
+        Returns
+        -------
+        """
         island_string = default_geography
         string_map = textwrap.dedent(island_string)
         string_map.replace('\n', ' ')
@@ -145,6 +178,18 @@ class Visualization:
             axlg.text(0.35, ix * 0.2, name, transform=axlg.transAxes)
 
     def update_herb_heatmap(self, df):
+        """Updates the value of how many herbivores that is present i each cell of the island every
+        year. This is used to show the herbivore distribution on the island.
+
+        Parameters
+        ----------
+        df : df
+            Dataframe that contains the information of how many herbivores that is in each cell of
+            the island.
+
+        Returns
+        -------
+        """
 
         if self._herb_axis is not None:
             self._herb_axis.set_data(df.pivot('Row', 'Col', 'Herbivore'))
@@ -158,6 +203,18 @@ class Visualization:
                                           fraction=0.07, pad=0.04)
 
     def update_carn_heatmap(self, df):
+        """Updates the value of how many carnivores that is present i each cell of the island every
+        year. This is used to show the carnivores distribution on the island.
+
+        Parameters
+        ----------
+        df : df
+            Dataframe that contains the information of how many carnivores that is in each cell of
+            the island.
+
+        Returns
+        -------
+        """
 
         if self._carn_axis is not None:
             self._carn_axis.set_data(df.pivot('Row', 'Col', 'Carnivore'))
@@ -171,6 +228,23 @@ class Visualization:
                                           fraction=0.07, pad=0.04)
 
     def update_animal_count(self, num_herbs, num_carns, year):
+        """Updates the total animal count graph on the island. The species are sorted in total
+        herbivores and total carnivores.
+
+        Parameters
+        ----------
+        num_herbs : int
+                Total number of herbivores present on the island the current year.
+
+        num_carns : int
+                Total number of carnivores present on the island the current year.
+
+        year      : int
+                The current year of the simulation of the island
+
+        Returns
+        -------
+        """
         herb = self._herb_line.get_ydata()
         herb[year] = num_herbs
         self._herb_line.set_ydata(herb)
@@ -182,9 +256,36 @@ class Visualization:
         self._carn_line.set_ydata(carn)
 
     def update_year_count(self, island_year):
+        """Updates the year counter in the visualization.
+
+        Parameters
+        ----------
+        island_year : int
+                The current year of the simulation
+
+        Returns
+        -------
+        """
         self._text.set_text(f'Year:{island_year}')
 
     def update_graphics(self, df, num_animals, year):
+        """Updates the graphs in the visualization for each year of the simulation.
+
+        Parameters
+        ----------
+        df : df
+                Dataframe that contains the distribution of the different spices on the island.
+
+        num_animals : dict
+                Dictionary that contains the number of Herbivores and the number of Carnivores,
+                the current year.
+
+        year : int
+                The current year of the simulation
+
+        Returns
+        -------
+        """
         self.update_herb_heatmap(df)
         self.update_carn_heatmap(df)
         self.update_animal_count(num_animals['Herbivore'],
@@ -193,7 +294,3 @@ class Visualization:
         self.update_year_count(year)
 
         plt.pause(1e-3)
-
-
-if __name__ == '__main__':
-    pass

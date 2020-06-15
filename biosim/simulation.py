@@ -215,7 +215,6 @@ class BioSim:
         data['Carnivore'] = carns
         df = pd.DataFrame(data)
         return df
-        # self._dataframe = pd.DataFrame(data)
 
     def _save_file(self):
         """
