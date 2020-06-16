@@ -2,3 +2,6 @@
 
 __author__ = "Johan Stabekk, Sabina Langås"
 __email__ = "johansta@nmbu.no, sabinal@nmbu.no"
+
+def test_init():
+    
