@@ -151,9 +151,9 @@ class BioSim:
         :param landscape: String, code letter for landscape
         :param params: Dict with valid parameter specification for landscape
         """
-        if landscape == 'Lowland':
+        if landscape == 'L':
             Lowland.set_params(params)
-        elif landscape == 'Highland':
+        elif landscape == 'H':
             Highland.set_params(params)
 
     def simple_sim(self, num_years):
@@ -183,6 +183,7 @@ class BioSim:
                 self.vis.update_graphics(self.animal_distribution,
                                          self.num_animals_per_species,
                                          self.year, self.island.fitness_age_weight[0]['fitness'])
+
 
             if img_years % vis_years == 0:
                 pass

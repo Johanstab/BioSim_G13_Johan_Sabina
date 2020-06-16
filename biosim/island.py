@@ -210,8 +210,8 @@ class Island:
         list3_herb = []
         list3_carn = []
         plot_attributes_herb = {'fitness': [],
-                           'age': [],
-                           'weight': []}
+                                'age': [],
+                                'weight': []}
         plot_attributes_carn = {'fitness': [],
                                 'age': [],
                                 'weight': []}

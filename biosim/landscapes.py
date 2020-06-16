@@ -85,7 +85,7 @@ class Landscape:
 
         Parameters
         ----------
-        animal: dict
+        animal: object
             Dict containing information about the animal that being added to the landscape cell.
         """
         if type(animal).__name__ == 'Herbivore':
