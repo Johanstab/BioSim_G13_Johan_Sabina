@@ -108,8 +108,6 @@ class BioSim:
         self.num_images = 0
         self._current_year = 0
         self.ymax_animals = ymax_animals
-        # self.img_fmt = img_fmt
-        # self.img_base = img_base
         self.cmax_animals = cmax_animals
         self._image_counter = 0
         self._count = 0
@@ -190,8 +188,8 @@ class BioSim:
                                          self.year, self.island.fitness_age_weight[0],
                                          self.island.fitness_age_weight[1])
 
-            if img_years % vis_years == 0:
-                pass
+            if self._count % img_years == 0:
+                self._save_file()
             self._count += 1
 
     def add_population(self, population):
