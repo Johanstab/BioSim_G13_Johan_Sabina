@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-mod: 'bisosim.landscapesl' gives the user information about different kinds of cells on Rossumøya,
+:mod: 'bisosim.landscapesl' gives the user information about different kinds of cells on Rossumøya,
       and which kind of information these cells holds.
 
 The island that is Rossumøya, is dived into squared formed cells. These cells have there own

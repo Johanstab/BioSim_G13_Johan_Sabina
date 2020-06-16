@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-"""mod : 'bisosim.visualization' provides the user with visualization functions for the island
+""""
+:mod: 'bisosim.visualization' provides the user with visualization functions for the island
          simulation
 
 This script provides the users with the necessary function to make a full on visualization of the

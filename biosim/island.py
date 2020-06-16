@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-mod: 'biosim.island' provides the user with the annual cycle on Rossumøya.
+:mod: 'biosim.island' provides the user with the annual cycle on Rossumøya.
 
 This script provide the annual cycle of events that accrue on Rossumøya ever year. The island of
 Rossumøya is also made in this script.
