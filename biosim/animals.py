@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-mod: 'bisosim.animal' gives the user information about animals and there fauna on
+:mod: 'bisosim.animal' gives the user information about animals and there fauna on
       Rossumøya
 
 There is two different species living on Rossumøya, Herbivores and Carnivores. The species bare
