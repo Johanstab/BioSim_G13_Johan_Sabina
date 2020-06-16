@@ -80,6 +80,7 @@ class Visualization:
         """
         if self._fig is None:
             self._fig = plt.figure(figsize=(16, 9))
+            self._fig.subplots_adjust(hspace=0.75)
             self._fig.tight_layout()
             plt.axis('off')
 
@@ -165,10 +166,6 @@ class Visualization:
                 y_new = np.full(x_new.shape, np.nan)
                 self._carn_line.set_data(np.hstack((xdata, x_new)),
                                          np.hstack((ydata, y_new)))
-
-        # if self._fitness_hist is None:
-        #     fitness_plot = self._fitness_axis.hist(bins=hist_dict['fitness'][1],
-        #                                            range=(0, hist_dict['fitness'][0]))
 
     def standard_map(self, default_geography):
         """Makes a visualisation of the given island geography. Assigns different colors to the
@@ -279,14 +276,43 @@ class Visualization:
         """
         self._text.set_text(f'Year:{island_year}')
 
-    def update_fitness(self, data):
+    def update_fitness(self, data_1, data_2):
         if self._fitness_hist is None:
             n = np.ceil((self.hist_dict['fitness']['max'] - 0) / self.hist_dict['fitness']['delta'])
-            self._fitness_axis.hist(data, bins=int(n),
+            self._fitness_axis.clear()
+            self._fitness_axis.set_title('Fitness')
+            self._fitness_axis.hist(data_1['fitness'], bins=int(n),
+                                    range=(0, self.hist_dict['fitness']['max']),
+                                    histtype='step', color='b')
+            self._fitness_axis.hist(data_2['fitness'], bins=int(n),
                                     range=(0, self.hist_dict['fitness']['max']),
                                     histtype='step', color='r')
 
-    def update_graphics(self, df, num_animals, year, data):
+    def update_age(self, data_1, data_2):
+        if self._age_hist is None:
+            n = np.ceil((self.hist_dict['age']['max'] - 0) / self.hist_dict['age']['delta'])
+            self._age_axis.clear()
+            self._age_axis.set_title('Age')
+            self._age_axis.hist(data_1['age'], bins=int(n),
+                                range=(0, self.hist_dict['age']['max']),
+                                histtype='step', color='b')
+            self._age_axis.hist(data_2['age'], bins=int(n),
+                                range=(0, self.hist_dict['age']['max']),
+                                histtype='step', color='r')
+
+    def update_weight(self, data_1, data_2):
+        if self._weight_hist is None:
+            n = np.ceil((self.hist_dict['weight']['max'] - 0) / self.hist_dict['weight']['delta'])
+            self._weight_axis.clear()
+            self._weight_axis.set_title('Weight')
+            self._weight_axis.hist(data_1['weight'], bins=int(n),
+                                   range=(0, self.hist_dict['weight']['max']),
+                                   histtype='step', color='b')
+            self._weight_axis.hist(data_2['weight'], bins=int(n),
+                                range=(0, self.hist_dict['weight']['max']),
+                                histtype='step', color='r')
+
+    def update_graphics(self, df, num_animals, year, data_1, data_2):
         """Updates the graphs in the visualization for each year of the simulation.
 
         Parameters
@@ -307,6 +333,8 @@ class Visualization:
                                  num_animals['Carnivore'],
                                  year)
         self.update_year_count(year)
-        self.update_fitness(data)
+        self.update_fitness(data_1, data_2)
+        self.update_age(data_1, data_2)
+        self.update_weight(data_1, data_2)
 
         plt.pause(1e-3)
