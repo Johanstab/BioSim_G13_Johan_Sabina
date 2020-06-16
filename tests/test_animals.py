@@ -191,6 +191,14 @@ def test_eat_if_delaphimax_low(mocker):
     assert carn.weight == 35
 
 
+def test_eat_if_eaten(mocker):
+    mocker.patch('numpy.random.random', return_value=0.0000001)
+    carn = Carnivore(5, 20)
+    herbs = [Herbivore(6, 20), Herbivore(6, 20), Herbivore(6, 20)]
+    carn.eat(herbs)
+    assert carn.weight == 57.5
+
+
 def test_fitness_aging():
     """
     Testing that the fitness function works, that the fitness changes when animal aging
@@ -247,11 +255,10 @@ def test_fitness_function():
 
 
 def test_p_function():
-    q_herbivore = Herbivore.q(1, 1, 0.5, 0.5)
-    q_carnivore = Carnivore.q(1, 1, 0.5, 0.5)
-
-    assert q_herbivore == 0.43782349911420193
-    assert q_carnivore == 0.43782349911420193
+    herb_q = Herbivore.q(1, 1, 0.5, 0.5)
+    carn_q = Carnivore.q(1, 1, 0.5, 0.5)
+    assert herb_q == 0.43782349911420193
+    assert carn_q == 0.43782349911420193
 
 
 def test_death_weight():
