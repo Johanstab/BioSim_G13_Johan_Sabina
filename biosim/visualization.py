@@ -80,7 +80,6 @@ class Visualization:
         """
         if self._fig is None:
             self._fig = plt.figure(figsize=(16, 9))
-            self._fig.subplots_adjust(hspace=0.75)
             self._fig.tight_layout()
             plt.axis('off')
 
@@ -107,7 +106,6 @@ class Visualization:
             self._mean_ax.set_xlabel('Years')
             self._mean_ax.set_ylabel('Nr animals pr species')
             self._mean_ax.title.set_text('Animal count')
-            self._mean_ax.legend()
         elif self._mean_ax is not None:
             self._mean_ax.set_xlim(0, x_lim)
 
@@ -119,7 +117,7 @@ class Visualization:
             self._herb_ax.title.set_text('Herbivore distribution')
 
         if self._carn_ax is None:
-            self._carn_ax = self._fig.add_subplot(3, 3, 5)
+            self._carn_ax = self._fig.add_subplot(3, 3, 6)
             self._carn_axis = None
             self._carn_ax.set_yticklabels([])
             self._carn_ax.set_xticklabels([])
@@ -214,7 +212,7 @@ class Visualization:
         else:
             self._herb_axis = self._herb_ax.imshow(df.pivot('Row', 'Col', 'Herbivore'),
                                                    interpolation='nearest',
-                                                   cmap="Greens", vmin=0,
+                                                   vmin=0,
                                                    vmax=self.cmax['Herbivore'])
             self._herb_ax.figure.colorbar(self._herb_axis, ax=self._herb_ax,
                                           orientation='vertical',
@@ -235,7 +233,7 @@ class Visualization:
         else:
             self._carn_axis = self._carn_ax.imshow(df.pivot('Row', 'Col', 'Carnivore'),
                                                    interpolation='nearest',
-                                                   cmap="OrRd", vmin=0,
+                                                   vmin=0,
                                                    vmax=self.cmax['Carnivore'])
             self._carn_ax.figure.colorbar(self._carn_axis, ax=self._carn_ax,
                                           orientation='vertical',
@@ -309,8 +307,8 @@ class Visualization:
                                    range=(0, self.hist_dict['weight']['max']),
                                    histtype='step', color='b')
             self._weight_axis.hist(data_2['weight'], bins=int(n),
-                                range=(0, self.hist_dict['weight']['max']),
-                                histtype='step', color='r')
+                                   range=(0, self.hist_dict['weight']['max']),
+                                   histtype='step', color='r')
 
     def update_graphics(self, df, num_animals, year, data_1, data_2):
         """Updates the graphs in the visualization for each year of the simulation.
