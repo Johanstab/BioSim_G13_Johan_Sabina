@@ -82,6 +82,12 @@ def test_init():
     assert herb.age == 2
 
 
+def test_constructor_default():
+    """Default constructor callable."""
+    assert isinstance(Herbivore(), Herbivore)
+    assert isinstance(Carnivore(), Carnivore)
+
+
 def test_age():
     """
     Test that it is possible to set and get the age of animals.
@@ -199,6 +205,21 @@ def test_eat_if_eaten(mocker):
     assert carn.weight == 57.5
 
 
+def test_eat_enough():
+    carn = Carnivore(5, 20)
+    herbs = [Herbivore(6, 20), Herbivore(6, 20), Herbivore(6, 20)]
+    carn.set_params({"F": 0,
+                     })
+
+    assert carn.eat(herbs)
+
+
+def test_birth_weight():
+    weight_birth = Herbivore.weight_birth(5, 1.5)
+
+    assert weight_birth > 0
+
+
 def test_fitness_aging():
     """
     Testing that the fitness function works, that the fitness changes when animal aging
@@ -299,6 +320,14 @@ def test_birth(mocker):
     assert herb.birth(nr_animals) is not None
     assert carn.birth(nr_animals) is not None
 
+    mocker.patch('numpy.random.random', return_value=1)
+    herb = Herbivore(5, 35)
+    carn = Carnivore(5, 30)
+    nr_animals = 10
+
+    assert herb.birth(nr_animals) is None
+    assert carn.birth(nr_animals) is None
+
 
 def test_no_birth_baby_to_heavy(mocker):
     mocker.patch('numpy.random.normal', return_value=50)
@@ -331,8 +360,16 @@ def test_move(mocker):
     mocker.patch('numpy.random.random', return_value=0.0000001)
     herbivore = Herbivore(5, 20)
     carnivore = Carnivore(5, 20)
+
     assert herbivore.move() is True
     assert carnivore.move() is True
+
+    mocker.patch('numpy.random.random', return_value=1)
+    herbivore = Herbivore(5, 20)
+    carnivore = Carnivore(5, 20)
+
+    assert herbivore.move() is False
+    assert carnivore.move() is False
 
 
 def test_reset_move():
