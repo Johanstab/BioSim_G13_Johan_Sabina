@@ -3,13 +3,13 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-MODELLING THE ECOSYSTEM OF ROSSUMØYA
+Modelling the Ecosystem of Rossumøya
 ==============================================
 This library provides the computer programs for the simulation of population
 dynamics on Rossumøya.
 
 Summary
---------
+--------------
 The long term goal is to preserve Rossumøya asa nature park for future generations. The  ecosystem  on  Rossumøya  is
 characterized by several different landscape types, lowland, highland and desert. The fauna includes only two species,
 one species of herbivores (plant  eaters), and one of carnivores (predators).In order to investigate if both species can
@@ -20,23 +20,26 @@ simulation runs. The graphics window include: the island's geography,total numbe
 distribution heat maps for the number of animals per cell and simulation year. [1]_
 
 Installation
--------------
+------------------
 To make the BioSim run as smooth as possible, its required to have some libraries and setups
-installed. Read about the requirements and how to get them :doc:`here.<installation/guide>`
+installed. Read about the requirements and how to get them :doc:`here.<guide_install>`
 
 .. toctree::
    :maxdepth: 2
    :hidden:
    :caption: Installation
 
+   guide_install
 
 Modules
------------
+---------------------
 
 The modules and the source code for this project can be reached by clicking
 on the links below.
 
 *  :doc:`The Simulation module <simulation>`
+
+*  :doc:`The Visualization module <visualization>`
 
 *  :doc:`The Island module <island>`
 
@@ -49,6 +52,12 @@ on the links below.
    :maxdepth: 2
    :hidden:
    :caption: Modules
+
+   simulation
+   visualization
+   island
+   landscapes
+   animals
 
 References
 ----------
