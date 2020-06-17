@@ -43,6 +43,7 @@ from biosim.landscapes import Lowland, Highland
 import os
 import subprocess
 
+
 # update these variables to point to your ffmpeg and convert binaries
 _FFMPEG_BINARY = "ffmpeg"
 _CONVERT_BINARY = "magick"
@@ -136,6 +137,8 @@ class BioSim:
         .format(img_base, img_no, img_fmt) where img_no are consecutive image numbers starting from
         0. img_base should contain a path and beginning of a file name.
         """
+        np.random.seed(seed)
+
         if ini_pop is None:
             self.ini_pop = self.default_pop
         else:
@@ -155,7 +158,6 @@ class BioSim:
         else:
             self.hist_specs = hist_specs
 
-        np.random.seed(seed)
         self.island = Island(self.island_map, self.ini_pop)
         self.num_images = 0
         self._current_year = 0
