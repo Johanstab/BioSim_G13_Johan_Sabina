@@ -59,6 +59,21 @@ on the links below.
    landscapes
    animals
 
+Examples
+------------
+*  :doc:`Population generator <population_generator>`
+*  :doc:`Checkerboard migration demo <test>`
+
+
+.. toctree::
+   :maxdepth: 2
+   :hidden:
+   :caption: Examples
+
+   population_generator
+   test
+
+
 References
 ----------
 .. [1] Plesser, H. E. (2020). *Modelling the Ecosystem of Rossumøya*.
