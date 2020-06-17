@@ -29,10 +29,7 @@ from biosim.landscapes import Water, Lowland, Highland, Desert
 class Island:
     """Class for Island in Biosim"""
 
-    valid_landscapes = {'W': Water,
-                        'D': Desert,
-                        'L': Lowland,
-                        'H': Highland}
+    valid_landscapes = {"W": Water, "D": Desert, "L": Lowland, "H": Highland}
 
     def __init__(self, island_map, ini_pop=None):
         """Constructor that initiates Island class instances.
@@ -54,22 +51,24 @@ class Island:
         for lines in self.island_lines:
             for cell_type in lines:
                 if cell_type not in self.valid_landscapes.keys():
-                    raise ValueError(f'Cell type {cell_type} does not exist')
+                    raise ValueError(f"Cell type {cell_type} does not exist")
 
         row = len(self.island_lines[0])
         for lines in self.island_lines:
             if len(lines) is not row:
-                raise ValueError('Each row in the multiline string should be equal in length')
+                raise ValueError("Each row in the multiline string should be equal in length")
 
         for index in range(len(self.island_lines[0])):
-            if self.island_lines[0][index] != 'W' or self.island_lines[-1][index] != 'W':
-                raise ValueError('This island is out out boundary. Islands should be '
-                                 'surrounded by water')
+            if self.island_lines[0][index] != "W" or self.island_lines[-1][index] != "W":
+                raise ValueError(
+                    "This island is out out boundary. Islands should be " "surrounded by water"
+                )
 
         for index in range(len(self.island_lines)):
-            if self.island_lines[index][0] != 'W' or self.island_lines[index][-1] != 'W':
-                raise ValueError('This island is out out boundary. Islands should be '
-                                 'surrounded by water')
+            if self.island_lines[index][0] != "W" or self.island_lines[index][-1] != "W":
+                raise ValueError(
+                    "This island is out out boundary. Islands should be " "surrounded by water"
+                )
 
         self.initial_pop = ini_pop
         self.create_island_map()
@@ -90,13 +89,14 @@ class Island:
             init_pop = new_pop
 
         for animal in init_pop:
-            location = animal['loc']
+            location = animal["loc"]
             if location not in self.island_map.keys():
-                raise ValueError(f'Location {location} is not a valid location.')
+                raise ValueError(f"Location {location} is not a valid location.")
             elif self.island_map[location].passable is False:
                 raise ValueError(
-                    f'Location {self.island_map[location]} is not habitable landscape.')
-            population = animal['pop']
+                    f"Location {self.island_map[location]} is not habitable landscape."
+                )
+            population = animal["pop"]
             self.island_map[location].set_population(population)
 
     def create_island_map(self):
@@ -115,13 +115,13 @@ class Island:
                 nr_herbs += len(self.island_map[cell].herbivore_list)
                 nr_carns += len(self.island_map[cell].carnivore_list)
 
-        nr_animals = {'Herbivore': nr_herbs, 'Carnivore': nr_carns}
+        nr_animals = {"Herbivore": nr_herbs, "Carnivore": nr_carns}
         return nr_animals
 
     def nr_animals(self):
         """Create function which returns total nr of animals on island."""
         total_species = self.nr_animals_pr_species()
-        total_pop = total_species['Herbivore'] + total_species['Carnivore']
+        total_pop = total_species["Herbivore"] + total_species["Carnivore"]
         return total_pop
 
     @staticmethod
@@ -139,8 +139,7 @@ class Island:
         loc_3 = (y_cord, x_cord - 1)
         loc_4 = (y_cord, x_cord + 1)
 
-        list_ = [loc_1, loc_2,
-                 loc_3, loc_4]
+        list_ = [loc_1, loc_2, loc_3, loc_4]
 
         chosen_cell = np.random.choice(len(list_))
         chosen_cell = list_[chosen_cell]
@@ -204,12 +203,8 @@ class Island:
         list2_carn = []
         list3_herb = []
         list3_carn = []
-        plot_attributes_herb = {'fitness': [],
-                                'age': [],
-                                'weight': []}
-        plot_attributes_carn = {'fitness': [],
-                                'age': [],
-                                'weight': []}
+        plot_attributes_herb = {"fitness": [], "age": [], "weight": []}
+        plot_attributes_carn = {"fitness": [], "age": [], "weight": []}
         for cell in self.island_map:
             if self.island_map[cell].passable:
                 for animal in self.island_map[cell].herbivore_list:
@@ -221,11 +216,11 @@ class Island:
                     list1_carn.append(animal.fitness)
                     list2_carn.append(animal.age)
                     list3_carn.append(animal.weight)
-        plot_attributes_herb['fitness'] = np.array(list1_herb)
-        plot_attributes_herb['age'] = np.array(list2_herb)
-        plot_attributes_herb['weight'] = np.array(list3_herb)
+        plot_attributes_herb["fitness"] = np.array(list1_herb)
+        plot_attributes_herb["age"] = np.array(list2_herb)
+        plot_attributes_herb["weight"] = np.array(list3_herb)
 
-        plot_attributes_carn['fitness'] = np.array(list1_carn)
-        plot_attributes_carn['age'] = np.array(list2_carn)
-        plot_attributes_carn['weight'] = np.array(list3_carn)
+        plot_attributes_carn["fitness"] = np.array(list1_carn)
+        plot_attributes_carn["age"] = np.array(list2_carn)
+        plot_attributes_carn["weight"] = np.array(list3_carn)
         return plot_attributes_herb, plot_attributes_carn

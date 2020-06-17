@@ -38,6 +38,7 @@ class Animals:
     """
     This is the Superclass for animals in BioSim
     """
+
     params = {}
 
     @classmethod
@@ -83,10 +84,10 @@ class Animals:
             self._weight = self.weight_birth(self.params["w_birth"], self.params["sigma_birth"])
 
         if self._weight < 0:
-            raise ValueError('Weight must be a positive!')
+            raise ValueError("Weight must be a positive!")
 
         if self._age < 0:
-            raise ValueError('Weight must be a positive!')
+            raise ValueError("Weight must be a positive!")
 
     @staticmethod
     def weight_birth(weight, sigma):
@@ -169,8 +170,9 @@ class Animals:
         if self.weight <= 0:
             return 0
         else:
-            return self.q(+1, self.age, self.params["a_half"], self.params["phi_age"]) \
-                   * self.q(-1, self.weight, self.params["w_half"], self.params["phi_weight"])
+            return self.q(+1, self.age, self.params["a_half"], self.params["phi_age"]) * self.q(
+                -1, self.weight, self.params["w_half"], self.params["phi_weight"]
+            )
 
     def birth(self, nr_animals):
         """ Determines if the animal should reproduce or not. Then updating the weight of the
@@ -189,14 +191,15 @@ class Animals:
              A new Herbivore or Carnivore object.
         """
         if self.weight < self.params["zeta"] * (
-                self.params["w_birth"] + self.params["sigma_birth"]):
+            self.params["w_birth"] + self.params["sigma_birth"]
+        ):
             return None
 
         b_prob = min(1, self.params["gamma"] * self.fitness * (nr_animals - 1))
         if np.random.random() < b_prob:
             new_baby = type(self)()
-            if new_baby.weight * self.params['xi'] < self.weight:
-                self._weight -= new_baby.weight * self.params['xi']
+            if new_baby.weight * self.params["xi"] < self.weight:
+                self._weight -= new_baby.weight * self.params["xi"]
                 return new_baby
             else:
                 return None
@@ -215,7 +218,7 @@ class Animals:
         if self.weight == 0:
             return True
 
-        prob_death = self.params['omega'] * (1 - self.fitness)
+        prob_death = self.params["omega"] * (1 - self.fitness)
         return np.random.random() < prob_death
 
     def move(self):
@@ -229,6 +232,7 @@ class Animals:
 
 class Herbivore(Animals):
     """ Subclass of class Animals. This is the class for the herbivore species in Biosim."""
+
     params = {
         "w_birth": 8.0,
         "sigma_birth": 1.5,
@@ -263,11 +267,12 @@ class Herbivore(Animals):
 
     def eats(self, cell):
         """Increases weight according to available food and parameters."""
-        self._weight += cell * self.params['beta']
+        self._weight += cell * self.params["beta"]
 
 
 class Carnivore(Animals):
     """Subclass of class Animals. This is the class for the carnivore species in Biosim."""
+
     params = {
         "w_birth": 6.0,
         "sigma_birth": 1.0,
@@ -283,7 +288,7 @@ class Carnivore(Animals):
         "xi": 1.1,
         "omega": 0.8,
         "F": 50.0,
-        "DeltaPhiMax": 10.0
+        "DeltaPhiMax": 10.0,
     }
 
     def __init__(self, age=0, weight=None):
@@ -313,7 +318,7 @@ class Carnivore(Animals):
         bool
             Should the herbivore be killed or not.
         """
-        return np.random.random() < (self.fitness - herb.fitness) / self.params['DeltaPhiMax']
+        return np.random.random() < (self.fitness - herb.fitness) / self.params["DeltaPhiMax"]
 
     def eat(self, herb_sorted_least_fit):
         """Defining how much the carnivore should eat based on the weight of the herbivore and
@@ -330,30 +335,31 @@ class Carnivore(Animals):
 
         for herb in herb_sorted_least_fit:
 
-            if eaten >= self.params['F']:
+            if eaten >= self.params["F"]:
                 break
 
             if herb.fitness >= self.fitness:
                 break
-            elif 0 < self.fitness - herb.fitness < self.params['DeltaPhiMax']:
+            elif 0 < self.fitness - herb.fitness < self.params["DeltaPhiMax"]:
                 if self.slay(herb):
                     list_of_dead.append(herb)
-                    if herb.weight + eaten < self.params['F']:
+                    if herb.weight + eaten < self.params["F"]:
                         eaten += herb.weight
-                        self.weight += herb.weight * self.params['beta']
+                        self.weight += herb.weight * self.params["beta"]
                     else:
-                        self.weight += (self.params['F'] - eaten) * self.params['beta']
-                        eaten += self.params['F'] - eaten
+                        self.weight += (self.params["F"] - eaten) * self.params["beta"]
+                        eaten += self.params["F"] - eaten
             else:
                 if self.slay(herb):
                     list_of_dead.append(herb)
-                    if herb.weight + eaten < self.params['F']:
+                    if herb.weight + eaten < self.params["F"]:
                         eaten += herb.weight
-                        self.weight += herb.weight * self.params['beta']
+                        self.weight += herb.weight * self.params["beta"]
                     else:
-                        self.weight += (self.params['F'] - eaten) * self.params['beta']
-                        eaten += self.params['F'] - eaten
+                        self.weight += (self.params["F"] - eaten) * self.params["beta"]
+                        eaten += self.params["F"] - eaten
 
-        new_updated_list = [animal for animal in herb_sorted_least_fit if
-                            animal not in list_of_dead]
+        new_updated_list = [
+            animal for animal in herb_sorted_least_fit if animal not in list_of_dead
+        ]
         return new_updated_list

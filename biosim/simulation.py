@@ -44,26 +44,29 @@ import os
 import subprocess
 
 # update these variables to point to your ffmpeg and convert binaries
-_FFMPEG_BINARY = 'ffmpeg'
-_CONVERT_BINARY = 'magick'
+_FFMPEG_BINARY = "ffmpeg"
+_CONVERT_BINARY = "magick"
 
 # update this to the directory and file-name beginning for the graphics files
-_DEFAULT_GRAPHICS_DIR = os.path.join('..', 'figs')
-_DEFAULT_IMAGE_NAME = 'bio'
+_DEFAULT_GRAPHICS_DIR = os.path.join("..", "figs")
+_DEFAULT_IMAGE_NAME = "bio"
 _DEFAULT_IMAGE_FORMAT = "png"
-_DEFAULT_MOVIE_FORMAT = 'mp4'
+_DEFAULT_MOVIE_FORMAT = "mp4"
 DEFAULT_IMAGE_BASE = os.path.join(_DEFAULT_GRAPHICS_DIR, _DEFAULT_IMAGE_NAME)
 
 
 class BioSim:
     """Simulation interface class."""
+
     default_pop = [
-        {'loc': (4, 4),
-         'pop':
-             [{'species': 'Carnivore', 'age': 5, 'weight': 20.0} for _ in range(20)]},
-        {'loc': (4, 4),
-         'pop':
-             [{'species': 'Herbivore', 'age': 5, 'weight': 20.0} for _ in range(50)]}
+        {
+            "loc": (4, 4),
+            "pop": [{"species": "Carnivore", "age": 5, "weight": 20.0} for _ in range(20)],
+        },
+        {
+            "loc": (4, 4),
+            "pop": [{"species": "Herbivore", "age": 5, "weight": 20.0} for _ in range(50)],
+        },
     ]
 
     default_geography = """\
@@ -82,15 +85,15 @@ class BioSim:
                             WWWWWWWWWWWWWWWWWWWWW"""
 
     def __init__(
-            self,
-            island_map=None,
-            ini_pop=None,
-            seed=1,
-            ymax_animals=None,
-            cmax_animals=None,
-            hist_specs=None,
-            img_base=None,
-            img_fmt=None,
+        self,
+        island_map=None,
+        ini_pop=None,
+        seed=1,
+        ymax_animals=None,
+        cmax_animals=None,
+        hist_specs=None,
+        img_base=None,
+        img_fmt=None,
     ):
         """
         Parameters
@@ -144,9 +147,11 @@ class BioSim:
             self.island_map = island_map
 
         if hist_specs is None:
-            self.hist_specs = {'weight': {'max': 60, 'delta': 2},
-                               'fitness': {'max': 1.0, 'delta': 0.05},
-                               'age': {'max': 60, 'delta': 2}}
+            self.hist_specs = {
+                "weight": {"max": 60, "delta": 2},
+                "fitness": {"max": 1.0, "delta": 0.05},
+                "age": {"max": 60, "delta": 2},
+            }
         else:
             self.hist_specs = hist_specs
 
@@ -163,7 +168,7 @@ class BioSim:
             self.ymax_animals = 20000
 
         if self.cmax_animals is None:
-            self.cmax_animals = {'Herbivore': 150, 'Carnivore': 90}
+            self.cmax_animals = {"Herbivore": 150, "Carnivore": 90}
 
         if img_base is not None:
             self._image_base = img_base
@@ -189,9 +194,9 @@ class BioSim:
         params : dict
                Dict with valid parameter specification for species
         """
-        if species == 'Herbivore':
+        if species == "Herbivore":
             Herbivore.set_params(params)
-        elif species == 'Carnivore':
+        elif species == "Carnivore":
             Carnivore.set_params(params)
 
     @staticmethod
@@ -206,9 +211,9 @@ class BioSim:
         params : dict
                 Dict with valid parameter specification for landscape
         """
-        if landscape == 'Lowland':
+        if landscape == "Lowland":
             Lowland.set_params(params)
-        elif landscape == 'Highland':
+        elif landscape == "Highland":
             Highland.set_params(params)
 
     def simulate(self, num_years, vis_years=1, img_years=None):
@@ -230,21 +235,23 @@ class BioSim:
         self.vis.standard_map(self.island_map)
         self.vis.update_herb_heatmap(self.animal_distribution)
         self.vis.update_carn_heatmap(self.animal_distribution)
-        self.vis.update_fitness(self.island.fitness_age_weight[0],
-                                self.island.fitness_age_weight[1])
-        self.vis.update_age(self.island.fitness_age_weight[0],
-                            self.island.fitness_age_weight[1])
-        self.vis.update_weight(self.island.fitness_age_weight[0],
-                               self.island.fitness_age_weight[1])
+        self.vis.update_fitness(
+            self.island.fitness_age_weight[0], self.island.fitness_age_weight[1]
+        )
+        self.vis.update_age(self.island.fitness_age_weight[0], self.island.fitness_age_weight[1])
+        self.vis.update_weight(self.island.fitness_age_weight[0], self.island.fitness_age_weight[1])
 
         while self._current_year < num_years:
             self.island.cycle_island()
             self._current_year += 1
             if self._count % vis_years == 0:
-                self.vis.update_graphics(self.animal_distribution,
-                                         self.num_animals_per_species,
-                                         self.year, self.island.fitness_age_weight[0],
-                                         self.island.fitness_age_weight[1])
+                self.vis.update_graphics(
+                    self.animal_distribution,
+                    self.num_animals_per_species,
+                    self.year,
+                    self.island.fitness_age_weight[0],
+                    self.island.fitness_age_weight[1],
+                )
 
             if self._count % img_years == 0:
                 self._save_file()
@@ -296,10 +303,10 @@ class BioSim:
             carns.append(len(cell.carnivore_list))
             rows.append(coord[0])
             col.append(coord[1])
-        data['Row'] = rows
-        data['Col'] = col
-        data['Herbivore'] = herbs
-        data['Carnivore'] = carns
+        data["Row"] = rows
+        data["Col"] = col
+        data["Herbivore"] = herbs
+        data["Carnivore"] = carns
         df = pd.DataFrame(data)
         return df
 
@@ -309,31 +316,41 @@ class BioSim:
         if self._image_base is None:
             return
 
-        plt.savefig('{base}_{num:05d}.{type}'.format(base=self._image_base,
-                                                     num=self._image_counter,
-                                                     type=self._image_format))
+        plt.savefig(
+            "{base}_{num:05d}.{type}".format(
+                base=self._image_base, num=self._image_counter, type=self._image_format
+            )
+        )
         self._image_counter += 1
 
     def make_movie(self):
         """Create MPEG4 movie from visualization images saved."""
 
-        movie_fmt = 'mp4'
+        movie_fmt = "mp4"
         if self._image_base is None:
             raise RuntimeError("No filename defined.")
 
         try:
-            subprocess.check_call([_FFMPEG_BINARY,
-                                   '-i', '{}_%05d.png'.format(self._image_base),
-                                   '-y',
-                                   '-profile:v', 'baseline',
-                                   '-filter:v', 'setpts=5*PTS',
-                                   '-level', '3.0',
-                                   '-pix_fmt', 'yuv420p',
-                                   '{}.{}'.format(self._image_base,
-                                                  movie_fmt)])
+            subprocess.check_call(
+                [
+                    _FFMPEG_BINARY,
+                    "-i",
+                    "{}_%05d.png".format(self._image_base),
+                    "-y",
+                    "-profile:v",
+                    "baseline",
+                    "-filter:v",
+                    "setpts=5*PTS",
+                    "-level",
+                    "3.0",
+                    "-pix_fmt",
+                    "yuv420p",
+                    "{}.{}".format(self._image_base, movie_fmt),
+                ]
+            )
 
         except subprocess.CalledProcessError as err:
-            raise RuntimeError('ERROR: ffmpeg failed with: {}'.format(err))
+            raise RuntimeError("ERROR: ffmpeg failed with: {}".format(err))
 
     def save_simulation(self, name):
         """ Saves the state of the island at the time it is called.
@@ -350,7 +367,7 @@ class BioSim:
         -------
             Dumps/saves a pickled file
         """
-        with open(name + '.pickle', 'wb') as save_file:
+        with open(name + ".pickle", "wb") as save_file:
             pickle.dump(self.island, save_file, pickle.HIGHEST_PROTOCOL)
 
     @staticmethod
@@ -371,5 +388,5 @@ class BioSim:
         -------
             The state of the pickled object.
         """
-        with open(name + '.pickle', 'rb') as load_file:
+        with open(name + ".pickle", "rb") as load_file:
             return pickle.load(load_file)
