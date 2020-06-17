@@ -208,9 +208,13 @@ class BioSim:
         params : dict
                 Dict with valid parameter specification for landscape
         """
-        if landscape == 'Lowland':
+        Set parameters for landscape type.
+        :param landscape: String, code letter for landscape
+        :param params: Dict with valid parameter specification for landscape
+        """
+        if landscape == 'L':
             Lowland.set_params(params)
-        elif landscape == 'Highland':
+        elif landscape == 'H':
             Highland.set_params(params)
 
     def simple_sim(self, num_years):
@@ -253,8 +257,9 @@ class BioSim:
                                          self.year, self.island.fitness_age_weight[0],
                                          self.island.fitness_age_weight[1])
 
-            if self._count % img_years == 0:
-                self._save_file()
+
+            if img_years % vis_years == 0:
+                pass
             self._count += 1
 
     def add_population(self, population):

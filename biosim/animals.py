@@ -107,7 +107,7 @@ class Animals:
         return np.random.normal(weight, sigma)
 
     @staticmethod
-    @jit  # Speeds it up at aprox 2 times faster.
+    @jit
     def q(sgn, x, x_half, phi):
         """ Logistical regression using the Sigmoid function. Later used to calculate
          the fitness of animals.
@@ -185,7 +185,7 @@ class Animals:
         Returns
         -------
         bool
-            Determining if there should be born a baby or not.
+            If there should not be a new baby.
         new_baby
              A new Herbivore or Carnivore object.
         """
@@ -194,7 +194,6 @@ class Animals:
             return None
 
         b_prob = min(1, self.params["gamma"] * self.fitness * (nr_animals - 1))
-
         if np.random.random() < b_prob:
             new_baby = type(self)()
             if new_baby.weight * self.params['xi'] < self.weight:

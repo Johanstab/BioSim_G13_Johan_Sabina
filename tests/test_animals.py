@@ -4,6 +4,9 @@ __author__ = "Johan Stabekk, Sabina Langås"
 __email__ = "johansta@nmbu.no, sabinal@nmbu.no"
 
 import pytest
+import scipy.stats as stats
+import numpy as np
+np.random.seed(1)
 from biosim.animals import Animals, Herbivore, Carnivore
 
 
@@ -187,7 +190,15 @@ def test_weight_gain_eating_carnivore(mocker):
     assert herb == []
 
 
-def test_eat_if_delaphimax_low(mocker):
+def test_eat_if_eaten(mocker):
+    mocker.patch('numpy.random.random', return_value=0.000001)
+    carn = Carnivore(5, 20)
+    herbs = [Herbivore(6, 20), Herbivore(6, 20), Herbivore(6, 20)]
+    carn.eat(herbs)
+    assert carn.weight == 57.5
+
+
+def test_eat_if_deltaphimax_low(mocker):
     mocker.patch('numpy.random.random', return_value=0.000001)
     carn = Carnivore(5, 20)
     herb = [Herbivore(6, 20)]
@@ -197,7 +208,7 @@ def test_eat_if_delaphimax_low(mocker):
     assert carn.weight == 35
 
 
-def test_eat_if_eaten(mocker):
+def test_eat_if_eaten_more_that_deltaphimax(mocker):
     mocker.patch('numpy.random.random', return_value=0.0000001)
     carn = Carnivore(5, 20)
     herbs = [Herbivore(6, 20), Herbivore(6, 20), Herbivore(6, 20)]
@@ -207,11 +218,21 @@ def test_eat_if_eaten(mocker):
 
 def test_eat_enough():
     carn = Carnivore(5, 20)
+    carn_weight = carn.weight
     herbs = [Herbivore(6, 20), Herbivore(6, 20), Herbivore(6, 20)]
-    carn.set_params({"F": 0,
-                     })
+    carn.set_params({"F": 0})
 
     assert carn.eat(herbs)
+    assert carn.weight == carn_weight
+
+
+def test_fitness_herb_more_than_carn():
+    carn = Carnivore(2, 5)
+    carn_weight = carn.weight
+    herb = [Herbivore(6, 25), Herbivore(6, 25), Herbivore(6, 25)]
+
+    assert carn.eat(herb)
+    assert carn_weight == carn.weight
 
 
 def test_birth_weight():
@@ -329,6 +350,15 @@ def test_birth(mocker):
     assert carn.birth(nr_animals) is None
 
 
+def test_no_birth_weight_to_low():
+    herb = Herbivore(5, 15)
+    carn = Carnivore(5, 15)
+    nr_animals = 2
+
+    assert herb.birth(nr_animals) is None
+    assert carn.birth(nr_animals) is None
+
+
 def test_no_birth_baby_to_heavy(mocker):
     mocker.patch('numpy.random.normal', return_value=50)
     mocker.patch('numpy.random.random', return_value=0.00001)
@@ -338,6 +368,16 @@ def test_no_birth_baby_to_heavy(mocker):
 
     assert herb.birth(nr_animals) is None, 'Animal should not give birth if weight of baby > mother'
     assert carn.birth(nr_animals) is None, 'Animal should not give birth if weight of baby > mother'
+
+
+def test_no_birth_probability(mocker):
+    mocker.patch('numpy.random.random', return_value=1)
+    herb = Herbivore(5, 35)
+    carn = Carnivore(5, 30)
+    nr_animals = 10
+
+    assert herb.birth(nr_animals) is None
+    assert carn.birth(nr_animals) is None
 
 
 def test_mother_loose_weight(mocker):
@@ -354,6 +394,30 @@ def test_mother_loose_weight(mocker):
     assert carnivore.weight == 8
     assert new_herb.age == 0, 'New baby should be age zero'
     assert new_carn.age == 0, 'New baby should be age zero'
+
+
+def test_gaussian_distribution_birth():
+    """Test if the birth weight of new Animals is has gaussian distribution.
+    Hypothesis: p > 0.05 : Likely that the it is a gaussian distribution.
+                p < 0.05 : Probably not a gaussian distribution.
+
+    Also tests that the std of carnivores and herbivores is approximately
+    equal to the parameters.
+    """
+    herbs = [Herbivore() for _ in range(10000)]
+    herbs_weight = [herb.weight for herb in herbs]
+    herbs_std = np.std(herbs_weight)
+    carns = [Carnivore() for _ in range(10000)]
+    carns_weight = [carn.weight for carn in carns]
+    carns_std = np.std(carns_weight)
+
+    stat_herb, p_herb = stats.normaltest(herbs_weight)
+    stat_carn, p_carn = stats.normaltest(carns_weight)
+
+    assert p_herb > 0.05
+    assert p_carn > 0.05
+    assert carns_std == pytest.approx(Carnivore.params['sigma_birth'], rel=1e-2, abs=1e-10)
+    assert herbs_std == pytest.approx(Herbivore.params['sigma_birth'], rel=1e-2, abs=1e-10)
 
 
 def test_move(mocker):
