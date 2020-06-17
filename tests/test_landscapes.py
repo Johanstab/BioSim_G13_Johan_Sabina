@@ -29,7 +29,6 @@ def test_init_landscapes():
     assert type(desert) == Desert
 
 
-
 def test_food_grows_lowland():
     l_scape = Lowland()
     l_scape.available_food = 0

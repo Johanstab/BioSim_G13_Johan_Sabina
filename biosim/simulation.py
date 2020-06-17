@@ -135,6 +135,15 @@ class BioSim:
         .format(img_base, img_no, img_fmt) where img_no are consecutive image numbers starting from
         0. img_base should contain a path and beginning of a file name.
         """
+        np.random.seed(seed)
+        self._image_format = img_fmt
+        self.num_images = 0
+        self._current_year = 0
+        self.ymax_animals = ymax_animals
+        self.cmax_animals = cmax_animals
+        self._image_counter = 0
+        self._count = 0
+
         if ini_pop is None:
             self.ini_pop = self.default_pop
         else:
@@ -164,19 +173,10 @@ class BioSim:
             self._image_base = None
 
         if img_fmt is None:
-            img_fmt = _DEFAULT_IMAGE_FORMAT
+            self.img_fmt = _DEFAULT_IMAGE_FORMAT
 
-        np.random.seed(seed)
-        self._image_format = img_fmt
+        self._image_counter = 0
         self.island = Island(self.island_map, self.ini_pop)
-        self.num_images = 0
-        self._current_year = 0
-        self.ymax_animals = ymax_animals
-        self.cmax_animals = cmax_animals
-        self._image_counter = 0
-        self._count = 0
-
-        self._image_counter = 0
         self.vis = Visualization(self.cmax_animals, self.hist_specs)
 
     @staticmethod
@@ -207,10 +207,6 @@ class BioSim:
 
         params : dict
                 Dict with valid parameter specification for landscape
-        """
-        Set parameters for landscape type.
-        :param landscape: String, code letter for landscape
-        :param params: Dict with valid parameter specification for landscape
         """
         if landscape == 'L':
             Lowland.set_params(params)
