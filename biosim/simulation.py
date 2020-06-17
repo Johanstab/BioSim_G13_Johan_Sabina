@@ -323,13 +323,14 @@ class BioSim:
 
         try:
             subprocess.check_call([_FFMPEG_BINARY,
-                                       '-i', '{}_%05d.png'.format(self._image_base),
-                                       '-y',
-                                       '-profile:v', 'baseline',
-                                       '-level', '3.0',
-                                       '-pix_fmt', 'yuv420p',
-                                       '{}.{}'.format(self._image_base,
-                                                      movie_fmt)])
+                                   '-i', '{}_%05d.png'.format(self._image_base),
+                                   '-y',
+                                   '-profile:v', 'baseline',
+                                   '-filter:v', 'setpts=5*PTS',
+                                   '-level', '3.0',
+                                   '-pix_fmt', 'yuv420p',
+                                   '{}.{}'.format(self._image_base,
+                                                  movie_fmt)])
 
         except subprocess.CalledProcessError as err:
             raise RuntimeError('ERROR: ffmpeg failed with: {}'.format(err))

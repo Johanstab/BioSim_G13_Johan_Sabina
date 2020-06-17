@@ -8,3 +8,4 @@ sim = BioSim(ymax_animals=300,
              img_base=DEFAULT_IMAGE_BASE)
 sim.simulate(10, 1, 1)
 
+sim.make_movie()
