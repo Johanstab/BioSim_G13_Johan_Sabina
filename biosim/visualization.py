@@ -79,19 +79,20 @@ class Visualization:
             the start year of the simulation graphics.
         """
         if self._fig is None:
-            self._fig = plt.figure(figsize=(16, 9))
+            self._fig = plt.figure(constrained_layout=True, figsize=(8, 6))
+            gs = self._fig.add_gridspec(5, 12)
             self._fig.tight_layout()
             plt.axis('off')
 
         if self._map_ax is None:
-            self._map_ax = self._fig.add_subplot(3, 3, 1)
+            self._map_ax = self._fig.add_subplot(gs[:2, 0:5])
             self._img_axis = None
             self._map_ax.set_yticklabels([])
             self._map_ax.set_xticklabels([])
             self._map_ax.title.set_text('Island')
 
         if self._year_ax is None:
-            self._year_ax = self._fig.add_subplot(3, 3, 2)
+            self._year_ax = self._fig.add_subplot(gs[:2, 5:7])
             self._text = self._year_ax.text(0.5, 0.5, f'Year: {year}',
                                             horizontalalignment='center',
                                             verticalalignment='center',
@@ -100,7 +101,7 @@ class Visualization:
             self._year_ax.axis('off')
 
         if self._mean_ax is None:
-            self._mean_ax = self._fig.add_subplot(3, 3, 3)
+            self._mean_ax = self._fig.add_subplot(gs[:2, 7:])
             self._mean_ax.set_ylim(0, y_lim)
             self._mean_ax.set_xlim(0, x_lim)
             self._mean_ax.set_xlabel('Years')
@@ -110,29 +111,29 @@ class Visualization:
             self._mean_ax.set_xlim(0, x_lim)
 
         if self._herb_ax is None:
-            self._herb_ax = self._fig.add_subplot(3, 3, 4)
+            self._herb_ax = self._fig.add_subplot(gs[2:4, :6])
             self._herb_axis = None
             self._herb_ax.set_yticklabels([])
             self._herb_ax.set_xticklabels([])
             self._herb_ax.title.set_text('Herbivore distribution')
 
         if self._carn_ax is None:
-            self._carn_ax = self._fig.add_subplot(3, 3, 6)
+            self._carn_ax = self._fig.add_subplot(gs[2:4, 6:])
             self._carn_axis = None
             self._carn_ax.set_yticklabels([])
             self._carn_ax.set_xticklabels([])
             self._carn_ax.title.set_text('Carnivore distribution')
 
         if self._fitness_axis is None:
-            self._fitness_axis = self._fig.add_subplot(3, 3, 7)
+            self._fitness_axis = self._fig.add_subplot(gs[4:, :4])
             self._fitness_axis.set_title('Fitness')
 
         if self._age_axis is None:
-            self._age_axis = self._fig.add_subplot(3, 3, 8)
+            self._age_axis = self._fig.add_subplot(gs[4:, 4:8])
             self._age_axis.set_title('Age')
 
         if self._weight_axis is None:
-            self._weight_axis = self._fig.add_subplot(3, 3, 9)
+            self._weight_axis = self._fig.add_subplot(gs[4:, 8:])
             self._weight_axis.set_title('Weight')
 
         if self._herb_line is None:
@@ -192,8 +193,7 @@ class Visualization:
             axlg = self._fig.add_axes([0.03, 0.525, 0.1, 0.4])
             axlg.axis('off')
             for ix, name in enumerate(('W', 'L', 'H', 'D')):
-                axlg.add_patch(plt.Rectangle((0., ix * 0.2), 0.3, 0.1,
-                                             edgecolor='none',
+                axlg.add_patch(plt.Rectangle((0., ix * 0.2), 0.3, 0.1, edgecolor='none',
                                              facecolor=color_code[name[0]]))
                 axlg.text(0.35, ix * 0.2, name, transform=axlg.transAxes)
 
