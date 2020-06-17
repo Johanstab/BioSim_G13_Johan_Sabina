@@ -15,7 +15,7 @@ import os
 import subprocess
 
 # update these variables to point to your ffmpeg and convert binaries
-FFMPEG = r'{}\ffmpeg\bin\ffmpeg.exe'.format(os.getcwd())
+_FFMPEG_BINARY = 'ffmpeg'
 _CONVERT_BINARY = 'magick'
 
 # update this to the directory and file-name beginning for the graphics files
@@ -254,20 +254,14 @@ class BioSim:
             raise RuntimeError("No filename defined.")
 
         try:
-
-            subprocess.check_call(f'{FFMPEG} -y -r 20 -i '
-                                  f'{self._image_base}_%05d.'
-                                  f'{self._image_format}'
-                                  f' -c:v libx264 -vf fps=25 -pix_fmt '
-                                  f'yuv420p '
-                                  f'-vf pad=ceil(iw/2)*2:ceil(ih/2)*2 '
-                                  f'{self._image_base}.{movie_fmt}')
+            subprocess.check_call([_FFMPEG_BINARY,
+                                       '-i', '{}_%05d.png'.format(self._image_base),
+                                       '-y',
+                                       '-profile:v', 'baseline',
+                                       '-level', '3.0',
+                                       '-pix_fmt', 'yuv420p',
+                                       '{}.{}'.format(self._image_base,
+                                                      movie_fmt)])
 
         except subprocess.CalledProcessError as err:
             raise RuntimeError('ERROR: ffmpeg failed with: {}'.format(err))
-
-
-if __name__ == '__main__':
-    BioSim = BioSim()
-    BioSim.simple_sim(50)
-    print(len(BioSim.island.fitness_age_weight['age']))
