@@ -1,6 +1,6 @@
 from biosim.simulation import BioSim
 
-DEFAULT_IMAGE_BASE = r'/Users/sabinal/Documents'
+DEFAULT_IMAGE_BASE = r'/Users/sabinal/Documents/INF200 JUNI/Bilder og videoer/bio'
 
 
 sim = BioSim(ymax_animals=300,
