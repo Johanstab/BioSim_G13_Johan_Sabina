@@ -21,6 +21,8 @@ distribution heat maps for the number of animals per cell and simulation year. [
 
 Installation
 -------------
+To make the BioSim run as smooth as possible, its required to have some libraries and setups
+installed. Read about the requirements and how to get them :doc:`here.<installation/guide>`
 
 .. toctree::
    :maxdepth: 2
