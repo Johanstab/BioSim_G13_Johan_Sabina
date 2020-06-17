@@ -23,6 +23,7 @@ __author__ = "Johan Stabekk, Sabina Langås"
 __email__ = "johansta@nmbu.no, sabinal@nmbu.no"
 
 import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
 import numpy as np
 import textwrap
 
@@ -190,12 +191,12 @@ class Visualization:
                           for row in string_map.splitlines()]
 
             self._map_ax.imshow(island_map, interpolation='nearest')
-            axlg = self._fig.add_axes([0.03, 0.525, 0.1, 0.4])
-            axlg.axis('off')
-            for ix, name in enumerate(('W', 'L', 'H', 'D')):
-                axlg.add_patch(plt.Rectangle((0., ix * 0.2), 0.3, 0.1, edgecolor='none',
-                                             facecolor=color_code[name[0]]))
-                axlg.text(0.35, ix * 0.2, name, transform=axlg.transAxes)
+            patches = []
+            for name in ('W', 'L', 'H', 'D'):
+                patches.append(mpatches.Patch(edgecolor='none', label=name,
+                                              facecolor=color_code[name[0]]))
+            self._map_ax.legend(handles=patches, loc='best',
+                                bbox_to_anchor=(0.5, 0., 0.5, 0.3), prop={'size': 5})
 
     def update_herb_heatmap(self, df):
         """Updates the value of how many herbivores that is present i each cell of the island every
