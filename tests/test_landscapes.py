@@ -179,7 +179,7 @@ def test_carnivore_eats():
 
 
 def test_no_reproduce_one_animal():
-    """Test that no reproducing will happen when only on animal for the species is present"""
+    """Test that no reproducing will happen when only on animal for the species is present."""
     ini_pop = [{"species": "Herbivore", "age": 1, "weight": 10.0} for _ in range(1)] + \
               [{"species": "Carnivore", "age": 3, "weight": 14.0} for _ in range(1)]
     l_scape = Lowland()
@@ -189,7 +189,7 @@ def test_no_reproduce_one_animal():
 
 
 def test_reproduce_herbivore(mocker):
-    """Test that the herbivore """
+    """Test that the herbivore reproduce when there is more than one herbivore present."""
     mocker.patch('numpy.random.random', return_value=0.00001)
     init_pop = [{"species": "Herbivore", "age": 3, "weight": 50.0},
                 {"species": "Herbivore", "age": 3, "weight": 54.0},
@@ -206,6 +206,7 @@ def test_reproduce_herbivore(mocker):
 
 
 def test_reproduce_carnivore(mocker):
+    """Test that the carnivore reproduce when there is more than one carnivore present."""
     mocker.patch('numpy.random.random', return_value=0.00001)
     init_pop = [{"species": "Carnivore", "age": 3, "weight": 50.0},
                 {"species": "Carnivore", "age": 3, "weight": 54.0},
@@ -222,6 +223,7 @@ def test_reproduce_carnivore(mocker):
 
 
 def test_animals_die(mocker):
+    """Test if the animals actually die for random probability."""
     mocker.patch('numpy.random.random', return_value=0)
     init_pop = [{"species": "Herbivore", "age": 1, "weight": 15.0} for _ in range(10)] + \
                [{"species": "Carnivore", "age": 3, "weight": 15.0} for _ in range(10)]
@@ -237,6 +239,7 @@ def test_animals_die(mocker):
 
 
 def test_animals_age():
+    """Test that the animals ages the right way."""
     init_pop = [{"species": "Herbivore", "age": 1, "weight": 10.0} for _ in range(10)] + \
                [{"species": "Carnivore", "age": 3, "weight": 14.0} for _ in range(10)]
     l_scape = Landscape()
@@ -257,6 +260,7 @@ def test_animals_age():
 
 
 def test_animals_weight_loss():
+    """Test that the animal loses weight naturally."""
     init_pop = [{"species": "Herbivore", "age": 1, "weight": 10.0} for _ in range(10)] + \
                [{"species": "Carnivore", "age": 3, "weight": 14.0} for _ in range(10)]
     l_scape = Landscape()
@@ -277,6 +281,7 @@ def test_animals_weight_loss():
 
 
 def test_migrate(mocker):
+    """Test that the animals migrate for on cell to another"""
     mocker.patch('numpy.random.random', return_value=0)
     init_pop = [{"species": "Herbivore", "age": 1, "weight": 10.0} for _ in range(10)] + \
                [{"species": "Carnivore", "age": 3, "weight": 14.0} for _ in range(10)]
@@ -290,6 +295,7 @@ def test_migrate(mocker):
 
 
 def test_reset_migrate(mocker):
+    """"""
     mocker.patch('numpy.random.random', return_value=0)
     init_pop = [{"species": "Herbivore", "age": 1, "weight": 10.0} for _ in range(10)] + \
                [{"species": "Carnivore", "age": 3, "weight": 14.0} for _ in range(10)]
