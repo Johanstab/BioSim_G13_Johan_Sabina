@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+
+__author__ = "Johan Stabekk, Sabina Langås"
+__email__ = "johansta@nmbu.no, sabinal@nmbu.no"
+
 """
 :mod: 'biosim.simulation' provides the user with the interface to the package.
 
@@ -27,20 +31,16 @@ Notes
 
 """
 
-__author__ = "Johan Stabekk, Sabina Langås"
-__email__ = "johansta@nmbu.no, sabinal@nmbu.no"
-
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import os
-import subprocess
-
 from biosim.island import Island
 from biosim.visualization import Visualization
 from biosim.animals import Herbivore, Carnivore
 from biosim.landscapes import Lowland, Highland
 
+import os
+import subprocess
 
 # update these variables to point to your ffmpeg and convert binaries
 _FFMPEG_BINARY = 'ffmpeg'
@@ -56,7 +56,6 @@ DEFAULT_IMAGE_BASE = os.path.join(_DEFAULT_GRAPHICS_DIR, _DEFAULT_IMAGE_NAME)
 
 class BioSim:
     """Simulation interface class."""
-
     default_pop = [
         {'loc': (4, 4),
          'pop':
@@ -93,7 +92,6 @@ class BioSim:
             img_fmt=None,
     ):
         """
-
         Parameters
         ----------
         island_map : str
@@ -129,21 +127,11 @@ class BioSim:
         hist_specs is a dictionary with one entry per property for which a histogram shall be shown.
         For each property, a dictionary providing the maximum value and the bin width must be
         given, e.g., {'weight': {'max': 80, 'delta': 2}, 'fitness': {'max': 1.0, 'delta': 0.05}}
-        Permitted properties are 'weight', 'age', 'fitness'.
 
-        If img_base is None, no figures are written to file. Filenames are formed as '{}_{:05d}.{}'
+                If img_base is None, no figures are written to file. Filenames are formed as '{}_{:05d}.{}'
         .format(img_base, img_no, img_fmt) where img_no are consecutive image numbers starting from
         0. img_base should contain a path and beginning of a file name.
         """
-        np.random.seed(seed)
-        self._image_format = img_fmt
-        self.num_images = 0
-        self._current_year = 0
-        self.ymax_animals = ymax_animals
-        self.cmax_animals = cmax_animals
-        self._image_counter = 0
-        self._count = 0
-
         if ini_pop is None:
             self.ini_pop = self.default_pop
         else:
@@ -161,6 +149,15 @@ class BioSim:
         else:
             self.hist_specs = hist_specs
 
+        np.random.seed(seed)
+        self.island = Island(self.island_map, self.ini_pop)
+        self.num_images = 0
+        self._current_year = 0
+        self.ymax_animals = ymax_animals
+        self.cmax_animals = cmax_animals
+        self._image_counter = 0
+        self._count = 0
+
         if self.ymax_animals is None:
             self.ymax_animals = 20000
 
@@ -173,10 +170,10 @@ class BioSim:
             self._image_base = None
 
         if img_fmt is None:
-            self.img_fmt = _DEFAULT_IMAGE_FORMAT
+            img_fmt = _DEFAULT_IMAGE_FORMAT
+        self._image_format = img_fmt
 
         self._image_counter = 0
-        self.island = Island(self.island_map, self.ini_pop)
         self.vis = Visualization(self.cmax_animals, self.hist_specs)
 
     @staticmethod
@@ -186,10 +183,10 @@ class BioSim:
         Parameters
         ----------
         species : str
-                String, name of animal species
+               String, name of animal species
 
         params : dict
-                Dict with valid parameter specification for species
+               Dict with valid parameter specification for species
         """
         if species == 'Herbivore':
             Herbivore.set_params(params)
@@ -208,9 +205,9 @@ class BioSim:
         params : dict
                 Dict with valid parameter specification for landscape
         """
-        if landscape == 'L':
+        if landscape == 'Lowland':
             Lowland.set_params(params)
-        elif landscape == 'H':
+        elif landscape == 'Highland':
             Highland.set_params(params)
 
     def simple_sim(self, num_years):
@@ -253,9 +250,8 @@ class BioSim:
                                          self.year, self.island.fitness_age_weight[0],
                                          self.island.fitness_age_weight[1])
 
-
-            if img_years % vis_years == 0:
-                pass
+            if self._count % img_years == 0:
+                self._save_file()
             self._count += 1
 
     def add_population(self, population):
@@ -324,6 +320,7 @@ class BioSim:
 
     def make_movie(self):
         """Create MPEG4 movie from visualization images saved."""
+
         movie_fmt = 'mp4'
         if self._image_base is None:
             raise RuntimeError("No filename defined.")
