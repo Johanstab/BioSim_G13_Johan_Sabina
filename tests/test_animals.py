@@ -11,7 +11,7 @@ from biosim.animals import Animals, Herbivore, Carnivore
 
 
 def test_set_params():
-    """"""
+    """Tests if it is possible to change the parameters of Animals class."""
     params = Herbivore.params
     new_params = {
         "w_birth": 12.0,
@@ -33,36 +33,10 @@ def test_set_params():
     assert new_params != params
 
 
-def test_set_params_key_error():
-    new_params = {'birth': 12.0}
-
-    with pytest.raises(KeyError):
-        Animals.set_params(new_params)
-
-
-def test_set_params_value_error():
-    new_params_1 = {'eta': 5}
-    new_params_2 = {'DeltaPhiMax': 0}
-    new_params_3 = {'F': -5}
-
-    with pytest.raises(ValueError):
-        Herbivore.set_params(new_params_1)
-
-    with pytest.raises(ValueError):
-        Herbivore.set_params(new_params_2)
-
-    with pytest.raises(ValueError):
-        Herbivore.set_params(new_params_3)
-
-
-def test_init():
-    """
-    Test that the init method works for both carnivores and herbivores.
-    """
-    carn = Carnivore(3, 40)
-    herb = Herbivore(2, 27)
-
-    herb.set_params({
+@pytest.fixture(autouse=True)
+def test_set_default_params():
+    """Set back to default params."""
+    Herbivore.set_params({
         "w_birth": 8.0,
         "sigma_birth": 1.5,
         "beta": 0.9,
@@ -79,6 +53,36 @@ def test_init():
         "F": 10.0,
     })
 
+
+def test_set_params_key_error():
+    """Test if adding a parameter that doesnt exist displays ValueError."""
+    new_params = {'birth': 12.0}
+
+    with pytest.raises(KeyError):
+        Animals.set_params(new_params)
+
+
+def test_set_params_value_error():
+    """Test if adding a value that isn't valid displays ValueError."""
+    new_params_1 = {'eta': 5}
+    new_params_2 = {'DeltaPhiMax': 0}
+    new_params_3 = {'F': -5}
+
+    with pytest.raises(ValueError):
+        Herbivore.set_params(new_params_1)
+
+    with pytest.raises(ValueError):
+        Herbivore.set_params(new_params_2)
+
+    with pytest.raises(ValueError):
+        Herbivore.set_params(new_params_3)
+
+
+def test_init():
+    """Test that the init method works for both carnivores and herbivores."""
+    carn = Carnivore(3, 40)
+    herb = Herbivore(2, 27)
+
     assert carn.weight == 40
     assert carn.age == 3
 
@@ -87,15 +91,13 @@ def test_init():
 
 
 def test_constructor_default():
-    """Default constructor callable."""
+    """Test that default constructor is callable."""
     assert isinstance(Herbivore(), Herbivore)
     assert isinstance(Carnivore(), Carnivore)
 
 
 def test_age():
-    """
-    Test that it is possible to set and get the age of animals.
-    """
+    """Test that it is possible to set and get the age of animals."""
     herb = Herbivore(10, 20)
     carn = Carnivore(10, 20)
     assert herb.age == 10
@@ -108,9 +110,7 @@ def test_age():
 
 
 def test_ageing():
-    """
-    Test that the both herbivore and carnivore ages the right way.
-    """
+    """Test that the both herbivore and carnivore ages by 1 year each time called."""
     herb = Herbivore(10, 20)
     carn = Carnivore(10, 20)
 
@@ -121,6 +121,7 @@ def test_ageing():
 
 
 def test_value_error_for_age_and_weight():
+    """Test that age and weight can't be negative values, and that these raises ValueError."""
     with pytest.raises(ValueError):
         Herbivore(age=-9)
 
@@ -135,9 +136,7 @@ def test_value_error_for_age_and_weight():
 
 
 def test_weight():
-    """
-    Tests that it is possible to set and get weight of an animal.
-    """
+    """Tests that it is possible to set and get weight of an animal."""
     herb = Herbivore(10, 20)
     carn = Carnivore(10, 20)
 
@@ -151,9 +150,7 @@ def test_weight():
 
 
 def test_weight_loss():
-    """
-    Test that the animals loses weight for every year
-    """
+    """Test that the animals loses weight each year."""
     herb = Herbivore(9, 30)
     herb.weight_loss()
 
@@ -168,10 +165,7 @@ def test_weight_loss():
 
 
 def test_weight_gain_eating_herbivore():
-    """
-    Test that the animals gains the right amount of weight after eating"
-    """
-
+    """Test that herbivores gains the right amount of weight after eating."""
     herb = Herbivore(5, 10)
 
     herb.eats(10)
@@ -181,7 +175,9 @@ def test_weight_gain_eating_herbivore():
 
 
 def test_weight_gain_eating_carnivore(mocker):
-    mocker.patch('numpy.random.random', return_value=0.0000001)
+    """Test that carnivores eat the right amount of meat and that dead herbivores get removed from
+    from the list of alive herbivores."""
+    mocker.patch('numpy.random.random', return_value=0)
     carn = Carnivore(5, 20)
     herb = [Herbivore(6, 20)]
     herb = carn.eat(herb)
@@ -192,7 +188,8 @@ def test_weight_gain_eating_carnivore(mocker):
 
 
 def test_eat_if_eaten(mocker):
-    mocker.patch('numpy.random.random', return_value=0.000001)
+    """Test that carnivores wont eat more meat than their parameter ['F'] says."""
+    mocker.patch('numpy.random.random', return_value=0)
     carn = Carnivore(5, 20)
     herbs = [Herbivore(6, 20), Herbivore(6, 20), Herbivore(6, 20)]
     carn.eat(herbs)
@@ -200,7 +197,9 @@ def test_eat_if_eaten(mocker):
 
 
 def test_eat_if_deltaphimax_low(mocker):
-    mocker.patch('numpy.random.random', return_value=0.000001)
+    """Test that if DeltaPhiMax parameter is lower than the difference in fitness, the carnivore
+     eats"""
+    mocker.patch('numpy.random.random', return_value=0)
     carn = Carnivore(5, 20)
     herb = [Herbivore(6, 20)]
     carn.set_params({'DeltaPhiMax': 0.0001})
@@ -209,15 +208,18 @@ def test_eat_if_deltaphimax_low(mocker):
     assert carn.weight == 35
 
 
-def test_eat_if_eaten_more_than_deltaphimax(mocker):
-    mocker.patch('numpy.random.random', return_value=0.0000001)
+def test_eat_if_eaten_enough_deltaphimax_low(mocker):
+    """Test that the carnivores wont eat more that their parameter ['F'] when the difference in
+    fitness is bigger than DeltaPhiMax"""
+    mocker.patch('numpy.random.random', return_value=0)
     carn = Carnivore(5, 20)
     herbs = [Herbivore(6, 20), Herbivore(6, 20), Herbivore(6, 20)]
     carn.eat(herbs)
     assert carn.weight == 57.5
 
 
-def test_eat_enough():
+def test_eaten_enough():
+    """Test that a carnivore won't eat if its parameter ['F'] is 0."""
     carn = Carnivore(5, 20)
     carn_weight = carn.weight
     herbs = [Herbivore(6, 20), Herbivore(6, 20), Herbivore(6, 20)]
@@ -228,6 +230,7 @@ def test_eat_enough():
 
 
 def test_fitness_herb_more_than_carn():
+    """Test that the carnivore won't eat if the herbivore fitness is higher that the carnivores."""
     carn = Carnivore(2, 5)
     carn_weight = carn.weight
     herb = [Herbivore(6, 25), Herbivore(6, 25), Herbivore(6, 25)]
@@ -237,18 +240,18 @@ def test_fitness_herb_more_than_carn():
 
 
 def test_birth_weight():
-    weight_birth = Herbivore.weight_birth(5, 1.5)
+    """Test that the birth weight of an animal is higher than 0."""
+    weight_birth_herb = Herbivore.weight_birth(5, 1.5)
+    weight_birth_carn = Carnivore.weight_birth(5, 1.5)
 
-    assert weight_birth > 0
+    assert weight_birth_herb > 0
+    assert weight_birth_carn > 0
 
 
 def test_fitness_aging():
-    """
-    Testing that the fitness function works, that the fitness changes when animal aging
-    """
+    """Test that the fitness changes with age."""
     herb = Herbivore(5, 10)
     fitness_before_herbivore = herb.fitness
-
     carn = Carnivore(5, 30)
     fitness_before_carnivore = carn.fitness
 
@@ -263,9 +266,9 @@ def test_fitness_aging():
 
 
 def test_fitness_weight_loss():
+    """Test that the fitness changes with weight loss."""
     herb = Herbivore(5, 10)
     fitness_before_herbivore = herb.fitness
-
     carn = Carnivore(5, 30)
     fitness_before_carnivore = carn.fitness
 
@@ -280,6 +283,7 @@ def test_fitness_weight_loss():
 
 
 def test_fitness_weight_zero():
+    """Test that the fitness is 0 if the weight is 0."""
     herb = Herbivore(5, 0)
     carn = Carnivore(5, 0)
     assert herb.fitness == 0
@@ -287,17 +291,15 @@ def test_fitness_weight_zero():
 
 
 def test_fitness_function():
-    """
-    Testing if the fitness is calculated the right way
-    """
+    """Test that the fitness is calculated the right way."""
     herb = Herbivore(5, 10)
     carn = Carnivore(5, 20)
-
     assert herb.fitness == 0.49999999962087194
     assert carn.fitness == 0.998313708904945
 
 
-def test_p_function():
+def test_q_function():
+    """Testing that the q function(sigmoid function) returns the right value."""
     herb_q = Herbivore.q(1, 1, 0.5, 0.5)
     carn_q = Carnivore.q(1, 1, 0.5, 0.5)
     assert herb_q == 0.43782349911420193
@@ -305,10 +307,7 @@ def test_p_function():
 
 
 def test_death_weight():
-    """
-    Testing that the animal dies if the weight is zero
-    """
-
+    """Testing that the animal dies if the weight is 0."""
     herb = Herbivore(3, 0)
     carn = Carnivore(5, 0)
 
@@ -317,7 +316,9 @@ def test_death_weight():
 
 
 def test_death_probability(mocker):
-    mocker.patch('numpy.random.random', return_value=0.000001)
+    """Test that the death function returns true if the mocked value is lower than the probability
+    of death. Also the opposite if the mocked value is higher than the probability of death."""
+    mocker.patch('numpy.random.random', return_value=0)
     herb = Herbivore(5, 10)
     carn = Carnivore(6, 15)
     assert herb.death() is True
@@ -331,27 +332,27 @@ def test_death_probability(mocker):
 
 
 def test_birth(mocker):
-    """
-    Test that the animals can't reproduce if only one animal is present"
-    """
-    mocker.patch('numpy.random.random', return_value=0.000001)
+    """Test that the animals can't reproduce if only one animal is present regardless of random
+     value."""
+    mocker.patch('numpy.random.random', return_value=0)
     herb = Herbivore(5, 35)
     carn = Carnivore(5, 30)
-    nr_animals = 10
+    nr_animals = 1
 
-    assert herb.birth(nr_animals) is not None
-    assert carn.birth(nr_animals) is not None
+    assert herb.birth(nr_animals) is None
+    assert carn.birth(nr_animals) is None
 
     mocker.patch('numpy.random.random', return_value=1)
     herb = Herbivore(5, 35)
     carn = Carnivore(5, 30)
-    nr_animals = 10
+    nr_animals = 1
 
     assert herb.birth(nr_animals) is None
     assert carn.birth(nr_animals) is None
 
 
 def test_no_birth_weight_to_low():
+    """Test that the birth function returns None if the weight of the animal is to low."""
     herb = Herbivore(5, 15)
     carn = Carnivore(5, 15)
     nr_animals = 2
@@ -361,17 +362,20 @@ def test_no_birth_weight_to_low():
 
 
 def test_no_birth_baby_to_heavy(mocker):
+    """Test that the animal doesn't give birth if the baby is heavier than the mother."""
     mocker.patch('numpy.random.normal', return_value=50)
-    mocker.patch('numpy.random.random', return_value=0.00001)
+    mocker.patch('numpy.random.random', return_value=0)
     herb = Herbivore(5, 35)
     carn = Carnivore(5, 30)
     nr_animals = 10
 
-    assert herb.birth(nr_animals) is None, 'Animal should not give birth if weight of baby > mother'
-    assert carn.birth(nr_animals) is None, 'Animal should not give birth if weight of baby > mother'
+    assert herb.birth(nr_animals) is None
+    assert carn.birth(nr_animals) is None
 
 
 def test_no_birth_probability(mocker):
+    """Test that the animal should not give birth if the random value is higher than the birth
+    probability."""
     mocker.patch('numpy.random.random', return_value=1)
     herb = Herbivore(5, 35)
     carn = Carnivore(5, 30)
@@ -382,8 +386,10 @@ def test_no_birth_probability(mocker):
 
 
 def test_mother_loose_weight(mocker):
+    """Test that the mother looses weight according to the birth weight and sat parameters
+    when giving birth."""
     mocker.patch('numpy.random.normal', return_value=20)
-    mocker.patch('numpy.random.random', return_value=0.00001)
+    mocker.patch('numpy.random.random', return_value=0)
     herbivore = Herbivore(5, 35)
     carnivore = Carnivore(5, 30)
     nr_animals = 10
@@ -402,7 +408,7 @@ def test_gaussian_distribution_birth():
     Hypothesis: p > 0.05 : Likely that the it is a gaussian distribution.
                 p < 0.05 : Probably not a gaussian distribution.
 
-    Also tests that the std of carnivores and herbivores is approximately
+    Also tests that the standard deviation of carnivores and herbivores is approximately
     equal to the parameters.
     """
     herbs = [Herbivore() for _ in range(10000)]
@@ -422,7 +428,9 @@ def test_gaussian_distribution_birth():
 
 
 def test_move(mocker):
-    mocker.patch('numpy.random.random', return_value=0.0000001)
+    """Test that the move function returns True if the random value is lower than the probability
+    to move, and False if the probability is lower than the random value."""
+    mocker.patch('numpy.random.random', return_value=0)
     herbivore = Herbivore(5, 20)
     carnivore = Carnivore(5, 20)
 
@@ -438,6 +446,7 @@ def test_move(mocker):
 
 
 def test_reset_move():
+    """Test that has_moved returns to False if the function is called."""
     herb = Herbivore(5, 20)
     herb.has_moved = True
     herb.reset_has_moved()
