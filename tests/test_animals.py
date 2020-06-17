@@ -430,6 +430,46 @@ def test_gaussian_distribution_birth():
     assert herbs_std == pytest.approx(Herbivore.params["sigma_birth"], rel=1e-2, abs=1e-10)
 
 
+@pytest.mark.parametrize("omega_dict", [{"omega": 0.6}, {"omega": 0.4}])
+def test_death_z_test(omega_dict):
+    """
+    This test based and heavily inspired by Plesser H.E: biolab/test_bacteria.py
+
+    Probabilistic test of death function. For this test we will use a 95 percent level of
+    confidence, which will give us a aplha value set to 0.05. The test is only used on herbivores,
+    since the death function is the same for both species. We do test with different omega values,
+    to represent the difference between the species.
+
+    We will assume and use a low fitness value for the animals, so the formula of death probability
+    can be interpreted as the death probability. That means that we will be using omega values set
+    above as the death probability.
+
+    We will take number of dead herbivores returned by our death function and use that number to
+    calculated the Z-score
+
+    Our hypothesis will be as following:
+
+    Null hypothesis: The number of dead animals returned by the death function is
+    statistically significant with a p-value greater than the alpha parameter.
+
+    Alternative hypothesis: The number of dead animals returned is not statistically
+    significant and we reject the null hypothesis.
+    """
+    alpha = 0.01  # Setting tha alpha value that we will be using
+    herb = Herbivore(age=200, weight=5)  # Since we dont have a way of setting the fitness,
+    # high age and low weight will ensure a low fitness.
+    herb.set_params(omega_dict)  # As said above, we assume the death probability to be omega
+    p = Herbivore.params["omega"]
+    N = 1000  # This will be the total amount of the population we use in the Z-test
+    n = sum(herb.death() for _ in range(N))  # This is the number of death animals in the population
+    mean = N * p  # Finds the mean of the population
+    var = N * p * (1 - p)  # Finds the variance of the population, that will be used for std
+    Z = (n - mean) / np.sqrt(var)  # Calculated the Z-score
+    phi = 2 * stats.norm.cdf(-abs(Z))  # Calculated the percentile from the Z-score
+    print(phi)
+    assert phi > alpha  # If the test pass, we can say that our null hypothesis is correct
+
+
 def test_move(mocker):
     """Test that the move function returns True if the random value is lower than the probability
     to move, and False if the probability is lower than the random value."""
