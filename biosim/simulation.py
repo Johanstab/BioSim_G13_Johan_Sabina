@@ -210,11 +210,6 @@ class BioSim:
         elif landscape == 'Highland':
             Highland.set_params(params)
 
-    def simple_sim(self, num_years):
-        while self._current_year < num_years:
-            self.island.cycle_island()
-            self._current_year += 1
-
     def simulate(self, num_years, vis_years=1, img_years=None):
         """Run simulation while visualizing the result.
 
