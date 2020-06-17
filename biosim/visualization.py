@@ -169,7 +169,7 @@ class Visualization:
 
     def standard_map(self, default_geography):
         """Makes a visualisation of the given island geography. Assigns different colors to the
-        different types of landscapes given.
+        different types of landscapes given as a legend in the island map.
 
         Parameters
         ----------
