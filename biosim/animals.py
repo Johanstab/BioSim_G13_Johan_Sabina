@@ -88,7 +88,6 @@ class Animals:
         if self._age < 0:
             raise ValueError('Weight must be a positive!')
 
-
     @staticmethod
     def weight_birth(weight, sigma):
         """ Calculates a birth _weight for the animal class based on Gaussian distribution.
