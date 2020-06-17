@@ -33,6 +33,7 @@ Notes
 
 import numpy as np
 import pandas as pd
+import pickle
 import matplotlib.pyplot as plt
 from biosim.island import Island
 from biosim.visualization import Visualization
@@ -68,10 +69,10 @@ class BioSim:
     default_geography = """\
                             WWWWWWWWWWWWWWWWWWWWW
                             WWWWWWWWHWWWWLLLLLLLW
-                            WHHHHHLLLLWWLLLLLLLWW
-                            WHHHHHHHHHWWLLLLLLWWW
-                            WHHHHHLLLLLLLLLLLLWWW
-                            WHHHHHLLLDDLLLHLLLWWW
+                            WHHHHHLLLLWWLLLWWLLWW
+                            WHHHHHHHWHWWLLLLLLWWW
+                            WHHHHLLLLLLWLLLLLLWWW
+                            WHHHHLLLLDDLLLHLLLWWW
                             WHHLLLLLDDDLLLHHHHWWW
                             WWHHHHLLLDDLLLHWWWWWW
                             WHHHLLLLLDDLLLLLLLWWW
@@ -332,3 +333,32 @@ class BioSim:
 
         except subprocess.CalledProcessError as err:
             raise RuntimeError('ERROR: ffmpeg failed with: {}'.format(err))
+
+    def save_simulation(self, name):
+        """ Saves the state of the island at the time it is called.
+
+        Parameters
+        ----------
+        name : str
+                The name the file shall have.
+        Returns
+        -------
+            Dumps/saves a pickled file
+        """
+        with open(name + '.pickle', 'wb') as save_file:
+            pickle.dump(self.island, save_file, pickle.HIGHEST_PROTOCOL)
+
+    @staticmethod
+    def load_simulation(name):
+        """ Loads a allready pickled file and returns the content.
+
+        Parameters
+        ----------
+        name : str
+                The name of the file you want to load.
+        Returns
+        -------
+            The state of the pickled object.
+        """
+        with open(name + '.pickle', 'rb') as load_file:
+            return pickle.load(load_file)
