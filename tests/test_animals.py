@@ -406,13 +406,23 @@ def test_mother_loose_weight(mocker):
     assert new_carn.age == 0, "New baby should be age zero"
 
 
-def test_gaussian_distribution_birth():
-    """Test if the birth weight of new Animals is has gaussian distribution.
-    Hypothesis: p > 0.05 : Likely that the it is a gaussian distribution.
-                p < 0.05 : Probably not a gaussian distribution.
+def test_gaussian_distribution_birth_weight():
+    """Test if the birth weight of new Animals has a Gaussian distribution.
+    This is a probabilistic test of the birth weight of new animals. In this test we will use 95
+    percent leven of confidence, this gives that the alpha value will be set to 0.05. The test
+    will be done for both herbivores and carnivores since the parameters are different.
 
-    Also tests that the standard deviation of carnivores and herbivores is approximately
-    equal to the parameters.
+    Our sample size will be the weight of 10 000 herbivores and 10 000 carnivores. We perform
+    a normaltest to check if it has a normal distribution (Gaussian distribution).
+
+    Hypothesis 0: p > 0.05 : The distribution is statistically significant as a
+                             Gaussian distribution with a p value greater than alpha.
+    Hypothesis 1: p < 0.05 : The distribution is not statistically significant and we reject the
+                             hypothesis 0.
+
+    Secondly we test that with in this distribution, the standard deviation is approximately
+    equal to the set sigma_birth parameter representing standard deviation with deviation
+     1.0 +- 1.0e-02.
     """
     herbs = [Herbivore() for _ in range(10000)]
     herbs_weight = [herb.weight for herb in herbs]
@@ -437,8 +447,9 @@ def test_death_z_test(omega_dict):
 
     Probabilistic test of death function. For this test we will use a 95 percent level of
     confidence, which will give us a aplha value set to 0.05. The test is only used on herbivores,
-    since the death function is the same for both species. We do test with different omega values,
-    to represent the difference between the species.
+    since the death function is the same for both species. We do tests with different omega values,
+    to represent the difference between the species. We use the herbivore class for both tests
+    to simplify the set up, but the result will yield that for herbivore, then for carnivore.
 
     We will assume and use a low fitness value for the animals, so the formula of death probability
     can be interpreted as the death probability. That means that we will be using omega values set
@@ -455,7 +466,7 @@ def test_death_z_test(omega_dict):
     Alternative hypothesis: The number of dead animals returned is not statistically
     significant and we reject the null hypothesis.
     """
-    alpha = 0.01  # Setting tha alpha value that we will be using
+    alpha = 0.05  # Setting tha alpha value that we will be using
     herb = Herbivore(age=200, weight=5)  # Since we dont have a way of setting the fitness,
     # high age and low weight will ensure a low fitness.
     herb.set_params(omega_dict)  # As said above, we assume the death probability to be omega
@@ -466,7 +477,6 @@ def test_death_z_test(omega_dict):
     var = N * p * (1 - p)  # Finds the variance of the population, that will be used for std
     Z = (n - mean) / np.sqrt(var)  # Calculated the Z-score
     phi = 2 * stats.norm.cdf(-abs(Z))  # Calculated the percentile from the Z-score
-    print(phi)
     assert phi > alpha  # If the test pass, we can say that our null hypothesis is correct
 
 
