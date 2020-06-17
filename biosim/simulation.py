@@ -1,4 +1,31 @@
 # -*- coding: utf-8 -*-
+"""
+:mod: 'biosim.simulation' provides the user with the interface to the package.
+
+This file wil run the simulation of island. The simulation will run for a given amount of years.
+This file will use the visualization file, to provide visualization of the simulation.
+
+The visualization is given in one graphics window with the following elements:
+
+    *   A map of geography of the island. It' is shows different colors for the different
+        landscape types.
+    *   Line graph that shows the total number of animals in the island by
+        species.
+    *   Distribution heat maps with color bars that shows how many animals per species
+        there are in each cell of the island
+
+This file can be imported as a module and contains the following
+class:
+
+    *   BioSim - Simulation interface module
+
+Notes
+-----
+    To run this script, its required to have 'numpy', 'pandas', 'matplotlib.pyplot', 'os' and
+    'subprocess' installed in the Python environment that your going to run this script in. It also
+    requires 'ffmpeg' to run the movie_maker function.
+
+"""
 
 __author__ = "Johan Stabekk, Sabina Langås"
 __email__ = "johansta@nmbu.no, sabinal@nmbu.no"
@@ -6,13 +33,14 @@ __email__ = "johansta@nmbu.no, sabinal@nmbu.no"
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import os
+import subprocess
+
 from biosim.island import Island
 from biosim.visualization import Visualization
 from biosim.animals import Herbivore, Carnivore
 from biosim.landscapes import Lowland, Highland
 
-import os
-import subprocess
 
 # update these variables to point to your ffmpeg and convert binaries
 _FFMPEG_BINARY = 'ffmpeg'
@@ -27,6 +55,8 @@ DEFAULT_IMAGE_BASE = os.path.join(_DEFAULT_GRAPHICS_DIR, _DEFAULT_IMAGE_NAME)
 
 
 class BioSim:
+    """Simulation interface class."""
+
     default_pop = [
         {'loc': (4, 4),
          'pop':
@@ -63,28 +93,47 @@ class BioSim:
             img_fmt=None,
     ):
         """
-        :param island_map: Multi-line string specifying island geography
-        :param ini_pop: List of dictionaries specifying initial population
-        :param seed: Integer used as random number seed
-        :param ymax_animals: Number specifying y-axis limit for graph showing animal numbers
-        :param cmax_animals: Dict specifying color-code limits for animal densities
-        :param hist_specs: Specifications for histograms, see below
-        :param img_base: String with beginning of file name for figures, including path
-        :param img_fmt: String with file type for figures, e.g. 'png'
+
+        Parameters
+        ----------
+        island_map : str
+                Multi-line string specifying island geography
+
+        ini_pop : list
+                List of dictionaries specifying initial population
+
+        seed : int
+                 Integer used as random number seed
+
+        ymax_animals : int
+                Number specifying y-axis limit for graph showing animal numbers
+
+        cmax_animals : dict
+                 Dict specifying color-code limits for animal densities
+
+        hist_specs :
+                Specifications for histograms, see below
+
+        img_base : str
+                String with beginning of file name for figures, including path
+
+        img_fmt : str
+                String with file type for figures, e.g. 'png'
+
         If ymax_animals is None, the y-axis limit should be adjusted automatically.
+
         If cmax_animals is None, sensible, fixed default values should be used.
         cmax_animals is a dict mapping species names to numbers, e.g.,
         {'Herbivore': 50, 'Carnivore': 20}
+
         hist_specs is a dictionary with one entry per property for which a histogram shall be shown.
         For each property, a dictionary providing the maximum value and the bin width must be
-        given, e.g.,
-        {'weight': {'max': 80, 'delta': 2}, 'fitness': {'max': 1.0, 'delta': 0.05}}
+        given, e.g., {'weight': {'max': 80, 'delta': 2}, 'fitness': {'max': 1.0, 'delta': 0.05}}
         Permitted properties are 'weight', 'age', 'fitness'.
-        If img_base is None, no figures are written to file.
-        Filenames are formed as
-        '{}_{:05d}.{}'.format(img_base, img_no, img_fmt)
-        where img_no are consecutive image numbers starting from 0.
-        img_base should contain a path and beginning of a file name.
+
+        If img_base is None, no figures are written to file. Filenames are formed as '{}_{:05d}.{}'
+        .format(img_base, img_no, img_fmt) where img_no are consecutive image numbers starting from
+        0. img_base should contain a path and beginning of a file name.
         """
         if ini_pop is None:
             self.ini_pop = self.default_pop
@@ -103,15 +152,6 @@ class BioSim:
         else:
             self.hist_specs = hist_specs
 
-        np.random.seed(seed)
-        self.island = Island(self.island_map, self.ini_pop)
-        self.num_images = 0
-        self._current_year = 0
-        self.ymax_animals = ymax_animals
-        self.cmax_animals = cmax_animals
-        self._image_counter = 0
-        self._count = 0
-
         if self.ymax_animals is None:
             self.ymax_animals = 20000
 
@@ -125,17 +165,31 @@ class BioSim:
 
         if img_fmt is None:
             img_fmt = _DEFAULT_IMAGE_FORMAT
+
+        np.random.seed(seed)
         self._image_format = img_fmt
+        self.island = Island(self.island_map, self.ini_pop)
+        self.num_images = 0
+        self._current_year = 0
+        self.ymax_animals = ymax_animals
+        self.cmax_animals = cmax_animals
+        self._image_counter = 0
+        self._count = 0
 
         self._image_counter = 0
         self.vis = Visualization(self.cmax_animals, self.hist_specs)
 
     @staticmethod
     def set_animal_parameters(species, params):
-        """
-        Set parameters for animal species.
-        :param species: String, name of animal species
-        :param params: Dict with valid parameter specification for species
+        """Set parameters for animal species.
+
+        Parameters
+        ----------
+        species : str
+                String, name of animal species
+
+        params : dict
+                Dict with valid parameter specification for species
         """
         if species == 'Herbivore':
             Herbivore.set_params(params)
@@ -144,10 +198,15 @@ class BioSim:
 
     @staticmethod
     def set_landscape_parameters(landscape, params):
-        """
-        Set parameters for landscape type.
-        :param landscape: String, code letter for landscape
-        :param params: Dict with valid parameter specification for landscape
+        """Set parameters for landscape type.
+
+        Parameters
+        ----------
+        landscape : str
+                 String, code letter for landscape
+
+        params : dict
+                Dict with valid parameter specification for landscape
         """
         if landscape == 'Lowland':
             Lowland.set_params(params)
@@ -160,11 +219,17 @@ class BioSim:
             self._current_year += 1
 
     def simulate(self, num_years, vis_years=1, img_years=None):
-        """
-        Run simulation while visualizing the result.
-        :param num_years: number of years to simulate
-        :param vis_years: years between visualization updates
-        :param img_years: years between visualizations saved to files (default: vis_years)
+        """Run simulation while visualizing the result.
+
+        Parameters
+        ----------
+        num_years : int
+                Number of years to simulate
+        vis_years : int
+                Years between visualization updates
+        img_years : int
+                Years between visualizations saved to files (default: vis_years)
+
         Image files will be numbered consecutively.
         """
         num_years = self._current_year + num_years
@@ -193,9 +258,12 @@ class BioSim:
             self._count += 1
 
     def add_population(self, population):
-        """
-        Add a population to the island
-        :param population: List of dictionaries specifying population
+        """Add a population to the island
+
+        Parameters
+        ----------
+        population : list
+                List of dictionaries specifying population
         """
         self.island.set_population_in_cell(population)
 
@@ -216,6 +284,15 @@ class BioSim:
 
     @property
     def animal_distribution(self):
+        """Makes a dataframe of the animal_distribution on the island, to use in the visualization
+        heat maps.
+
+        Returns
+        -------
+        df
+            Dataframe used in heat map visualization
+
+        """
         data = {}
         rows = []
         col = []
@@ -234,9 +311,7 @@ class BioSim:
         return df
 
     def _save_file(self):
-        """
-        Saves graphics to file if file name given [1]_.
-        """
+        """Saves graphics to file if file name given."""
 
         if self._image_base is None:
             return
@@ -248,7 +323,6 @@ class BioSim:
 
     def make_movie(self):
         """Create MPEG4 movie from visualization images saved."""
-
         movie_fmt = 'mp4'
         if self._image_base is None:
             raise RuntimeError("No filename defined.")
