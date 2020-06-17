@@ -33,6 +33,7 @@ Notes
 
 import numpy as np
 import pandas as pd
+import pickle
 import matplotlib.pyplot as plt
 from biosim.island import Island
 from biosim.visualization import Visualization
@@ -68,10 +69,10 @@ class BioSim:
     default_geography = """\
                             WWWWWWWWWWWWWWWWWWWWW
                             WWWWWWWWHWWWWLLLLLLLW
-                            WHHHHHLLLLWWLLLLLLLWW
-                            WHHHHHHHHHWWLLLLLLWWW
-                            WHHHHHLLLLLLLLLLLLWWW
-                            WHHHHHLLLDDLLLHLLLWWW
+                            WHHHHHLLLLWWLLLWWLLWW
+                            WHHHHHHHWHWWLLLLLLWWW
+                            WHHHHLLLLLLWLLLLLLWWW
+                            WHHHHLLLLDDLLLHLLLWWW
                             WHHLLLLLDDDLLLHHHHWWW
                             WWHHHHLLLDDLLLHWWWWWW
                             WHHHLLLLLDDLLLLLLLWWW
@@ -332,3 +333,42 @@ class BioSim:
 
         except subprocess.CalledProcessError as err:
             raise RuntimeError('ERROR: ffmpeg failed with: {}'.format(err))
+
+    def save_simulation(self, name):
+        """ Saves the state of the island at the time it is called.
+
+            * Set the 'name' for the file.
+            * The file gets saved.
+            * Use BioSim.load_simulation to load the saved data.
+
+        Parameters
+        ----------
+        name : str
+                The name the file shall have.
+        Returns
+        -------
+            Dumps/saves a pickled file
+        """
+        with open(name + '.pickle', 'wb') as save_file:
+            pickle.dump(self.island, save_file, pickle.HIGHEST_PROTOCOL)
+
+    @staticmethod
+    def load_simulation(name):
+        """ Loads a already pickled file and returns the content.
+
+            * Input the 'name' of the file that was saved.
+            * Set the data equal to some name.
+            * Use this name further to replace existing island or place a new.
+
+        For an example check: BioSim_G13_Johan_Sabina\examples\check_sim_pickled.py
+
+        Parameters
+        ----------
+        name : str
+                The name of the file you want to load.
+        Returns
+        -------
+            The state of the pickled object.
+        """
+        with open(name + '.pickle', 'rb') as load_file:
+            return pickle.load(load_file)

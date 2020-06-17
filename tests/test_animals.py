@@ -11,6 +11,7 @@ from biosim.animals import Animals, Herbivore, Carnivore
 
 
 def test_set_params():
+    """"""
     params = Herbivore.params
     new_params = {
         "w_birth": 12.0,
@@ -208,7 +209,7 @@ def test_eat_if_deltaphimax_low(mocker):
     assert carn.weight == 35
 
 
-def test_eat_if_eaten_more_that_deltaphimax(mocker):
+def test_eat_if_eaten_more_than_deltaphimax(mocker):
     mocker.patch('numpy.random.random', return_value=0.0000001)
     carn = Carnivore(5, 20)
     herbs = [Herbivore(6, 20), Herbivore(6, 20), Herbivore(6, 20)]
