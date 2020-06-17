@@ -10,6 +10,7 @@ from biosim.animals import Herbivore, Carnivore
 
 @pytest.fixture(autouse=True)
 def test_set_animal_parameters():
+    """Sets default parameters to animals."""
     Herbivore.set_params({
         "w_birth": 8.0,
         "sigma_birth": 1.5,
@@ -47,6 +48,7 @@ def test_set_animal_parameters():
 
 @pytest.fixture(autouse=True)
 def test_set_params():
+    """Sets default parameters to landscapes, and tests that they can be changed."""
     l_scape = Lowland()
     params = l_scape.params
     new_params = {'f_max': 5000}
@@ -59,14 +61,15 @@ def test_set_params():
 
 
 def test_init_landscapes():
+    """Test that landscapes can be initialised."""
     lowland = Lowland()
     highland = Highland()
     water = Water()
     desert = Desert()
-    assert type(lowland) == Lowland
-    assert type(highland) == Highland
-    assert type(water) == Water
-    assert type(desert) == Desert
+    assert isinstance(lowland, Lowland)
+    assert isinstance(highland, Highland)
+    assert isinstance(water, Water)
+    assert isinstance(desert, Desert)
 
 
 def test_food_grows_lowland():
@@ -119,7 +122,7 @@ def test_food_grows_highland():
 
 def test_herbivore_eats():
     ini_pop = [{"species": "Herbivore", "age": 3, "weight": 20.0},
-                {"species": "Herbivore", "age": 3, "weight": 20.0}]
+               {"species": "Herbivore", "age": 3, "weight": 20.0}]
     l_scape = Lowland()
     l_scape.set_population(ini_pop)
     l_scape.food_grows()
@@ -131,7 +134,7 @@ def test_herbivore_eats():
 
 def test_herbivore_does_not_eat():
     ini_pop = [{"species": "Herbivore", "age": 3, "weight": 20.0},
-                {"species": "Herbivore", "age": 3, "weight": 20.0}]
+               {"species": "Herbivore", "age": 3, "weight": 20.0}]
     l_scape = Lowland()
     l_scape.set_population(ini_pop)
     l_scape.available_food = 0
@@ -142,7 +145,7 @@ def test_herbivore_does_not_eat():
 
 def test_herbivore_eats_available_food():
     ini_pop = [{"species": "Herbivore", "age": 3, "weight": 20.0},
-                {"species": "Herbivore", "age": 3, "weight": 20.0}]
+               {"species": "Herbivore", "age": 3, "weight": 20.0}]
     l_scape = Lowland()
     l_scape.set_population(ini_pop)
     l_scape.available_food = 10
@@ -154,10 +157,10 @@ def test_herbivore_eats_available_food():
 
 def test_carnivore_eats():
     ini_pop = [{"species": "Herbivore", "age": 3, "weight": 10.0} for _ in range(10)] + \
-               [{"species": "Carnivore", "age": 3, "weight": 14.0} for _ in range(10)]
+              [{"species": "Carnivore", "age": 3, "weight": 14.0} for _ in range(10)]
     l_scape = Desert()
     l_scape.set_population(ini_pop)
-    carns  = l_scape.carnivore_list
+    carns = l_scape.carnivore_list
     herbs = l_scape.herbivore_list
     l_scape.carnivore_eats()
     assert herbs != l_scape.herbivore_list
