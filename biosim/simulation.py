@@ -337,6 +337,10 @@ class BioSim:
     def save_simulation(self, name):
         """ Saves the state of the island at the time it is called.
 
+            * Set the 'name' for the file.
+            * The file gets saved.
+            * Use BioSim.load_simulation to load the saved data.
+
         Parameters
         ----------
         name : str
@@ -351,6 +355,12 @@ class BioSim:
     @staticmethod
     def load_simulation(name):
         """ Loads a already pickled file and returns the content.
+
+            * Input the 'name' of the file that was saved.
+            * Set the data equal to some name.
+            * Use this name further to replace existing island or place a new.
+
+        For an example check: BioSim_G13_Johan_Sabina\examples\check_sim_pickled.py
 
         Parameters
         ----------
