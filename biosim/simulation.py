@@ -128,7 +128,7 @@ class BioSim:
         For each property, a dictionary providing the maximum value and the bin width must be
         given, e.g., {'weight': {'max': 80, 'delta': 2}, 'fitness': {'max': 1.0, 'delta': 0.05}}
 
-                If img_base is None, no figures are written to file. Filenames are formed as '{}_{:05d}.{}'
+        If img_base is None, no figures are written to file. Filenames are formed as '{}_{:05d}.{}'
         .format(img_base, img_no, img_fmt) where img_no are consecutive image numbers starting from
         0. img_base should contain a path and beginning of a file name.
         """
