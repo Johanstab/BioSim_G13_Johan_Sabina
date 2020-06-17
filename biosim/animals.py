@@ -185,7 +185,7 @@ class Animals:
         Returns
         -------
         bool
-            Determining if there should be born a baby or not.
+            If there should not be a new baby.
         new_baby
              A new Herbivore or Carnivore object.
         """

@@ -398,20 +398,26 @@ def test_mother_loose_weight(mocker):
 
 def test_gaussian_distribution_birth():
     """Test if the birth weight of new Animals is has gaussian distribution.
-    Hypothesis: p > 0.05 : Probably a gaussian distribution
-                p < 0.05 : Probably not a gaussian distribution
+    Hypothesis: p > 0.05 : Likely that the it is a gaussian distribution.
+                p < 0.05 : Probably not a gaussian distribution.
 
+    Also tests that the std of carnivores and herbivores is approximately
+    equal to the parameters.
     """
     herbs = [Herbivore() for _ in range(10000)]
     herbs_weight = [herb.weight for herb in herbs]
+    herbs_std = np.std(herbs_weight)
     carns = [Carnivore() for _ in range(10000)]
     carns_weight = [carn.weight for carn in carns]
+    carns_std = np.std(carns_weight)
 
     stat_herb, p_herb = stats.normaltest(herbs_weight)
     stat_carn, p_carn = stats.normaltest(carns_weight)
 
     assert p_herb > 0.05
     assert p_carn > 0.05
+    assert carns_std == pytest.approx(Carnivore.params['sigma_birth'], rel=1e-2, abs=1e-10)
+    assert herbs_std == pytest.approx(Herbivore.params['sigma_birth'], rel=1e-2, abs=1e-10)
 
 
 def test_move(mocker):
