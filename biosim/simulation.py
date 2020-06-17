@@ -350,7 +350,7 @@ class BioSim:
 
     @staticmethod
     def load_simulation(name):
-        """ Loads a allready pickled file and returns the content.
+        """ Loads a already pickled file and returns the content.
 
         Parameters
         ----------
