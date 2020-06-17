@@ -15,6 +15,8 @@ import matplotlib.pyplot as plt
 
 from biosim.simulation import BioSim
 
+DEFAULT_IMAGE_BASE = r'/Users/sabinal/Documents/INF200 JUNI/Bilder og videoer/bio'
+
 if __name__ == "__main__":
     plt.ion()
 
@@ -49,7 +51,7 @@ if __name__ == "__main__":
             "fitness": {"max": 1.0, "delta": 0.05},
             "age": {"max": 60.0, "delta": 2},
             "weight": {"max": 60, "delta": 2},
-        },
+        }, img_base=DEFAULT_IMAGE_BASE
     )
 
     sim.set_animal_parameters('Herbivore',
@@ -59,4 +61,5 @@ if __name__ == "__main__":
                               {'mu': 1, 'omega': 0, 'gamma': 0,
                                'F': 0, 'a_half': 1000})
 
-    sim.simulate(num_years=10, vis_years=1, img_years=2000)
+    sim.simulate(num_years=10, vis_years=1, img_years=1)
+    sim.make_movie()
