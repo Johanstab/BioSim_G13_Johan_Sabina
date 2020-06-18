@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
-
-import textwrap
-import matplotlib.pyplot as plt
-
-from biosim.simulation import BioSim
-
 """
-Compatibility check for BioSim simulations.
+:mod:`biosim.check_sim` Compatibility check for BioSim simulations.
 
 This script shall function with biosim packages written for
 the INF200 project June 2020.
 """
+import textwrap
+import matplotlib.pyplot as plt
+
+from biosim.simulation import BioSim
 
 __author__ = "Hans Ekkehard Plesser, NMBU"
 __email__ = "hans.ekkehard.plesser@nmbu.no"
