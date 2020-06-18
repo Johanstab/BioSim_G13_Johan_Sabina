@@ -326,8 +326,7 @@ class BioSim:
         self._image_counter += 1
 
     def make_movie(self):
-        """This function is based and heavily inspired by Plesser H.E:
-        https://github.com/heplesser/nmbu_inf200_june2020/blob/master/examples/randvis_project/randvis/simulation.py
+        """This function is based and heavily inspired by Plesser H.E [1]_
 
         Create MPEG4 movie from visualization images saved."""
 
