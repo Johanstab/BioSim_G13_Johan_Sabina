@@ -118,8 +118,8 @@ class Animals:
             \Phi =
             \begin{cases}
              0 & w \leq 0 \\
-            q^+(a, a_{\frac{1}{2}, \phi_{age}}) \times q^-(w, w_{\frac{1}{2},
-            \phi_{weight}}) & else
+            q^+(a, a_{\frac{1}{2}}, \phi_{age}) \times q^-(w, w_{\frac{1}{2}},
+            \phi_{weight}) & else
             \end{cases}
             \end{equation}
 
