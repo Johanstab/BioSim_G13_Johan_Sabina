@@ -108,6 +108,7 @@ def test_age():
 
 def test_ageing():
     """
+
     Test that the both herbivore and carnivore ages the right way.
     """
     herb = Herbivore(10, 20)
@@ -136,6 +137,7 @@ def test_value_error_for_age_and_weight():
 def test_weight():
     """
     Tests that it is possible to set and get weight of an animal.
+
     """
     herb = Herbivore(10, 20)
     carn = Carnivore(10, 20)

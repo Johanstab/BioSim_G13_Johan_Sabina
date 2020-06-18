@@ -321,6 +321,7 @@ class Carnivore(Animals):
         the amount it has already eaten. Gains weight based set parameters and how much it has
         eaten.
 
+
         Parameters
         ----------
         herb_sorted_least_fit : List
