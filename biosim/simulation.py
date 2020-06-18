@@ -4,6 +4,7 @@ __author__ = "Johan Stabekk, Sabina Langås"
 __email__ = "johansta@nmbu.no, sabinal@nmbu.no"
 
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 from biosim.island import Island
 from biosim.visualization import Visualization
@@ -95,18 +96,26 @@ class BioSim:
         else:
             self.island_map = island_map
 
+        if hist_specs is None:
+            self.hist_specs = {'weight': {'max': 60, 'delta': 2},
+                               'fitness': {'max': 1.0, 'delta': 0.05},
+                               'age': {'max': 60, 'delta': 2}}
+        else:
+            self.hist_specs = hist_specs
+
+        np.random.seed(seed)
         self.island = Island(self.island_map, self.ini_pop)
         self.num_images = 0
         self._current_year = 0
-        self.seed = seed
         self.ymax_animals = ymax_animals
         # self.img_fmt = img_fmt
         # self.img_base = img_base
         self.cmax_animals = cmax_animals
         self._image_counter = 0
+        self._count = 0
 
         if self.ymax_animals is None:
-            self.ymax_animals = 15000
+            self.ymax_animals = 20000
 
         if self.cmax_animals is None:
             self.cmax_animals = {'Herbivore': 150, 'Carnivore': 90}
@@ -121,6 +130,7 @@ class BioSim:
         self._image_format = img_fmt
 
         self._image_counter = 0
+        self.vis = Visualization(self.cmax_animals, self.hist_specs)
 
     @staticmethod
     def set_animal_parameters(species, params):
@@ -141,10 +151,15 @@ class BioSim:
         :param landscape: String, code letter for landscape
         :param params: Dict with valid parameter specification for landscape
         """
-        if landscape == 'Lowland':
+        if landscape == 'L':
             Lowland.set_params(params)
-        elif landscape == 'Highland':
+        elif landscape == 'H':
             Highland.set_params(params)
+
+    def simple_sim(self, num_years):
+        while self._current_year < num_years:
+            self.island.cycle_island()
+            self._current_year += 1
 
     def simulate(self, num_years, vis_years=1, img_years=None):
         """
@@ -155,19 +170,24 @@ class BioSim:
         Image files will be numbered consecutively.
         """
         num_years = self._current_year + num_years
-        vis = Visualization()
-        vis.set_graphics(self.ymax_animals, num_years + 1, self.year)
-        vis.standard_map(self.island_map)
+        self.vis.set_graphics(self.ymax_animals, num_years + 1, self.year)
+        self.vis.standard_map(self.island_map)
+        self.vis.update_herb_heatmap(self.animal_distribution)
+        self.vis.update_carn_heatmap(self.animal_distribution)
+        self.vis.update_fitness(self.island.fitness_age_weight[0]['fitness'])
 
         while self._current_year < num_years:
             self.island.cycle_island()
             self._current_year += 1
+            if self._count % vis_years == 0:
+                self.vis.update_graphics(self.animal_distribution,
+                                         self.num_animals_per_species,
+                                         self.year, self.island.fitness_age_weight[0]['fitness'])
 
-            vis.animal_distribution(self.island.island_map)
-            vis.update_herb_heatmap(200)
-            vis.update_carn_heatmap(100)
-            vis.update_graphics(self.num_animals_per_species,
-                                self.cmax_animals, self.year)
+
+            if img_years % vis_years == 0:
+                pass
+            self._count += 1
 
     def add_population(self, population):
         """
@@ -190,6 +210,25 @@ class BioSim:
     def num_animals_per_species(self):
         """Number of animals per species in island, as dictionary."""
         return self.island.nr_animals_pr_species()
+
+    @property
+    def animal_distribution(self):
+        data = {}
+        rows = []
+        col = []
+        herbs = []
+        carns = []
+        for coord, cell in self.island.island_map.items():
+            herbs.append(len(cell.herbivore_list))
+            carns.append(len(cell.carnivore_list))
+            rows.append(coord[0])
+            col.append(coord[1])
+        data['Row'] = rows
+        data['Col'] = col
+        data['Herbivore'] = herbs
+        data['Carnivore'] = carns
+        df = pd.DataFrame(data)
+        return df
 
     def _save_file(self):
         """
@@ -226,6 +265,6 @@ class BioSim:
 
 
 if __name__ == '__main__':
-    pass
     BioSim = BioSim()
-    BioSim.simulate(200)
+    BioSim.simple_sim(50)
+    print(len(BioSim.island.fitness_age_weight['age']))

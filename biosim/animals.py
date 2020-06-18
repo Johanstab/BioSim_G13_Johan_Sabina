@@ -1,18 +1,54 @@
 # -*- coding: utf-8 -*-
 
+"""
+:mod: 'bisosim.animal' gives the user information about animals and there fauna on
+      Rossumøya
+
+There is two different species living on Rossumøya, Herbivores and Carnivores. The species bare
+certain characteristics in common, but also have characteristics unique to there species. This
+script has all the species characteristics stored in superclass and subclasses.
+
+This file can be imported as a module and contains the following classes:
+
+    *   Animals - Superclass that contains all of the common characteristics of the species living
+        on Rossumøya.
+
+    *   Herbivore(Animals) - Subclass of Animals that contains the special characteristics for the
+        herbivore species.
+
+    *   Carnivore(Animals) - Subclass of Animals that contains the special characteristics of the
+        carnivore species.
+
+Notes
+-----
+    To run this script, its required to have both 'numpy' and 'numba' installed in the Python
+    environment that your going to run this script in.
+"""
+
+
 __author__ = "Johan Stabekk, Sabina Langås"
 __email__ = "johansta@nmbu.no, sabinal@nmbu.no"
 
 import numpy as np
+
 from numba import jit
 
 
 class Animals:
-    "Move params to different species and create a set_params method"
+    """
+    This is the Superclass for animals in BioSim
+    """
     params = {}
 
     @classmethod
     def set_params(cls, new_params):
+        """ This method gives the ability to change the default params of the different species.
+
+        Parameters
+        ----------
+        new_params : dict
+                Dictionary that contains new parameters for the animals/species.
+        """
         for key in new_params:
             if key not in cls.params:
                 raise KeyError("Invalid parameter name: " + key)
@@ -27,12 +63,31 @@ class Animals:
         cls.params.update(new_params)
 
     def __init__(self, age=0, weight=None):
+        """
+        Constructor that initiates class Animals.
+
+        Parameters
+        ----------
+        age : int
+                Sets the age of a new instance of a species. The default value is set to be 0.
+
+        weight : int
+                Sets the weight of a new instance of a species. The default weight is drawn from a
+                Gaussian distribution based on mean and standard deviation.
+        """
         self._age = age
         self._weight = weight
         self.has_moved = False
 
         if self._weight is None:
             self._weight = self.weight_birth(self.params["w_birth"], self.params["sigma_birth"])
+
+        if self._weight < 0:
+            raise ValueError('Weight must be a positive!')
+
+        if self._age < 0:
+            raise ValueError('Weight must be a positive!')
+
 
     @staticmethod
     def weight_birth(weight, sigma):
@@ -52,7 +107,7 @@ class Animals:
         return np.random.normal(weight, sigma)
 
     @staticmethod
-    @jit  # Speeds it up at aprox 2 times faster.
+    @jit
     def q(sgn, x, x_half, phi):
         """ Logistical regression using the Sigmoid function. Later used to calculate
          the fitness of animals.
@@ -66,7 +121,7 @@ class Animals:
         x_half  : float
             Parameter defining at which weight/age the fitness shall deteriorate or grow.
         phi  : float
-            Defining the
+            Defining a factor for weight/age that will be used to calculate the fitness.
 
         Returns
         -------
@@ -77,38 +132,30 @@ class Animals:
 
     @property
     def age(self):
-        """"Getter for age"""
+        """"Getter for age."""
         return self._age
 
     @age.setter
     def age(self, new_age):
+        """Setter for age."""
         self._age = new_age
 
     @property
     def weight(self):
-        """Getter for weight"""
+        """Getter for weigh."""
         return self._weight
 
     @weight.setter
     def weight(self, new_weight):
+        """Setter for weight."""
         self._weight = new_weight
 
     def aging(self):
-        """Function to increase the age of the animal.
-
-        Returns
-        -------
-        None
-        """
+        """Function to increase the age of the animal."""
         self._age += 1
 
     def weight_loss(self):
-        """ The natural weight loss an animal goes through each year.
-
-        Returns
-        -------
-        None
-        """
+        """ The natural weight loss an animal goes through each year."""
         self._weight -= self.params["eta"] * self.weight
 
     @property
@@ -123,7 +170,7 @@ class Animals:
         if self.weight <= 0:
             return 0
         else:
-            return self.q(+1, self.age, self.params["a_half"], self.params["phi_age"])\
+            return self.q(+1, self.age, self.params["a_half"], self.params["phi_age"]) \
                    * self.q(-1, self.weight, self.params["w_half"], self.params["phi_weight"])
 
     def birth(self, nr_animals):
@@ -138,7 +185,7 @@ class Animals:
         Returns
         -------
         bool
-            Determining if there should be born a baby or not.
+            If there should not be a new baby.
         new_baby
              A new Herbivore or Carnivore object.
         """
@@ -147,7 +194,6 @@ class Animals:
             return None
 
         b_prob = min(1, self.params["gamma"] * self.fitness * (nr_animals - 1))
-
         if np.random.random() < b_prob:
             new_baby = type(self)()
             if new_baby.weight * self.params['xi'] < self.weight:
@@ -174,13 +220,16 @@ class Animals:
         return np.random.random() < prob_death
 
     def move(self):
+        """Checks if the animal will move or not."""
         return np.random.random() < self.fitness * self.params["mu"]
 
     def reset_has_moved(self):
+        """Reset the 'has_moved§ value for the animal."""
         self.has_moved = False
 
 
 class Herbivore(Animals):
+    """ Subclass of class Animals. This is the class for the herbivore species in Biosim."""
     params = {
         "w_birth": 8.0,
         "sigma_birth": 1.5,
@@ -200,6 +249,17 @@ class Herbivore(Animals):
     }
 
     def __init__(self, age=0, weight=None):
+        """Constructor that initiates class instances of Herbivore.
+
+        Parameters
+        ----------
+        age : int
+                Sets the age of a new instance of a herbivore. The default value is set to be 0.
+
+        weight : int
+                Sets the weight of a new instance of a herbivore. The default weight is drawn from a
+                Gaussian distribution based on mean and standard deviation.
+        """
         super().__init__(age, weight)
 
     def eats(self, cell):
@@ -208,6 +268,7 @@ class Herbivore(Animals):
 
 
 class Carnivore(Animals):
+    """Subclass of class Animals. This is the class for the carnivore species in Biosim."""
     params = {
         "w_birth": 6.0,
         "sigma_birth": 1.0,
@@ -227,6 +288,17 @@ class Carnivore(Animals):
     }
 
     def __init__(self, age=0, weight=None):
+        """Constructor that initiates class instances of Carnivores.
+
+        Parameters
+        ----------
+         age : int
+                Sets the age of a new instance of a carnivore. The default value is set to be 0.
+
+        weight : int
+                Sets the weight of a new instance of a carnivore. The default weight is drawn from a
+                Gaussian distribution based on mean and standard deviation.
+        """
         super().__init__(age, weight)
 
     def slay(self, herb):
@@ -254,9 +326,6 @@ class Carnivore(Animals):
         ----------
         herb_sorted_least_fit : List
                 Sorted list containing all the herbivore objects.
-        Returns
-        -------
-        None
         """
         eaten = 0
         list_of_dead = []
@@ -290,4 +359,3 @@ class Carnivore(Animals):
         new_updated_list = [animal for animal in herb_sorted_least_fit if
                             animal not in list_of_dead]
         return new_updated_list
-
