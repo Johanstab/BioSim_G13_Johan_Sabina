@@ -58,6 +58,7 @@ class Visualization:
         self._fitness_axis = None
         self._age_axis = None
         self._weight_axis = None
+        self._gs = None
 
         self._herb_line = None
         self._carn_line = None
@@ -83,13 +84,13 @@ class Visualization:
         # create new figure window
         if self._fig is None:
             self._fig = plt.figure(constrained_layout=True, figsize=(8, 6))
-            gs = self._fig.add_gridspec(5, 12)
+            self._gs = self._fig.add_gridspec(5, 12)
             self._fig.tight_layout()
             plt.axis("off")
 
         # Add subplot for map
         if self._map_ax is None:
-            self._map_ax = self._fig.add_subplot(gs[:2, 0:5])
+            self._map_ax = self._fig.add_subplot(self._gs[:2, 0:5])
             self._img_axis = None
             self._map_ax.set_yticklabels([])
             self._map_ax.set_xticklabels([])
@@ -97,7 +98,7 @@ class Visualization:
 
         # Add subplot for year count
         if self._year_ax is None:
-            self._year_ax = self._fig.add_subplot(gs[:2, 5:7])
+            self._year_ax = self._fig.add_subplot(self._gs[:2, 5:7])
             self._text = self._year_ax.text(
                 0.5,
                 0.5,
@@ -111,7 +112,7 @@ class Visualization:
 
         # Add subplot for animal count graph
         if self._mean_ax is None:
-            self._mean_ax = self._fig.add_subplot(gs[:2, 7:])
+            self._mean_ax = self._fig.add_subplot(self._gs[:2, 7:])
             self._mean_ax.set_ylim(0, y_lim)
             self._mean_ax.set_xlim(0, x_lim)
             self._mean_ax.set_xlabel("Years")
@@ -122,7 +123,7 @@ class Visualization:
 
         # Add subplot for herbivore distribution
         if self._herb_ax is None:
-            self._herb_ax = self._fig.add_subplot(gs[2:4, :6])
+            self._herb_ax = self._fig.add_subplot(self._gs[2:4, :6])
             self._herb_axis = None
             self._herb_ax.set_yticklabels([])
             self._herb_ax.set_xticklabels([])
@@ -130,7 +131,7 @@ class Visualization:
 
         # Add subplot for carnivore distribution
         if self._carn_ax is None:
-            self._carn_ax = self._fig.add_subplot(gs[2:4, 6:])
+            self._carn_ax = self._fig.add_subplot(self._gs[2:4, 6:])
             self._carn_axis = None
             self._carn_ax.set_yticklabels([])
             self._carn_ax.set_xticklabels([])
@@ -138,17 +139,17 @@ class Visualization:
 
         # Add subplot for fitness histogram
         if self._fitness_axis is None:
-            self._fitness_axis = self._fig.add_subplot(gs[4:, :4])
+            self._fitness_axis = self._fig.add_subplot(self._gs[4:, :4])
             self._fitness_axis.set_title("Fitness")
 
         # Add subplot for age histogram
         if self._age_axis is None:
-            self._age_axis = self._fig.add_subplot(gs[4:, 4:8])
+            self._age_axis = self._fig.add_subplot(self._gs[4:, 4:8])
             self._age_axis.set_title("Age")
 
         # Add subplot for weight histogram
         if self._weight_axis is None:
-            self._weight_axis = self._fig.add_subplot(gs[4:, 8:])
+            self._weight_axis = self._fig.add_subplot(self._gs[4:, 8:])
             self._weight_axis.set_title("Weight")
 
         # Initiate total Herbivores graph

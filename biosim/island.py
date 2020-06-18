@@ -237,4 +237,3 @@ class Island:
         plot_attributes_carn["age"] = np.array(list2_carn)
         plot_attributes_carn["weight"] = np.array(list3_carn)
         return plot_attributes_herb, plot_attributes_carn
-
