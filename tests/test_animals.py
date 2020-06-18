@@ -26,7 +26,7 @@ def test_init():
 
 def test_ageing():
     """
-    Test that the both herbivore and carnivore ages the right way
+    Test that the both herb and carnivore ages the right way
     """
     herbivore = Herbivore(10, 20)
     carnivore = Carnivore(10, 20)
