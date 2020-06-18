@@ -16,7 +16,8 @@ can also be install by using ``pip``::
     pip install subprocess
 
 The module also requires the program ``ffmpeg`` which is available from
-`<https://ffmpeg.org>`_ or for conda install ffmpeg
+`<https://ffmpeg.org>`_ . It can also be installed with ``conda``::
+    conda install ffmpeg
 
 Installing BioSim
 --------------------
