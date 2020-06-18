@@ -445,7 +445,8 @@ def test_gaussian_distribution_birth_weight():
 @pytest.mark.parametrize("omega_dict", [{"omega": 0.6}, {"omega": 0.4}])
 def test_death_z_test(omega_dict):
     """
-    This test based and heavily inspired by Plesser H.E: biolab/test_bacteria.py
+    This test based and heavily inspired by Plesser H.E:
+    https://github.com/heplesser/nmbu_inf200_june2020/blob/master/examples/biolab_project/tests/test_bacteria.py
 
     Probabilistic test of death function. For this test we will use a 95 percent level of
     confidence, which will give us a aplha value set to 0.05. The test is only used on herbivores,

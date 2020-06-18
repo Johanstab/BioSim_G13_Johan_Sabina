@@ -181,7 +181,10 @@ class Visualization:
                 self._carn_line.set_data(np.hstack((xdata, x_new)), np.hstack((ydata, y_new)))
 
     def standard_map(self, default_geography):
-        """Makes a visualisation of the given island geography. Assigns different colors to the
+        """This function is based and heavily inspired by Plesser H.E:
+        https://github.com/heplesser/nmbu_inf200_june2020/blob/master/examples/plotting/mapping.py
+
+        Makes a visualisation of the given island geography. Assigns different colors to the
         different types of landscapes given as a legend in the island map.
 
         Parameters

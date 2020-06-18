@@ -198,6 +198,18 @@ class Island:
 
     @property
     def fitness_age_weight(self):
+        """ Function that retrieves the fitness, age and weight for all animals and
+        then sorts them into a dictionary as numpy arrays. One dictionary for each species.
+        This is later used in the visualization.
+
+        Returns
+        -------
+        plot_attributes_herb: dict
+                    Dictionary containing fitness, age and weight for all the herbivores.
+        plot_attributes_carn: dict
+                    Dictionary containing fitness, age and weight for all the carnivores.
+
+        """
         list1_herb = []
         list1_carn = []
         list2_herb = []
