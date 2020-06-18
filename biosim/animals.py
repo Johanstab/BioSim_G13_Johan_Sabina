@@ -196,9 +196,27 @@ class Animals:
             )
 
     def birth(self, nr_animals):
-        """ Determines if the animal should reproduce or not. Then updating the weight of the
+        r"""
+        Determines if the animal should reproduce or not. Then updating the weight of the
         parent and producing a new instance of a Herbivore or Carnivore based on which
         species it is.
+
+        For each animal the probability to give birth is:
+
+        .. math::
+            \begin{equation}
+            min(1, \gamma \times \Phi \times (N-1))
+            \end{equation}
+
+        where N is the number of same type of animals.
+
+        The probability of birth is zero when the weight is:
+
+        .. math::
+            \begin{equation}
+            w < \zeta(w_{birth} + \sigma_{birth})
+            \end{equation}
+
 
         Parameters
         ----------
@@ -228,8 +246,19 @@ class Animals:
             return None
 
     def death(self):
-        """Decides if an animal shall die or not based on randomness. The fitter an animal is
+        r"""
+        Decides if an animal shall die or not based on randomness. The fitter an animal is
         the higher chances it has for survival.
+
+        An animal dies with the probability if weight is not zero:
+
+        .. math::
+            \begin{equation}
+            \omega(1 - \Phi)
+            \end{equation}
+
+
+
 
         Returns
         -------
@@ -342,10 +371,23 @@ class Carnivore(Animals):
         return np.random.random() < (self.fitness - herb.fitness) / self.params["DeltaPhiMax"]
 
     def eat(self, herb_sorted_least_fit):
-        """Defining how much the carnivore should eat based on the weight of the herbivore and
+        r"""
+        Defining how much the carnivore should eat based on the weight of the herbivore and
         the amount it has already eaten. Gains weight based set parameters and how much it has
         eaten.
 
+        Carnivores will kill a herbivore with probability:
+
+        .. math::
+            \begin{equation}
+            p =
+            \begin{cases}
+             0 & if\;  \Phi_{carn} \leq \Phi_{herb}\\
+             \frac{\Phi_{carn} - \Phi_{herb}}{\Delta\Phi_{max}} & if\; 0 < \Phi_{carn} -
+             \Phi_{herb} < \Delta\Phi_{max}\\
+            1 & otherwise.
+            \end{cases}
+            \end{equation}
 
         Parameters
         ----------
