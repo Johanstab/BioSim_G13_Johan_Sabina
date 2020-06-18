@@ -109,8 +109,29 @@ class Animals:
     @staticmethod
     @jit
     def q(sgn, x, x_half, phi):
-        """ Logistical regression using the Sigmoid function. Later used to calculate
-         the fitness of animals.
+        r"""
+        Logistical regression using the Sigmoid function. Later used to calculate
+        the fitness of animals.
+
+        .. math::
+            \begin{equation}
+            \Phi =
+            \begin{cases}
+             0 & w \leq 0 \\
+            q^+(a, a_{\frac{1}{2}, \phi_{age}}) \times q^-(w, w_{\frac{1}{2},
+            \phi_{weight}}) & else
+            \end{cases}
+            \end{equation}
+
+        where
+
+        .. math::
+            \begin{equation}
+            q^\pm(x, x_{\frac{1}{2}}, \phi) =
+            \frac{1}{1 + e^{\pm \phi(x - x_{\frac{1}{2}})}}
+            \end{equation}
+
+        Note that :math:`0 \leq \Phi \leq 1`.
 
         Parameters
         ----------
