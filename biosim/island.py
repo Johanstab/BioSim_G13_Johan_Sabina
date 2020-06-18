@@ -3,8 +3,10 @@
 __author__ = "Johan Stabekk, Sabina Langås"
 __email__ = "johansta@nmbu.no, sabinal@nmbu.no"
 
+
 import textwrap
 import numpy as np
+
 
 np.random.seed(1)
 import matplotlib.pyplot as plt
@@ -152,11 +154,6 @@ class Island:
 if __name__ == "__main__":
     island = Island()
 
-    # print(map_.keys())
-    # for x in range(1, 5):
-    #     for y in range(1, 5):
-    #         print(map_[(y, x)])
-
     print(len(island.island_map[(2, 2)].herbivore_list))
     print(len(island.island_map[(2, 2)].carnivore_list))
     island.island_map[(2, 2)].herbivore_list.sort(key=lambda animal: animal.age, reverse=True)
@@ -166,4 +163,5 @@ if __name__ == "__main__":
 
     plt.plot(island.num_herbivores, 'b')
     plt.plot(island.num_carnivores, 'r')
+
     plt.show()
