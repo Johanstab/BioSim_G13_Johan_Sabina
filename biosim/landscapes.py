@@ -43,6 +43,8 @@ class Landscape:
 
         self.f_max = self.params["f_max"]
         self.herbivore_list = []
+        self.sorted_herbi = []
+        self.sorted_carni = []
         self.carnivore_list = []
         self.available_food = 0
 
@@ -56,7 +58,7 @@ class Landscape:
     def food_grows(self):
         self.available_food = self.f_max
 
-    def animals_eat(self):
+    def herbivore_eats(self):
 
         np.random.shuffle(self.herbivore_list)
 
@@ -70,47 +72,72 @@ class Landscape:
                 herbivore.eats(self.available_food)
                 self.available_food = 0
 
-        animal_eaten = 0
-        self.carnivore_list.sort(key=lambda animal: animal.fitness)
-        self.herbivore_list.sort(key=lambda animal: animal.fitness, reverse=True)
+    def carnivore_eats(self):
+        dead_herbivores = []
+        # self.sorted_carni = sorted(self.carnivore_list,
+        #                            key=lambda animal: animal.fitness,
+        #                            reverse=True)
+        # self.sorted_herbi = sorted(self.herbivore_list, key=lambda animal: animal.fitness)
+
+        self.carnivore_list.sort(key=lambda animal: animal.fitness, reverse=True)
+        self.herbivore_list.sort(key=lambda animal: animal.fitness)
 
         for carnivore in self.carnivore_list:
             for herbivore in self.herbivore_list:
-                if carnivore.eats(herbivore):
-                    animal_eaten += herbivore.weight * carnivore.params['beta']
-                    if animal_eaten == carnivore.params['F']:
-                        pass
-                    pass
-                break
+                if carnivore.amount_eaten >= carnivore.params['F']:
+                    break
+                if carnivore.slay(herbivore):
+                    carnivore.eat(herbivore)
+                    dead_herbivores.append(herbivore)
 
+            self.herbivore_list = [animal for animal in self.herbivore_list if
+                                   animal not in dead_herbivores]
+            self.herbivore_list.sort(key=lambda animal: animal.fitness)
 
-
-
-
-     def animals_reproduce(self):
+    def herbivore_reproduce(self):
         nr_animals = len(self.herbivore_list)
+
         if nr_animals < 2:
             return False
 
         new_babies = []
         for herbivore in self.herbivore_list:
             new_baby = herbivore.birth(nr_animals)
-            if new_baby:
+            if new_baby is not None:
                 new_babies.append(new_baby)
 
         self.herbivore_list.extend(new_babies)
 
-    def animals_die(self):
+    def carnivore_reproduce(self):
 
+        nr_animals = len(self.carnivore_list)
+
+        if nr_animals < 2:
+            return False
+
+        new_babies = []
+        for carnivore in self.carnivore_list:
+            new_baby = carnivore.birth(nr_animals)
+            if new_baby is not None:
+                new_babies.append(new_baby)
+
+        self.carnivore_list.extend(new_babies)
+
+    def animals_die(self):
         self.herbivore_list = [animal for animal in self.herbivore_list if not animal.death()]
+        self.carnivore_list = [animal for animal in self.carnivore_list if not animal.death()]
 
     def animals_age(self):
         for herbivore in self.herbivore_list:
             herbivore.aging()
+        for carnivore in self.carnivore_list:
+            carnivore.aging()
 
     def animals_lose_weight(self):
         for herbivore in self.herbivore_list:
             herbivore.weight_loss()
+        for carnivore in self.carnivore_list:
+            carnivore.weight_loss()
 
 
 class Lowland(Landscape):

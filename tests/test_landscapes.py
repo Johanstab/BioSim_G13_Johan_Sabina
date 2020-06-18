@@ -18,20 +18,50 @@ def initial_populations():
 def test_set_population(initial_populations):
     l_scape = Landscape()
     l_scape.set_population(initial_populations)
-    assert type(l_scape.animal_list[0]) == Herbivore
-    assert type(l_scape.animal_list[1]) == Carnivore
+    assert type(l_scape.herbivore_list[0]) == Herbivore
+    assert type(l_scape.carnivore_list[0]) == Carnivore
 
 
 def test_food_grows():
-    pass
+    l_scape = Landscape()
+    l_scape.available_food = 0
+    l_scape.f_max = 800
+    l_scape.food_grows()
+
+    assert l_scape.available_food != 0
+    assert l_scape.available_food == 800
 
 
 def test_animal_eats():
-    pass
+    l_scape = Landscape()
 
 
-def test_animals_reproduce():
-    pass
+def test_reproduce_herbivore():
+    init_pop = [{"species": "Herbivore", "age": 3, "weight": 50.0},
+                {"species": "Herbivore", "age": 3, "weight": 54.0},
+                {"species": "Herbivore", "age": 3, "weight": 50.0},
+                {"species": "Herbivore", "age": 3, "weight": 54.0}]
+
+    l_scape = Landscape()
+    l_scape.set_population(init_pop)
+
+    l_scape.herbivore_reproduce()
+
+    assert len(l_scape.herbivore_list) != 4
+
+
+def test_reproduce_carnivore():
+    init_pop = [{"species": "Carnivore", "age": 3, "weight": 50.0},
+                {"species": "Carnivore", "age": 3, "weight": 54.0},
+                {"species": "Carnivore", "age": 3, "weight": 50.0},
+                {"species": "Carnivore", "age": 3, "weight": 54.0}]
+
+    l_scape = Landscape()
+    l_scape.set_population(init_pop)
+
+    l_scape.carnivore_reproduce()
+
+    assert len(l_scape.carnivore_list) != 4
 
 
 def test_animals_die(initial_populations):
