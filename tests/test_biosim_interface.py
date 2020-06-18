@@ -33,7 +33,7 @@ def test_empty_island():
 
 
 def test_minimal_island():
-    """Island of single jungle cell"""
+    """Island of single lowland cell"""
     BioSim(island_map="WWW\nWLW\nWWW", ini_pop=[], seed=1)
 
 
@@ -162,7 +162,6 @@ def test_multi_simulate(plain_sim):
 
 def test_get_years(plain_sim):
     """Test that number of years simulated is available"""
-
     plain_sim.simulate(num_years=2, vis_years=100, img_years=100)
     assert plain_sim.year == 2
     plain_sim.simulate(num_years=3, vis_years=100, img_years=100)

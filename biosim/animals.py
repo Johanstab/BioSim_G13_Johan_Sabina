@@ -14,7 +14,7 @@ class Animals:
     @classmethod
     def set_params(cls, new_params):
         for key in new_params:
-            if key not in Animals.params:
+            if key not in cls.params:
                 raise KeyError("Invalid parameter name: " + key)
 
         for iterator in new_params:
@@ -24,14 +24,12 @@ class Animals:
                 raise ValueError("DeltaPhiMax must be positive!")
             if new_params[iterator] < 0:
                 raise ValueError("{} cannot be negative".format(iterator))
-            cls.params.update(iterator)
-            # Implementer en metode med dict.update
+        cls.params.update(new_params)
 
     def __init__(self, age=0, weight=None):
         self._age = age
         self._weight = weight
-        self.phi = 0
-        self.prob_death = 0
+        self.has_moved = False
 
         if self._weight is None:
             self._weight = self.weight_birth(self.params["w_birth"], self.params["sigma_birth"])
@@ -151,12 +149,7 @@ class Animals:
         b_prob = min(1, self.params["gamma"] * self.fitness * (nr_animals - 1))
 
         if np.random.random() < b_prob:
-            if type(self) is Herbivore:
-                new_baby = Herbivore()
-            elif type(self) is Carnivore:
-                new_baby = Carnivore()
-            else:
-                raise TypeError(f'Type {type(self)} is not valid')
+            new_baby = type(self)()
             if new_baby.weight * self.params['xi'] < self.weight:
                 self._weight -= new_baby.weight * self.params['xi']
                 return new_baby
@@ -179,6 +172,12 @@ class Animals:
 
         prob_death = self.params['omega'] * (1 - self.fitness)
         return np.random.random() < prob_death
+
+    def move(self):
+        return np.random.random() < self.fitness * self.params["mu"]
+
+    def reset_has_moved(self):
+        self.has_moved = False
 
 
 class Herbivore(Animals):

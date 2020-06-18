@@ -5,6 +5,7 @@ __email__ = "johansta@nmbu.no, sabinal@nmbu.no"
 
 
 import numpy as np
+from itertools import chain
 from .animals import Herbivore, Carnivore
 
 """
@@ -24,51 +25,56 @@ Defines the order of what happens in a year:
 
 
 class Landscape:
-    keys = ["f_max"]
-    params = dict.fromkeys(keys)
+    params = {}
 
     @classmethod
     def set_params(cls, new_params):
+        for param in new_params:
+            if param not in cls.params:
+                raise KeyError("Invalid parameter name: " + new_params[0])
 
-        if new_params[0] not in Landscape.keys:
-            raise KeyError("Invalid parameter name: " + new_params[0])
+            if param == "f_max" and new_params["f_max"] < 0:
+                raise ValueError("f_max must be positive")
 
-        if new_params == "f_max" and new_params["f_max"] < 0:
-            raise ValueError("f_max must be positive")
-
-        cls.params = new_params
+        cls.params.update(new_params)
 
     def __init__(self):
         "common traits are size."
 
-        self.f_max = self.params["f_max"]
         self.herbivore_list = []
-        self.sorted_herbi = []
-        self.sorted_carni = []
         self.carnivore_list = []
         self.available_food = 0
 
-    def set_population(self, input_dict):
+    def set_population(self, input_list):
         """Sets the populations of animals.
 
         Parameters
         ----------
-        input_dict : dict
-                Dictionary containing Herbivores and Carnivores.
+        input_list : list
+                List of dictionaries containing Herbivores and Carnivores.
 
         Returns
         -------
         None
         """
-        for animal in input_dict:
-            if animal["species"] == "Herbivore":
+        for animal in input_list:
+            if animal['species'] == 'Herbivore':
                 self.herbivore_list.append(Herbivore(age=animal["age"], weight=animal["weight"]))
-            else:
+            elif animal['species'] == 'Carnivore':
                 self.carnivore_list.append(Carnivore(age=animal["age"], weight=animal["weight"]))
+
+    def add_population(self, animal):
+        if type(animal).__name__ == 'Herbivore':
+            self.herbivore_list.append(animal)
+        elif type(animal).__name__ == 'Carnivore':
+            self.carnivore_list.append(animal)
 
     def food_grows(self):
         """Updates food for each year."""
-        self.available_food = self.f_max
+        if type(self) == Lowland:
+            self.available_food = self.params['f_max']
+        elif type(self) == Highland:
+            self.available_food = self.params['f_max']
 
     def herbivore_eats(self):
         """Cycle where all herbivores eats fodder in a random order according to how much
@@ -104,8 +110,7 @@ class Landscape:
         self.herbivore_list.sort(key=lambda animal: animal.fitness)
 
         for carnivore in self.carnivore_list:
-            dead = carnivore.eat(self.herbivore_list)
-            self.herbivore_list.remove(dead)
+            self.herbivore_list = carnivore.eat(self.herbivore_list)
 
     def herbivore_reproduce(self):
         """
@@ -171,25 +176,53 @@ class Landscape:
         for carnivore in self.carnivore_list:
             carnivore.weight_loss()
 
+    def animals_migrate(self):
+        """
+        1. - Need to check if the herbivore should move.
+        2. - If the animal should move, then draw a random probability of where to move.
+        3. - Then move the animal there by returning the new location to island and change there,
+             should also set herb/carn.has_moved to True.
+        4. - Do this for all the herbivores and carnivores - use list comprehension to remove.
+
+
+        Returns
+        -------
+
+        """
+        moved_herbs = []
+        moved_carns = []
+
+        for herb in self.herbivore_list:
+            if herb.has_moved is not True and herb.move():
+                moved_herbs.append(herb)
+
+        for carn in self.carnivore_list:
+            if carn.has_moved is not True and carn.move():
+                moved_carns.append(carn)
+
+        return moved_herbs, moved_carns
+
+    def reset_migrate(self):
+        for herb in self.herbivore_list:
+            herb.has_moved = False
+        for carn in self.carnivore_list:
+            carn.has_moved = False
+
 
 class Lowland(Landscape):
-    params = {"f_max": 800}
+    params = {'f_max': 800}
     passable = True
 
     def __init__(self):
         super().__init__()
-        self.f_max = self.params["f_max"]
-
-    "Make function for available fodder and population growth"
 
 
 class Highland(Landscape):
-    params = {"f_max": 300}
+    params = {'f_max': 300}
     passable = True
 
     def __init__(self):
         super().__init__()
-        self.f_max = self.params["f_max"]
 
 
 class Water(Landscape):
@@ -200,9 +233,8 @@ class Water(Landscape):
 
 
 class Desert(Landscape):
-    params = {"f_max": 0}
     passable = True
 
     def __init__(self):
         super().__init__()
-        self.f_max = self.params['f_max']
+
