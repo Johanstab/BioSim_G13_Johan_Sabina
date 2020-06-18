@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-""""
+"""
 :mod: 'biosim.visualization' provides the user with visualization functions for the island
          simulation
 

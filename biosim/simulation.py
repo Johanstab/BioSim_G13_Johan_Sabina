@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 
-__author__ = "Johan Stabekk, Sabina Langås"
-__email__ = "johansta@nmbu.no, sabinal@nmbu.no"
-
 """
 :mod: 'biosim.simulation' provides the user with the interface to the package.
 
@@ -28,8 +25,10 @@ Notes
     To run this script, its required to have 'numpy', 'pandas', 'matplotlib.pyplot', 'os' and
     'subprocess' installed in the Python environment that your going to run this script in. It also
     requires 'ffmpeg' to run the movie_maker function.
-
 """
+
+__author__ = "Johan Stabekk, Sabina Langås"
+__email__ = "johansta@nmbu.no, sabinal@nmbu.no"
 
 import numpy as np
 import pandas as pd
