@@ -38,6 +38,7 @@ from .animals import Herbivore, Carnivore
 
 class Landscape:
     """Superclass for landscape cells in BioSim"""
+
     params = {}
 
     @classmethod
@@ -74,9 +75,9 @@ class Landscape:
                 List of dictionaries containing Herbivores and Carnivores.
         """
         for animal in input_list:
-            if animal['species'] == 'Herbivore':
+            if animal["species"] == "Herbivore":
                 self.herbivore_list.append(Herbivore(age=animal["age"], weight=animal["weight"]))
-            elif animal['species'] == 'Carnivore':
+            elif animal["species"] == "Carnivore":
                 self.carnivore_list.append(Carnivore(age=animal["age"], weight=animal["weight"]))
 
     def add_population(self, animal):
@@ -88,17 +89,17 @@ class Landscape:
         animal: object
             Dict containing information about the animal that being added to the landscape cell.
         """
-        if type(animal).__name__ == 'Herbivore':
+        if type(animal).__name__ == "Herbivore":
             self.herbivore_list.append(animal)
-        elif type(animal).__name__ == 'Carnivore':
+        elif type(animal).__name__ == "Carnivore":
             self.carnivore_list.append(animal)
 
     def food_grows(self):
         """Updates food for each year."""
         if type(self) == Lowland:
-            self.available_food = self.params['f_max']
+            self.available_food = self.params["f_max"]
         elif type(self) == Highland:
-            self.available_food = self.params['f_max']
+            self.available_food = self.params["f_max"]
 
     def herbivore_eats(self):
         """Cycle where all herbivores eats fodder in a random order according to how much
@@ -108,10 +109,10 @@ class Landscape:
         for herbivore in self.herbivore_list:
             if self.available_food == 0:
                 break
-            if self.available_food >= herbivore.params['F']:
-                herbivore.eats(herbivore.params['F'])
-                self.available_food -= herbivore.params['F']
-            if self.available_food < herbivore.params['F']:
+            if self.available_food >= herbivore.params["F"]:
+                herbivore.eats(herbivore.params["F"])
+                self.available_food -= herbivore.params["F"]
+            if self.available_food < herbivore.params["F"]:
                 herbivore.eats(self.available_food)
                 self.available_food = 0
 
@@ -217,7 +218,8 @@ class Landscape:
 
 class Lowland(Landscape):
     """Class instance of class Landscape for the cell type Lowland."""
-    params = {'f_max': 800}
+
+    params = {"f_max": 800}
     passable = True
 
     def __init__(self):
@@ -227,7 +229,8 @@ class Lowland(Landscape):
 
 class Highland(Landscape):
     """Class instance of class Landscape for the cell type Highland."""
-    params = {'f_max': 300}
+
+    params = {"f_max": 300}
     passable = True
 
     def __init__(self):
@@ -237,6 +240,7 @@ class Highland(Landscape):
 
 class Water(Landscape):
     """Class instance of class Landscape for the cell type Water."""
+
     passable = False
 
     def __init__(self):
@@ -246,9 +250,9 @@ class Water(Landscape):
 
 class Desert(Landscape):
     """Class instance of class Landscape for the cell type Desert"""
+
     passable = True
 
     def __init__(self):
         """Constructor that initiate class instance Desert."""
         super().__init__()
-

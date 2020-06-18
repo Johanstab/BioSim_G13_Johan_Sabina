@@ -8,29 +8,76 @@ from biosim.landscapes import Landscape, Lowland, Highland, Desert, Water
 from biosim.animals import Herbivore, Carnivore
 
 
+@pytest.fixture(autouse=True)
+def test_set_animal_parameters():
+    """Sets default parameters to animals for the tests"""
+    Herbivore.set_params(
+        {
+            "w_birth": 8.0,
+            "sigma_birth": 1.5,
+            "beta": 0.9,
+            "eta": 0.05,
+            "a_half": 40.0,
+            "phi_age": 0.6,
+            "w_half": 10.0,
+            "phi_weight": 0.1,
+            "mu": 0.25,
+            "gamma": 0.2,
+            "zeta": 3.5,
+            "xi": 1.2,
+            "omega": 0.4,
+            "F": 10.0,
+        }
+    )
+    Carnivore.set_params(
+        {
+            "w_birth": 6.0,
+            "sigma_birth": 1.0,
+            "beta": 0.75,
+            "eta": 0.125,
+            "a_half": 40.0,
+            "phi_age": 0.3,
+            "w_half": 4.0,
+            "phi_weight": 0.4,
+            "mu": 0.4,
+            "gamma": 0.8,
+            "zeta": 3.5,
+            "xi": 1.1,
+            "omega": 0.8,
+            "F": 50.0,
+            "DeltaPhiMax": 10.0,
+        }
+    )
+
+
+@pytest.fixture(autouse=True)
 def test_set_params():
+    """Sets default parameters to landscapes, and tests that they can be changed."""
     l_scape = Lowland()
     params = l_scape.params
-    new_params = {'f_max': 5000}
+    new_params = {"f_max": 5000}
     new_params = l_scape.set_params(new_params)
     assert params != new_params
 
-    l_scape.set_params({'f_max': 800})
+    l_scape.set_params({"f_max": 800})
+    l_scape2 = Highland()
+    l_scape2.set_params({"f_max": 300})
 
 
 def test_init_landscapes():
+    """Test that landscapes can be initialised."""
     lowland = Lowland()
     highland = Highland()
     water = Water()
     desert = Desert()
-    assert type(lowland) == Lowland
-    assert type(highland) == Highland
-    assert type(water) == Water
-    assert type(desert) == Desert
-
+    assert isinstance(lowland, Lowland)
+    assert isinstance(highland, Highland)
+    assert isinstance(water, Water)
+    assert isinstance(desert, Desert)
 
 
 def test_food_grows_lowland():
+    """Test that fodder will grow in Lowland"""
     l_scape = Lowland()
     l_scape.available_food = 0
     l_scape.food_grows()
@@ -40,8 +87,9 @@ def test_food_grows_lowland():
 
 
 def test_set_params_error():
-    new_params1 = {'fodder_max': 10}
-    new_params2 = {'f_max': -10}
+    """Test if error is raised when invalid key or value is past/used."""
+    new_params1 = {"fodder_max": 10}
+    new_params2 = {"f_max": -10}
     with pytest.raises(KeyError):
         assert Lowland.set_params(new_params1)
     with pytest.raises(ValueError):
@@ -49,6 +97,7 @@ def test_set_params_error():
 
 
 def test_set_population():
+    """Test that population can be set in landscapes"""
     init_herb = [{"species": "Herbivore", "age": 1, "weight": 10.0} for _ in range(10)]
 
     init_carn = [{"species": "Carnivore", "age": 3, "weight": 14.0} for _ in range(10)]
@@ -62,6 +111,7 @@ def test_set_population():
 
 
 def test_add_population():
+    """Test if population can be added to landscapes"""
     l_scape = Landscape()
     l_scape.add_population(Herbivore(5, 20))
     l_scape.add_population(Carnivore(5, 20))
@@ -70,6 +120,7 @@ def test_add_population():
 
 
 def test_food_grows_highland():
+    """Test that fodder will grow in Lowland"""
     l_scape = Highland()
     l_scape.available_food = 0
     l_scape.food_grows()
@@ -79,8 +130,11 @@ def test_food_grows_highland():
 
 
 def test_herbivore_eats():
-    ini_pop = [{"species": "Herbivore", "age": 3, "weight": 20.0},
-                {"species": "Herbivore", "age": 3, "weight": 20.0}]
+    """Test that the herbivore eats, by checking if it gains weight or not"""
+    ini_pop = [
+        {"species": "Herbivore", "age": 3, "weight": 20.0},
+        {"species": "Herbivore", "age": 3, "weight": 20.0},
+    ]
     l_scape = Lowland()
     l_scape.set_population(ini_pop)
     l_scape.food_grows()
@@ -91,8 +145,11 @@ def test_herbivore_eats():
 
 
 def test_herbivore_does_not_eat():
-    ini_pop = [{"species": "Herbivore", "age": 3, "weight": 20.0},
-                {"species": "Herbivore", "age": 3, "weight": 20.0}]
+    """Test that the herbivore do not eat, by checking if its weight stays the same"""
+    ini_pop = [
+        {"species": "Herbivore", "age": 3, "weight": 20.0},
+        {"species": "Herbivore", "age": 3, "weight": 20.0},
+    ]
     l_scape = Lowland()
     l_scape.set_population(ini_pop)
     l_scape.available_food = 0
@@ -102,8 +159,12 @@ def test_herbivore_does_not_eat():
 
 
 def test_herbivore_eats_available_food():
-    ini_pop = [{"species": "Herbivore", "age": 3, "weight": 20.0},
-                {"species": "Herbivore", "age": 3, "weight": 20.0}]
+    """Test that the herbivore only eats whats available of food, by checking the total weight
+    of the present herbivores and that available food becomes 0"""
+    ini_pop = [
+        {"species": "Herbivore", "age": 3, "weight": 20.0},
+        {"species": "Herbivore", "age": 3, "weight": 20.0},
+    ]
     l_scape = Lowland()
     l_scape.set_population(ini_pop)
     l_scape.available_food = 10
@@ -114,11 +175,14 @@ def test_herbivore_eats_available_food():
 
 
 def test_carnivore_eats():
-    ini_pop = [{"species": "Herbivore", "age": 3, "weight": 10.0} for _ in range(10)] + \
-               [{"species": "Carnivore", "age": 3, "weight": 14.0} for _ in range(10)]
+    """Test that the carnivores eats, by checking if the amount of herbivores are different before
+    and after carnivores eats"""
+    ini_pop = [{"species": "Herbivore", "age": 3, "weight": 10.0} for _ in range(10)] + [
+        {"species": "Carnivore", "age": 3, "weight": 14.0} for _ in range(10)
+    ]
     l_scape = Desert()
     l_scape.set_population(ini_pop)
-    carns  = l_scape.carnivore_list
+    carns = l_scape.carnivore_list
     herbs = l_scape.herbivore_list
     l_scape.carnivore_eats()
     assert herbs != l_scape.herbivore_list
@@ -126,8 +190,10 @@ def test_carnivore_eats():
 
 
 def test_no_reproduce_one_animal():
-    ini_pop = [{"species": "Herbivore", "age": 1, "weight": 10.0} for _ in range(1)] + \
-              [{"species": "Carnivore", "age": 3, "weight": 14.0} for _ in range(1)]
+    """Test that no reproducing will happen when only on animal for the species is present."""
+    ini_pop = [{"species": "Herbivore", "age": 1, "weight": 10.0} for _ in range(1)] + [
+        {"species": "Carnivore", "age": 3, "weight": 14.0} for _ in range(1)
+    ]
     l_scape = Lowland()
     l_scape.set_population(ini_pop)
     assert l_scape.herbivore_reproduce() is False
@@ -135,11 +201,14 @@ def test_no_reproduce_one_animal():
 
 
 def test_reproduce_herbivore(mocker):
-    mocker.patch('numpy.random.random', return_value=0.00001)
-    init_pop = [{"species": "Herbivore", "age": 3, "weight": 50.0},
-                {"species": "Herbivore", "age": 3, "weight": 54.0},
-                {"species": "Herbivore", "age": 3, "weight": 50.0},
-                {"species": "Herbivore", "age": 3, "weight": 54.0}]
+    """Test that the herbivore reproduce when there is more than one herbivore present."""
+    mocker.patch("numpy.random.random", return_value=0.00001)
+    init_pop = [
+        {"species": "Herbivore", "age": 3, "weight": 50.0},
+        {"species": "Herbivore", "age": 3, "weight": 54.0},
+        {"species": "Herbivore", "age": 3, "weight": 50.0},
+        {"species": "Herbivore", "age": 3, "weight": 54.0},
+    ]
 
     l_scape = Landscape()
     l_scape.set_population(init_pop)
@@ -151,11 +220,14 @@ def test_reproduce_herbivore(mocker):
 
 
 def test_reproduce_carnivore(mocker):
-    mocker.patch('numpy.random.random', return_value=0.00001)
-    init_pop = [{"species": "Carnivore", "age": 3, "weight": 50.0},
-                {"species": "Carnivore", "age": 3, "weight": 54.0},
-                {"species": "Carnivore", "age": 3, "weight": 50.0},
-                {"species": "Carnivore", "age": 3, "weight": 54.0}]
+    """Test that the carnivore reproduce when there is more than one carnivore present."""
+    mocker.patch("numpy.random.random", return_value=0.00001)
+    init_pop = [
+        {"species": "Carnivore", "age": 3, "weight": 50.0},
+        {"species": "Carnivore", "age": 3, "weight": 54.0},
+        {"species": "Carnivore", "age": 3, "weight": 50.0},
+        {"species": "Carnivore", "age": 3, "weight": 54.0},
+    ]
 
     l_scape = Landscape()
     l_scape.set_population(init_pop)
@@ -167,23 +239,27 @@ def test_reproduce_carnivore(mocker):
 
 
 def test_animals_die(mocker):
-    mocker.patch('numpy.random.random', return_value=0)
-    init_pop = [{"species": "Herbivore", "age": 1, "weight": 15.0} for _ in range(10)] + \
-               [{"species": "Carnivore", "age": 3, "weight": 15.0} for _ in range(10)]
+    """Test if the animals actually die for random probability."""
+    mocker.patch("numpy.random.random", return_value=0)
+    init_pop = [{"species": "Herbivore", "age": 1, "weight": 15.0} for _ in range(10)] + [
+        {"species": "Carnivore", "age": 3, "weight": 15.0} for _ in range(10)
+    ]
     l_scape = Landscape()
     l_scape.set_population(init_pop)
 
     old_pop = l_scape.carnivore_list + l_scape.herbivore_list
     l_scape.animals_die()
 
-    new_pop = (l_scape.carnivore_list + l_scape.herbivore_list)
+    new_pop = l_scape.carnivore_list + l_scape.herbivore_list
 
     assert old_pop != new_pop
 
 
 def test_animals_age():
-    init_pop = [{"species": "Herbivore", "age": 1, "weight": 10.0} for _ in range(10)] + \
-               [{"species": "Carnivore", "age": 3, "weight": 14.0} for _ in range(10)]
+    """Test that the animals ages the right way."""
+    init_pop = [{"species": "Herbivore", "age": 1, "weight": 10.0} for _ in range(10)] + [
+        {"species": "Carnivore", "age": 3, "weight": 14.0} for _ in range(10)
+    ]
     l_scape = Landscape()
     l_scape.set_population(init_pop)
 
@@ -202,8 +278,10 @@ def test_animals_age():
 
 
 def test_animals_weight_loss():
-    init_pop = [{"species": "Herbivore", "age": 1, "weight": 10.0} for _ in range(10)] + \
-               [{"species": "Carnivore", "age": 3, "weight": 14.0} for _ in range(10)]
+    """Test that the animal loses weight naturally."""
+    init_pop = [{"species": "Herbivore", "age": 1, "weight": 10.0} for _ in range(10)] + [
+        {"species": "Carnivore", "age": 3, "weight": 14.0} for _ in range(10)
+    ]
     l_scape = Landscape()
     l_scape.set_population(init_pop)
 
@@ -222,9 +300,11 @@ def test_animals_weight_loss():
 
 
 def test_migrate(mocker):
-    mocker.patch('numpy.random.random', return_value=0)
-    init_pop = [{"species": "Herbivore", "age": 1, "weight": 10.0} for _ in range(10)] + \
-               [{"species": "Carnivore", "age": 3, "weight": 14.0} for _ in range(10)]
+    """Test that the animals migrate for on cell to another"""
+    mocker.patch("numpy.random.random", return_value=0)
+    init_pop = [{"species": "Herbivore", "age": 1, "weight": 10.0} for _ in range(10)] + [
+        {"species": "Carnivore", "age": 3, "weight": 14.0} for _ in range(10)
+    ]
     l_scape = Lowland()
     l_scape.set_population(init_pop)
     herbs, carns = l_scape.animals_migrate()
@@ -235,9 +315,11 @@ def test_migrate(mocker):
 
 
 def test_reset_migrate(mocker):
-    mocker.patch('numpy.random.random', return_value=0)
-    init_pop = [{"species": "Herbivore", "age": 1, "weight": 10.0} for _ in range(10)] + \
-               [{"species": "Carnivore", "age": 3, "weight": 14.0} for _ in range(10)]
+    """Test that has_moved will be set to False when calling reset_migrate."""
+    mocker.patch("numpy.random.random", return_value=0)
+    init_pop = [{"species": "Herbivore", "age": 1, "weight": 10.0} for _ in range(10)] + [
+        {"species": "Carnivore", "age": 3, "weight": 14.0} for _ in range(10)
+    ]
     l_scape = Lowland()
     l_scape.set_population(init_pop)
     herbs, carns = l_scape.animals_migrate()
