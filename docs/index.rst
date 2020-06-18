@@ -62,7 +62,7 @@ on the links below.
 Examples
 ------------
 *  :doc:`Population generator <population_generator>`
-*  :doc:`Checkerboard migration demo <test>`
+*  :doc:`Checkerboard demo <checkerboard_test>`
 
 
 .. toctree::
@@ -71,8 +71,7 @@ Examples
    :caption: Examples
 
    population_generator
-   test
-
+   checkerboard_test
 
 References
 ----------
