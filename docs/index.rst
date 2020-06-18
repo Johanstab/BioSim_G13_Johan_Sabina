@@ -63,6 +63,7 @@ Examples
 ------------
 *  :doc:`Population generator <population_generator>`
 *  :doc:`Checkerboard demo <checkerboard_test>`
+*  :doc:`BioSim Check <check_sim>`
 
 
 .. toctree::
@@ -70,10 +71,13 @@ Examples
    :hidden:
    :caption: Examples
 
-   population_generator
+
    checkerboard_test
+   check_sim
+   population_generator
 
 References
 ----------
 .. [1] Plesser, H. E. (2020). *Modelling the Ecosystem of Rossumøya*.
+
 
