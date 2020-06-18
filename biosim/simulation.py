@@ -3,6 +3,9 @@
 __author__ = "Johan Stabekk, Sabina Langås"
 __email__ = "johansta@nmbu.no, sabinal@nmbu.no"
 
+import numpy as np
+from .island import Island
+
 
 class BioSim:
     def __init__(
@@ -40,6 +43,9 @@ class BioSim:
         where img_no are consecutive image numbers starting from 0.
         img_base should contain a path and beginning of a file name.
         """
+        self.island_map = island_map
+        self.ini_pop = ini_pop
+        np.random.seed(seed)
 
     def set_animal_parameters(self, species, params):
         """
