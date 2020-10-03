@@ -370,7 +370,7 @@ class BioSim:
         -------
             Dumps/saves a pickled file
         """
-        with open(name + ".pickle", "wb") as save_file:
+        with open(name + ".pickle", "wb") as save_file:      # IMPLEMENT STORAGE OF RANDOM SEED
             pickle.dump(self.island, save_file, pickle.HIGHEST_PROTOCOL)
 
     @staticmethod

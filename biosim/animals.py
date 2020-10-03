@@ -72,7 +72,7 @@ class Animals:
         age : int
                 Sets the age of a new instance of a species. The default value is set to be 0.
 
-        weight : int
+        weight : float
                 Sets the weight of a new instance of a species. The default weight is drawn from a
                 Gaussian distribution based on mean and standard deviation.
         """
@@ -84,10 +84,10 @@ class Animals:
             self._weight = self.weight_birth(self.params["w_birth"], self.params["sigma_birth"])
 
         if self._weight < 0:
-            raise ValueError("Weight must be a positive!")
+            raise ValueError("Weight must be a positive float!")
 
         if self._age < 0:
-            raise ValueError("Weight must be a positive!")
+            raise ValueError("Age must be a positive integer!")
 
     @staticmethod
     def weight_birth(weight, sigma):
@@ -317,7 +317,7 @@ class Herbivore(Animals):
 
     def eats(self, cell):
         """Increases weight according to available food and parameters."""
-        self._weight += cell * self.params["beta"]
+        self._weight += cell * self.params["beta"]  # Implement full eat-function here.
 
 
 class Carnivore(Animals):
@@ -407,7 +407,7 @@ class Carnivore(Animals):
             elif 0 < self.fitness - herb.fitness < self.params["DeltaPhiMax"]:
                 if self.slay(herb):
                     list_of_dead.append(herb)
-                    if herb.weight + eaten < self.params["F"]:
+                    if herb.weight + eaten < self.params["F"]: # REMOVE IF-test, use min function instead.
                         eaten += herb.weight
                         self.weight += herb.weight * self.params["beta"]
                     else:

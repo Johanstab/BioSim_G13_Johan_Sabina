@@ -162,7 +162,7 @@ class Island:
             for herb in herb_move:
                 new_loc = self.next_cell(cell)
                 if not self.island_map[new_loc].passable:
-                    break
+                    continue
                 else:
                     self.island_map[new_loc].add_population(herb)
                     herb.has_moved = True
@@ -170,7 +170,7 @@ class Island:
             for carn in carn_move:
                 new_loc = self.next_cell(cell)
                 if not self.island_map[new_loc].passable:
-                    break
+                    continue
                 else:
                     self.island_map[new_loc].add_population(carn)
                     carn.has_moved = True
@@ -189,7 +189,7 @@ class Island:
             self.island_map[cell].carnivore_eats()
             self.island_map[cell].herbivore_reproduce()
             self.island_map[cell].carnivore_reproduce()
-            self.migrate_animals(cell)
+            self.migrate_animals(cell)                      # Undo and put all of these below in seperate for-loops.
             self.island_map[cell].animals_age()
             self.island_map[cell].animals_lose_weight()
             self.island_map[cell].animals_die()

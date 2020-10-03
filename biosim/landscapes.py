@@ -16,11 +16,11 @@ This file can be imported as a module and contains the following classes:
 
     *   Desert(Landscape) - Subclass of Landscape with characteristics for the cell type Desert.
 
-    *   Lowland(Landscape) - Subclass of Landscape with characteristics for the cell type Jungle.
+    *   Lowland(Landscape) - Subclass of Landscape with characteristics for the cell type Lowland.
 
     *   Highland(Landscape) - Subclass of Landscape with characteristics for the cell type Highland.
 
-    *   Water(Landscape) - Subclass of Landscape with characteristics for the cell type Ocean.
+    *   Water(Landscape) - Subclass of Landscape with characteristics for the cell type Water.
 
 Notes
 -----
@@ -96,7 +96,7 @@ class Landscape:
 
     def food_grows(self):
         """Updates food for each year."""
-        if type(self) == Lowland:
+        if type(self) == Lowland:               # MOVE THIS TO THE SUB-CLASSES
             self.available_food = self.params["f_max"]
         elif type(self) == Highland:
             self.available_food = self.params["f_max"]
@@ -107,9 +107,9 @@ class Landscape:
         np.random.shuffle(self.herbivore_list)
 
         for herbivore in self.herbivore_list:
-            if self.available_food == 0:
+            if self.available_food == 0:                      # Put this in Herbivores, Animals
                 break
-            if self.available_food >= herbivore.params["F"]:
+            if self.available_food >= herbivore.params["F"]:  # Use min function instead.
                 herbivore.eats(herbivore.params["F"])
                 self.available_food -= herbivore.params["F"]
             if self.available_food < herbivore.params["F"]:
@@ -134,7 +134,7 @@ class Landscape:
         before its added to the rest of the population."""
         nr_animals = len(self.herbivore_list)
 
-        if nr_animals < 2:
+        if nr_animals < 2:                    # GENERATE ON FUNCTION FOR REPRODUCTION
             return False
 
         new_babies = []
