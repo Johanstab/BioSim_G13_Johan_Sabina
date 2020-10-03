@@ -2,7 +2,7 @@
 
 ## Authors
 
-- Johan Stabekk <johansta@nmbu.no>
+- Johan Stabekk <johan.stabekk@nmbu.no>
 - Sabina Langås <sabinal@nmbu.no>
 
 We are studying industrial economy and technology management (INDØK) 
