@@ -1,0 +1,519 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Animals &mdash; BioSim_G13  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Checkerboard demo" href="checkerboard_test.html" />
+    <link rel="prev" title="Landscapes" href="landscapes.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> BioSim_G13
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guide_install.html">Guide</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Modules</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="simulation.html">Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visualization.html">Visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="island.html">Island</a></li>
+<li class="toctree-l1"><a class="reference internal" href="landscapes.html">Landscapes</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Animals</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="checkerboard_test.html">Checkerboard demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="check_sim.html">Check Biosim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="population_generator.html">Population generator </a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BioSim_G13</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Animals</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/animals.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-biosim.animals">
+<span id="animals"></span><h1>Animals<a class="headerlink" href="#module-biosim.animals" title="Permalink to this headline">¶</a></h1>
+<dl class="field-list simple">
+<dt class="field-odd">mod</dt>
+<dd class="field-odd"><p>‘biosim.animal’ gives the user information about animals and there fauna on
+Rossumøya</p>
+</dd>
+</dl>
+<p>There is two different species living on Rossumøya, Herbivores and Carnivores. The species bare
+certain characteristics in common, but also have characteristics unique to there species. This
+script has all the species characteristics stored in superclass and subclasses.</p>
+<p>This file can be imported as a module and contains the following classes:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Animals - Superclass that contains all of the common characteristics of the species living
+on Rossumøya.</p></li>
+<li><p>Herbivore(Animals) - Subclass of Animals that contains the special characteristics for the
+herbivore species.</p></li>
+<li><p>Carnivore(Animals) - Subclass of Animals that contains the special characteristics of the
+carnivore species.</p></li>
+</ul>
+</div></blockquote>
+<p class="rubric">Notes</p>
+<p>To run this script, its required to have both ‘numpy’ and ‘numba’ installed in the Python
+environment that your going to run this script in.</p>
+<dl class="py class">
+<dt id="biosim.animals.Animals">
+<em class="property">class </em><code class="sig-prename descclassname">biosim.animals.</code><code class="sig-name descname">Animals</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">age</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">weight</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/animals.html#Animals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.animals.Animals" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the Superclass for animals in BioSim</p>
+<p>Constructor that initiates class Animals.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>age</strong> (<em>int</em>) – Sets the age of a new instance of a species. The default value is set to be 0.</p></li>
+<li><p><strong>weight</strong> (<em>float</em>) – Sets the weight of a new instance of a species. The default weight is drawn from a
+Gaussian distribution based on mean and standard deviation.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="biosim.animals.Animals.set_params">
+<em class="property">classmethod </em><code class="sig-name descname">set_params</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">new_params</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/animals.html#Animals.set_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.animals.Animals.set_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method gives the ability to change the default params of the different species.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>new_params</strong> (<em>dict</em>) – Dictionary that contains new parameters for the animals/species.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.animals.Animals.weight_birth">
+<em class="property">static </em><code class="sig-name descname">weight_birth</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">weight</span></em>, <em class="sig-param"><span class="n">sigma</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/animals.html#Animals.weight_birth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.animals.Animals.weight_birth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates a birth _weight for the animal class based on Gaussian distribution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>weight</strong> (<em>float</em>) – The mean birth weight wanted.</p></li>
+<li><p><strong>sigma</strong> (<em>float</em>) – The standard weight deviation wanted.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The birth weight of a new animal.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.animals.Animals.q">
+<em class="property">static </em><code class="sig-name descname">q</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sgn</span></em>, <em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">x_half</span></em>, <em class="sig-param"><span class="n">phi</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/animals.html#Animals.q"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.animals.Animals.q" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logistical regression using the Sigmoid function. Later used to calculate
+the fitness of animals.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{equation}
+\Phi =
+\begin{cases}
+ 0 &amp; w \leq 0 \\
+q^+(a, a_{\frac{1}{2}}, \phi_{age}) \times q^-(w, w_{\frac{1}{2}},
+\phi_{weight}) &amp; else
+\end{cases}
+\end{equation}\end{split}\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[\begin{equation}
+q^\pm(x, x_{\frac{1}{2}}, \phi) =
+\frac{1}{1 + e^{\pm \phi(x - x_{\frac{1}{2}})}}
+\end{equation}\]</div>
+<p>Note that <span class="math notranslate nohighlight">\(0 \leq \Phi \leq 1\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sgn</strong> (<em>int</em>) – Sign determining if positive or negative polarity.</p></li>
+<li><p><strong>x</strong> (<em>int</em><em> or </em><em>float</em>) – The age or weight of the animal.</p></li>
+<li><p><strong>x_half</strong> (<em>float</em>) – Parameter defining at which weight/age the fitness shall deteriorate or grow.</p></li>
+<li><p><strong>phi</strong> (<em>float</em>) – Defining a factor for weight/age that will be used to calculate the fitness.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Value later used to determine fitness.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.animals.Animals.age">
+<em class="property">property </em><code class="sig-name descname">age</code><a class="headerlink" href="#biosim.animals.Animals.age" title="Permalink to this definition">¶</a></dt>
+<dd><p>“Getter for age.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.animals.Animals.weight">
+<em class="property">property </em><code class="sig-name descname">weight</code><a class="headerlink" href="#biosim.animals.Animals.weight" title="Permalink to this definition">¶</a></dt>
+<dd><p>Getter for weigh.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.animals.Animals.aging">
+<code class="sig-name descname">aging</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/animals.html#Animals.aging"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.animals.Animals.aging" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to increase the age of the animal.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.animals.Animals.weight_loss">
+<code class="sig-name descname">weight_loss</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/animals.html#Animals.weight_loss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.animals.Animals.weight_loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>The natural weight loss an animal goes through each year.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.animals.Animals.fitness">
+<em class="property">property </em><code class="sig-name descname">fitness</code><a class="headerlink" href="#biosim.animals.Animals.fitness" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determines the fitness of an animal based on Sigmoid functions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The generated fitness of the animal.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.animals.Animals.birth">
+<code class="sig-name descname">birth</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">nr_animals</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/animals.html#Animals.birth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.animals.Animals.birth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determines if the animal should reproduce or not. Then updating the weight of the
+parent and producing a new instance of a Herbivore or Carnivore based on which
+species it is.</p>
+<p>For each animal the probability to give birth is:</p>
+<div class="math notranslate nohighlight">
+\[\begin{equation}
+min(1, \gamma \times \Phi \times (N-1))
+\end{equation}\]</div>
+<p>where N is the number of same type of animals.</p>
+<p>The probability of birth is zero when the weight is:</p>
+<div class="math notranslate nohighlight">
+\[\begin{equation}
+w &lt; \zeta(w_{birth} + \sigma_{birth})
+\end{equation}\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>nr_animals</strong> (<em>int</em>) – The number of same sex animals in the cell.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>bool</em> – If there should not be a new baby.</p></li>
+<li><p><em>new_baby</em> – A new Herbivore or Carnivore object.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.animals.Animals.death">
+<code class="sig-name descname">death</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/animals.html#Animals.death"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.animals.Animals.death" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decides if an animal shall die or not based on randomness. The fitter an animal is
+the higher chances it has for survival.</p>
+<p>An animal dies with the probability if weight is not zero:</p>
+<div class="math notranslate nohighlight">
+\[\begin{equation}
+\omega(1 - \Phi)
+\end{equation}\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Determines if the animal shall die or not.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.animals.Animals.move">
+<code class="sig-name descname">move</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/animals.html#Animals.move"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.animals.Animals.move" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if the animal will move or not.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.animals.Animals.reset_has_moved">
+<code class="sig-name descname">reset_has_moved</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/animals.html#Animals.reset_has_moved"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.animals.Animals.reset_has_moved" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset the ‘has_moved§ value for the animal.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="biosim.animals.Herbivore">
+<em class="property">class </em><code class="sig-prename descclassname">biosim.animals.</code><code class="sig-name descname">Herbivore</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">age</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">weight</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/animals.html#Herbivore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.animals.Herbivore" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subclass of class Animals. This is the class for the herbivore species in Biosim.</p>
+<p>Constructor that initiates class instances of Herbivore.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>age</strong> (<em>int</em>) – Sets the age of a new instance of a herbivore. The default value is set to be 0.</p></li>
+<li><p><strong>weight</strong> (<em>int</em>) – Sets the weight of a new instance of a herbivore. The default weight is drawn from a
+Gaussian distribution based on mean and standard deviation.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="biosim.animals.Herbivore.eats">
+<code class="sig-name descname">eats</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cell</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/animals.html#Herbivore.eats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.animals.Herbivore.eats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Increases weight according to available food and parameters.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="biosim.animals.Carnivore">
+<em class="property">class </em><code class="sig-prename descclassname">biosim.animals.</code><code class="sig-name descname">Carnivore</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">age</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">weight</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/animals.html#Carnivore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.animals.Carnivore" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subclass of class Animals. This is the class for the carnivore species in Biosim.</p>
+<p>Constructor that initiates class instances of Carnivores.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>age</strong> (<em>int</em>) – Sets the age of a new instance of a carnivore. The default value is set to be 0.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>weight<span class="classifier">int</span></dt><dd><p>Sets the weight of a new instance of a carnivore. The default weight is drawn from a
+Gaussian distribution based on mean and standard deviation.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="biosim.animals.Carnivore.slay">
+<code class="sig-name descname">slay</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">herb</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/animals.html#Carnivore.slay"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.animals.Carnivore.slay" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determines by probability and the fitness of both the herbivore and carnivore if
+the carnivore should kill the herbivore.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>herb</strong> (<em>instance</em>) – An instance of a herbivore object containing all the information of that animal.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Should the herbivore be killed or not.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.animals.Carnivore.eat">
+<code class="sig-name descname">eat</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">herb_sorted_least_fit</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/animals.html#Carnivore.eat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.animals.Carnivore.eat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defining how much the carnivore should eat based on the weight of the herbivore and
+the amount it has already eaten. Gains weight based set parameters and how much it has
+eaten.</p>
+<p>Carnivores will kill a herbivore with probability:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{equation}
+p =
+\begin{cases}
+ 0 &amp; if\;  \Phi_{carn} \leq \Phi_{herb}\\
+ \frac{\Phi_{carn} - \Phi_{herb}}{\Delta\Phi_{max}} &amp; if\; 0 &lt; \Phi_{carn} -
+ \Phi_{herb} &lt; \Delta\Phi_{max}\\
+1 &amp; otherwise.
+\end{cases}
+\end{equation}\end{split}\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>herb_sorted_least_fit</strong> (<em>List</em>) – Sorted list containing all the herbivore objects.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="checkerboard_test.html" class="btn btn-neutral float-right" title="Checkerboard demo" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="landscapes.html" class="btn btn-neutral float-left" title="Landscapes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Sabina Langås and Johan Stabekk
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,403 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Landscapes &mdash; BioSim_G13  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Animals" href="animals.html" />
+    <link rel="prev" title="Island" href="island.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> BioSim_G13
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guide_install.html">Guide</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Modules</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="simulation.html">Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visualization.html">Visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="island.html">Island</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Landscapes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animals.html">Animals</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="checkerboard_test.html">Checkerboard demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="check_sim.html">Check Biosim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="population_generator.html">Population generator </a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BioSim_G13</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Landscapes</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/landscapes.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-biosim.landscapes">
+<span id="landscapes"></span><h1>Landscapes<a class="headerlink" href="#module-biosim.landscapes" title="Permalink to this headline">¶</a></h1>
+<dl class="field-list simple">
+<dt class="field-odd">mod</dt>
+<dd class="field-odd"><p>‘biosim.landscapes’ gives the user information about different kinds of cells on Rossumøya,
+and which kind of information these cells holds.</p>
+</dd>
+</dl>
+<p>The island that is Rossumøya, is dived into squared formed cells. These cells have there own
+numerical location and one type of valid landscape. The superclass and subclasses holds the
+information that is stored in the different cells that makes up Rossumøya.</p>
+<p>This file can be imported as a module and contains the following classes:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Landscape - Superclass that contains basic characteristics that all of the cell types in
+Rossumøya has in common. The function that will make the ‘cycle” of Rossumøya work, could
+also be find her.</p></li>
+<li><p>Desert(Landscape) - Subclass of Landscape with characteristics for the cell type Desert.</p></li>
+<li><p>Lowland(Landscape) - Subclass of Landscape with characteristics for the cell type Lowland.</p></li>
+<li><p>Highland(Landscape) - Subclass of Landscape with characteristics for the cell type Highland.</p></li>
+<li><p>Water(Landscape) - Subclass of Landscape with characteristics for the cell type Water.</p></li>
+</ul>
+</div></blockquote>
+<p class="rubric">Notes</p>
+<p>To run this script, its required to have ‘numpy’ installed in the Python environment that
+your going to run this script in.</p>
+<dl class="py class">
+<dt id="biosim.landscapes.Landscape">
+<em class="property">class </em><code class="sig-prename descclassname">biosim.landscapes.</code><code class="sig-name descname">Landscape</code><a class="reference internal" href="_modules/biosim/landscapes.html#Landscape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.landscapes.Landscape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Superclass for landscape cells in BioSim</p>
+<p>Constructor that initiates class Landscapes.</p>
+<dl class="py method">
+<dt id="biosim.landscapes.Landscape.set_params">
+<em class="property">classmethod </em><code class="sig-name descname">set_params</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">new_params</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/landscapes.html#Landscape.set_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.landscapes.Landscape.set_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method gives the ability to change the default params of the different landscape
+cells.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>new_params</strong> (<em>dict</em>) – Dictionary that contains new parameters for the landscape cell.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.landscapes.Landscape.set_population">
+<code class="sig-name descname">set_population</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_list</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/landscapes.html#Landscape.set_population"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.landscapes.Landscape.set_population" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the populations of animals.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>input_list</strong> (<em>list</em>) – List of dictionaries containing Herbivores and Carnivores.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.landscapes.Landscape.add_population">
+<code class="sig-name descname">add_population</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">animal</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/landscapes.html#Landscape.add_population"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.landscapes.Landscape.add_population" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes it possible to add new animal populations to
+different landscape cells.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>animal</strong> (<em>object</em>) – Dict containing information about the animal that being added to the landscape cell.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.landscapes.Landscape.food_grows">
+<code class="sig-name descname">food_grows</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/landscapes.html#Landscape.food_grows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.landscapes.Landscape.food_grows" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates food for each year.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.landscapes.Landscape.herbivore_eats">
+<code class="sig-name descname">herbivore_eats</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/landscapes.html#Landscape.herbivore_eats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.landscapes.Landscape.herbivore_eats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cycle where all herbivores eats fodder in a random order according to how much
+the parameters defines. If there is no fodder left then no more herbivores get to eat.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.landscapes.Landscape.carnivore_eats">
+<code class="sig-name descname">carnivore_eats</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/landscapes.html#Landscape.carnivore_eats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.landscapes.Landscape.carnivore_eats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cycle where all carnivores eats herbivores. The fittest carnivore tries to kill the
+least fit herbivore and continues until it has eaten according to the parameters. When
+the fittest carnivore has is satisfied the next in order of fitness will proceed until
+until everyone is satisfied or all herbivores are killed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.landscapes.Landscape.herbivore_reproduce">
+<code class="sig-name descname">herbivore_reproduce</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/landscapes.html#Landscape.herbivore_reproduce"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.landscapes.Landscape.herbivore_reproduce" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gives the herbivore the ability to reproduce. The function checks that at least two
+herbivore are present in the cell, so reproduction can happen. If birth function returns
+True, a new herbivore will be made. It will be put in a list of new herbivores,
+before its added to the rest of the population.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.landscapes.Landscape.carnivore_reproduce">
+<code class="sig-name descname">carnivore_reproduce</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/landscapes.html#Landscape.carnivore_reproduce"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.landscapes.Landscape.carnivore_reproduce" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gives the carnivore the ability to reproduce. The function checks that at least two
+carnivore are present in the cell, so reproduction can happen. If birth function returns
+True, a new carnivore will be made. It will be put in a list of new carnivores,
+before its added to the rest of the population.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.landscapes.Landscape.animals_die">
+<code class="sig-name descname">animals_die</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/landscapes.html#Landscape.animals_die"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.landscapes.Landscape.animals_die" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if a animal should die or not and removes the dead animal from the lists.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.landscapes.Landscape.animals_age">
+<code class="sig-name descname">animals_age</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/landscapes.html#Landscape.animals_age"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.landscapes.Landscape.animals_age" title="Permalink to this definition">¶</a></dt>
+<dd><p>The animals increase one year in age.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.landscapes.Landscape.animals_lose_weight">
+<code class="sig-name descname">animals_lose_weight</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/landscapes.html#Landscape.animals_lose_weight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.landscapes.Landscape.animals_lose_weight" title="Permalink to this definition">¶</a></dt>
+<dd><p>The animals loose weigh.t</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.landscapes.Landscape.animals_migrate">
+<code class="sig-name descname">animals_migrate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/landscapes.html#Landscape.animals_migrate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.landscapes.Landscape.animals_migrate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deiced if a animals will migrate the current year or not. Checks if the animal already
+have moved the current year. If the animal has not moved yet and the move function returns
+True, the animal will be put in lists of animals that want to move the current year.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><strong>moved_herbs</strong> (<em>list</em>) – List of dicts over the herbivores that want to move current year.</p></li>
+<li><p><strong>moved_carns</strong> (<em>list</em>) – List of dicts over the carnivores that want to move current year.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.landscapes.Landscape.reset_migrate">
+<code class="sig-name descname">reset_migrate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/landscapes.html#Landscape.reset_migrate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.landscapes.Landscape.reset_migrate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset the migration for all animals, so they will able to move the next year.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="biosim.landscapes.Lowland">
+<em class="property">class </em><code class="sig-prename descclassname">biosim.landscapes.</code><code class="sig-name descname">Lowland</code><a class="reference internal" href="_modules/biosim/landscapes.html#Lowland"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.landscapes.Lowland" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class instance of class Landscape for the cell type Lowland.</p>
+<p>Constructor that initiate class instance Lowland.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="biosim.landscapes.Highland">
+<em class="property">class </em><code class="sig-prename descclassname">biosim.landscapes.</code><code class="sig-name descname">Highland</code><a class="reference internal" href="_modules/biosim/landscapes.html#Highland"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.landscapes.Highland" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class instance of class Landscape for the cell type Highland.</p>
+<p>Constructor that initiate class instance Highland.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="biosim.landscapes.Water">
+<em class="property">class </em><code class="sig-prename descclassname">biosim.landscapes.</code><code class="sig-name descname">Water</code><a class="reference internal" href="_modules/biosim/landscapes.html#Water"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.landscapes.Water" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class instance of class Landscape for the cell type Water.</p>
+<p>Constructor that initiate class instance Water.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="biosim.landscapes.Desert">
+<em class="property">class </em><code class="sig-prename descclassname">biosim.landscapes.</code><code class="sig-name descname">Desert</code><a class="reference internal" href="_modules/biosim/landscapes.html#Desert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.landscapes.Desert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class instance of class Landscape for the cell type Desert</p>
+<p>Constructor that initiate class instance Desert.</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="animals.html" class="btn btn-neutral float-right" title="Animals" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="island.html" class="btn btn-neutral float-left" title="Island" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Sabina Langås and Johan Stabekk
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

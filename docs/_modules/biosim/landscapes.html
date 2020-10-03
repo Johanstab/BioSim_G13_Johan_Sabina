@@ -1,0 +1,471 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>biosim.landscapes &mdash; BioSim_G13  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> BioSim_G13
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../guide_install.html">Guide</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../simulation.html">Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../visualization.html">Visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../island.html">Island</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../landscapes.html">Landscapes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../animals.html">Animals</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../checkerboard_test.html">Checkerboard demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../check_sim.html">Check Biosim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../population_generator.html">Population generator </a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">BioSim_G13</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>biosim.landscapes</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for biosim.landscapes</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">:mod: &#39;biosim.landscapes&#39; gives the user information about different kinds of cells on Rossumøya,</span>
+<span class="sd">      and which kind of information these cells holds.</span>
+
+<span class="sd">The island that is Rossumøya, is dived into squared formed cells. These cells have there own</span>
+<span class="sd">numerical location and one type of valid landscape. The superclass and subclasses holds the</span>
+<span class="sd">information that is stored in the different cells that makes up Rossumøya.</span>
+
+<span class="sd">This file can be imported as a module and contains the following classes:</span>
+
+<span class="sd">    *   Landscape - Superclass that contains basic characteristics that all of the cell types in</span>
+<span class="sd">        Rossumøya has in common. The function that will make the &#39;cycle&quot; of Rossumøya work, could</span>
+<span class="sd">        also be find her.</span>
+
+<span class="sd">    *   Desert(Landscape) - Subclass of Landscape with characteristics for the cell type Desert.</span>
+
+<span class="sd">    *   Lowland(Landscape) - Subclass of Landscape with characteristics for the cell type Lowland.</span>
+
+<span class="sd">    *   Highland(Landscape) - Subclass of Landscape with characteristics for the cell type Highland.</span>
+
+<span class="sd">    *   Water(Landscape) - Subclass of Landscape with characteristics for the cell type Water.</span>
+
+<span class="sd">Notes</span>
+<span class="sd">-----</span>
+<span class="sd">    To run this script, its required to have &#39;numpy&#39; installed in the Python environment that</span>
+<span class="sd">    your going to run this script in.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Johan Stabekk, Sabina Langås&quot;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s2">&quot;johansta@nmbu.no, sabinal@nmbu.no&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">.animals</span> <span class="kn">import</span> <span class="n">Herbivore</span><span class="p">,</span> <span class="n">Carnivore</span>
+
+
+<div class="viewcode-block" id="Landscape"><a class="viewcode-back" href="../../landscapes.html#biosim.landscapes.Landscape">[docs]</a><span class="k">class</span> <span class="nc">Landscape</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Superclass for landscape cells in BioSim&quot;&quot;&quot;</span>
+
+    <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
+
+<div class="viewcode-block" id="Landscape.set_params"><a class="viewcode-back" href="../../landscapes.html#biosim.landscapes.Landscape.set_params">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">set_params</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">new_params</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This method gives the ability to change the default params of the different landscape</span>
+<span class="sd">        cells.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        new_params : dict</span>
+<span class="sd">                Dictionary that contains new parameters for the landscape cell.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">new_params</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">param</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">params</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;Invalid parameter name: &quot;</span> <span class="o">+</span> <span class="n">new_params</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+            <span class="k">if</span> <span class="n">param</span> <span class="o">==</span> <span class="s2">&quot;f_max&quot;</span> <span class="ow">and</span> <span class="n">new_params</span><span class="p">[</span><span class="s2">&quot;f_max&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;f_max must be positive&quot;</span><span class="p">)</span>
+
+        <span class="bp">cls</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">new_params</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Constructor that initiates class Landscapes.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">herbivore_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">carnivore_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">available_food</span> <span class="o">=</span> <span class="mi">0</span>
+
+<div class="viewcode-block" id="Landscape.set_population"><a class="viewcode-back" href="../../landscapes.html#biosim.landscapes.Landscape.set_population">[docs]</a>    <span class="k">def</span> <span class="nf">set_population</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_list</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets the populations of animals.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        input_list : list</span>
+<span class="sd">                List of dictionaries containing Herbivores and Carnivores.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">animal</span> <span class="ow">in</span> <span class="n">input_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">animal</span><span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Herbivore&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">herbivore_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Herbivore</span><span class="p">(</span><span class="n">age</span><span class="o">=</span><span class="n">animal</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">],</span> <span class="n">weight</span><span class="o">=</span><span class="n">animal</span><span class="p">[</span><span class="s2">&quot;weight&quot;</span><span class="p">]))</span>
+            <span class="k">elif</span> <span class="n">animal</span><span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Carnivore&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">carnivore_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Carnivore</span><span class="p">(</span><span class="n">age</span><span class="o">=</span><span class="n">animal</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">],</span> <span class="n">weight</span><span class="o">=</span><span class="n">animal</span><span class="p">[</span><span class="s2">&quot;weight&quot;</span><span class="p">]))</span></div>
+
+<div class="viewcode-block" id="Landscape.add_population"><a class="viewcode-back" href="../../landscapes.html#biosim.landscapes.Landscape.add_population">[docs]</a>    <span class="k">def</span> <span class="nf">add_population</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">animal</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Makes it possible to add new animal populations to</span>
+<span class="sd">        different landscape cells.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        animal: object</span>
+<span class="sd">            Dict containing information about the animal that being added to the landscape cell.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">animal</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;Herbivore&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">herbivore_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">animal</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">animal</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;Carnivore&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">carnivore_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">animal</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Landscape.food_grows"><a class="viewcode-back" href="../../landscapes.html#biosim.landscapes.Landscape.food_grows">[docs]</a>    <span class="k">def</span> <span class="nf">food_grows</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Updates food for each year.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">Lowland</span><span class="p">:</span>               <span class="c1"># MOVE THIS TO THE SUB-CLASSES</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">available_food</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;f_max&quot;</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">Highland</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">available_food</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;f_max&quot;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Landscape.herbivore_eats"><a class="viewcode-back" href="../../landscapes.html#biosim.landscapes.Landscape.herbivore_eats">[docs]</a>    <span class="k">def</span> <span class="nf">herbivore_eats</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Cycle where all herbivores eats fodder in a random order according to how much</span>
+<span class="sd">        the parameters defines. If there is no fodder left then no more herbivores get to eat.&quot;&quot;&quot;</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">herbivore_list</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">herbivore</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">herbivore_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">available_food</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>                      <span class="c1"># Put this in Herbivores, Animals</span>
+                <span class="k">break</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">available_food</span> <span class="o">&gt;=</span> <span class="n">herbivore</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;F&quot;</span><span class="p">]:</span>  <span class="c1"># Use min function instead.</span>
+                <span class="n">herbivore</span><span class="o">.</span><span class="n">eats</span><span class="p">(</span><span class="n">herbivore</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;F&quot;</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">available_food</span> <span class="o">-=</span> <span class="n">herbivore</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;F&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">available_food</span> <span class="o">&lt;</span> <span class="n">herbivore</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;F&quot;</span><span class="p">]:</span>
+                <span class="n">herbivore</span><span class="o">.</span><span class="n">eats</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">available_food</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">available_food</span> <span class="o">=</span> <span class="mi">0</span></div>
+
+<div class="viewcode-block" id="Landscape.carnivore_eats"><a class="viewcode-back" href="../../landscapes.html#biosim.landscapes.Landscape.carnivore_eats">[docs]</a>    <span class="k">def</span> <span class="nf">carnivore_eats</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Cycle where all carnivores eats herbivores. The fittest carnivore tries to kill the</span>
+<span class="sd">        least fit herbivore and continues until it has eaten according to the parameters. When</span>
+<span class="sd">        the fittest carnivore has is satisfied the next in order of fitness will proceed until</span>
+<span class="sd">        until everyone is satisfied or all herbivores are killed.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">carnivore_list</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">animal</span><span class="p">:</span> <span class="n">animal</span><span class="o">.</span><span class="n">fitness</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">herbivore_list</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">animal</span><span class="p">:</span> <span class="n">animal</span><span class="o">.</span><span class="n">fitness</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">carnivore</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">carnivore_list</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">herbivore_list</span> <span class="o">=</span> <span class="n">carnivore</span><span class="o">.</span><span class="n">eat</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">herbivore_list</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Landscape.herbivore_reproduce"><a class="viewcode-back" href="../../landscapes.html#biosim.landscapes.Landscape.herbivore_reproduce">[docs]</a>    <span class="k">def</span> <span class="nf">herbivore_reproduce</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Gives the herbivore the ability to reproduce. The function checks that at least two</span>
+<span class="sd">        herbivore are present in the cell, so reproduction can happen. If birth function returns</span>
+<span class="sd">        True, a new herbivore will be made. It will be put in a list of new herbivores,</span>
+<span class="sd">        before its added to the rest of the population.&quot;&quot;&quot;</span>
+        <span class="n">nr_animals</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">herbivore_list</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">nr_animals</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>                    <span class="c1"># GENERATE ON FUNCTION FOR REPRODUCTION</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="n">new_babies</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">herbivore</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">herbivore_list</span><span class="p">:</span>
+            <span class="n">new_baby</span> <span class="o">=</span> <span class="n">herbivore</span><span class="o">.</span><span class="n">birth</span><span class="p">(</span><span class="n">nr_animals</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">new_baby</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">new_babies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_baby</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">herbivore_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">new_babies</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Landscape.carnivore_reproduce"><a class="viewcode-back" href="../../landscapes.html#biosim.landscapes.Landscape.carnivore_reproduce">[docs]</a>    <span class="k">def</span> <span class="nf">carnivore_reproduce</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Gives the carnivore the ability to reproduce. The function checks that at least two</span>
+<span class="sd">        carnivore are present in the cell, so reproduction can happen. If birth function returns</span>
+<span class="sd">        True, a new carnivore will be made. It will be put in a list of new carnivores,</span>
+<span class="sd">        before its added to the rest of the population.&quot;&quot;&quot;</span>
+        <span class="n">nr_animals</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">carnivore_list</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">nr_animals</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="n">new_babies</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">carnivore</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">carnivore_list</span><span class="p">:</span>
+            <span class="n">new_baby</span> <span class="o">=</span> <span class="n">carnivore</span><span class="o">.</span><span class="n">birth</span><span class="p">(</span><span class="n">nr_animals</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">new_baby</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">new_babies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_baby</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">carnivore_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">new_babies</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Landscape.animals_die"><a class="viewcode-back" href="../../landscapes.html#biosim.landscapes.Landscape.animals_die">[docs]</a>    <span class="k">def</span> <span class="nf">animals_die</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Checks if a animal should die or not and removes the dead animal from the lists.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">herbivore_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">animal</span> <span class="k">for</span> <span class="n">animal</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">herbivore_list</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">animal</span><span class="o">.</span><span class="n">death</span><span class="p">()]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">carnivore_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">animal</span> <span class="k">for</span> <span class="n">animal</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">carnivore_list</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">animal</span><span class="o">.</span><span class="n">death</span><span class="p">()]</span></div>
+
+<div class="viewcode-block" id="Landscape.animals_age"><a class="viewcode-back" href="../../landscapes.html#biosim.landscapes.Landscape.animals_age">[docs]</a>    <span class="k">def</span> <span class="nf">animals_age</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The animals increase one year in age.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">herbivore</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">herbivore_list</span><span class="p">:</span>
+            <span class="n">herbivore</span><span class="o">.</span><span class="n">aging</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">carnivore</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">carnivore_list</span><span class="p">:</span>
+            <span class="n">carnivore</span><span class="o">.</span><span class="n">aging</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Landscape.animals_lose_weight"><a class="viewcode-back" href="../../landscapes.html#biosim.landscapes.Landscape.animals_lose_weight">[docs]</a>    <span class="k">def</span> <span class="nf">animals_lose_weight</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The animals loose weigh.t&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">herbivore</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">herbivore_list</span><span class="p">:</span>
+            <span class="n">herbivore</span><span class="o">.</span><span class="n">weight_loss</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">carnivore</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">carnivore_list</span><span class="p">:</span>
+            <span class="n">carnivore</span><span class="o">.</span><span class="n">weight_loss</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Landscape.animals_migrate"><a class="viewcode-back" href="../../landscapes.html#biosim.landscapes.Landscape.animals_migrate">[docs]</a>    <span class="k">def</span> <span class="nf">animals_migrate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Deiced if a animals will migrate the current year or not. Checks if the animal already</span>
+<span class="sd">        have moved the current year. If the animal has not moved yet and the move function returns</span>
+<span class="sd">        True, the animal will be put in lists of animals that want to move the current year.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        moved_herbs : list</span>
+<span class="sd">            List of dicts over the herbivores that want to move current year.</span>
+
+<span class="sd">        moved_carns : list</span>
+<span class="sd">            List of dicts over the carnivores that want to move current year.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">moved_herbs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">moved_carns</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">herb</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">herbivore_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">herb</span><span class="o">.</span><span class="n">has_moved</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">True</span> <span class="ow">and</span> <span class="n">herb</span><span class="o">.</span><span class="n">move</span><span class="p">():</span>
+                <span class="n">moved_herbs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">herb</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">carn</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">carnivore_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">carn</span><span class="o">.</span><span class="n">has_moved</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">True</span> <span class="ow">and</span> <span class="n">carn</span><span class="o">.</span><span class="n">move</span><span class="p">():</span>
+                <span class="n">moved_carns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">carn</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">moved_herbs</span><span class="p">,</span> <span class="n">moved_carns</span></div>
+
+<div class="viewcode-block" id="Landscape.reset_migrate"><a class="viewcode-back" href="../../landscapes.html#biosim.landscapes.Landscape.reset_migrate">[docs]</a>    <span class="k">def</span> <span class="nf">reset_migrate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Reset the migration for all animals, so they will able to move the next year.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">herb</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">herbivore_list</span><span class="p">:</span>
+            <span class="n">herb</span><span class="o">.</span><span class="n">has_moved</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">carn</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">carnivore_list</span><span class="p">:</span>
+            <span class="n">carn</span><span class="o">.</span><span class="n">has_moved</span> <span class="o">=</span> <span class="kc">False</span></div></div>
+
+
+<div class="viewcode-block" id="Lowland"><a class="viewcode-back" href="../../landscapes.html#biosim.landscapes.Lowland">[docs]</a><span class="k">class</span> <span class="nc">Lowland</span><span class="p">(</span><span class="n">Landscape</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class instance of class Landscape for the cell type Lowland.&quot;&quot;&quot;</span>
+
+    <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;f_max&quot;</span><span class="p">:</span> <span class="mi">800</span><span class="p">}</span>
+    <span class="n">passable</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Constructor that initiate class instance Lowland.&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Highland"><a class="viewcode-back" href="../../landscapes.html#biosim.landscapes.Highland">[docs]</a><span class="k">class</span> <span class="nc">Highland</span><span class="p">(</span><span class="n">Landscape</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class instance of class Landscape for the cell type Highland.&quot;&quot;&quot;</span>
+
+    <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;f_max&quot;</span><span class="p">:</span> <span class="mi">300</span><span class="p">}</span>
+    <span class="n">passable</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Constructor that initiate class instance Highland.&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Water"><a class="viewcode-back" href="../../landscapes.html#biosim.landscapes.Water">[docs]</a><span class="k">class</span> <span class="nc">Water</span><span class="p">(</span><span class="n">Landscape</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class instance of class Landscape for the cell type Water.&quot;&quot;&quot;</span>
+
+    <span class="n">passable</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Constructor that initiate class instance Water.&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Desert"><a class="viewcode-back" href="../../landscapes.html#biosim.landscapes.Desert">[docs]</a><span class="k">class</span> <span class="nc">Desert</span><span class="p">(</span><span class="n">Landscape</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class instance of class Landscape for the cell type Desert&quot;&quot;&quot;</span>
+
+    <span class="n">passable</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Constructor that initiate class instance Desert.&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Sabina Langås and Johan Stabekk
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

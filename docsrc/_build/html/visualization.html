@@ -1,0 +1,411 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Visualization &mdash; BioSim_G13  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Island" href="island.html" />
+    <link rel="prev" title="Simulation" href="simulation.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> BioSim_G13
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guide_install.html">Guide</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Modules</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="simulation.html">Simulation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Visualization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="island.html">Island</a></li>
+<li class="toctree-l1"><a class="reference internal" href="landscapes.html">Landscapes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animals.html">Animals</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="checkerboard_test.html">Checkerboard demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="check_sim.html">Check Biosim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="population_generator.html">Population generator </a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BioSim_G13</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Visualization</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/visualization.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-biosim.visualization">
+<span id="visualization"></span><h1>Visualization<a class="headerlink" href="#module-biosim.visualization" title="Permalink to this headline">¶</a></h1>
+<dl class="field-list simple">
+<dt class="field-odd">mod</dt>
+<dd class="field-odd"><p>‘biosim.visualization’ provides the user with visualization functions for the island
+simulation</p>
+</dd>
+</dl>
+<p>This script provides the users with the necessary function to make a full on visualization of the
+given island when running a simulation. The script provides visualization of the island map, the
+species count and the distribution of the different animals on the island.</p>
+<p>This file can be imported as a module and contains the following class:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Visualization - Class that contains all the visualization part and the updating of the
+graphs.</p></li>
+</ul>
+</div></blockquote>
+<p class="rubric">Notes</p>
+<p>To run this script, its required to have ‘numpy’, ‘matplotlib.pyplot’ and ‘textwrap”
+installed in the Python environment that your going to run this script in.</p>
+<dl class="py class">
+<dt id="biosim.visualization.Visualization">
+<em class="property">class </em><code class="sig-prename descclassname">biosim.visualization.</code><code class="sig-name descname">Visualization</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cmax</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">hist_dict</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/visualization.html#Visualization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.visualization.Visualization" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class for Visualization in Biosim</p>
+<p>Constructor that initiates Visualization class instances</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cmax</strong> (<em>dict</em>) – Sets the max value of number of animals in the heat map distribution</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="biosim.visualization.Visualization.set_graphics">
+<code class="sig-name descname">set_graphics</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">y_lim</span></em>, <em class="sig-param"><span class="n">x_lim</span></em>, <em class="sig-param"><span class="n">year</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/visualization.html#Visualization.set_graphics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.visualization.Visualization.set_graphics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets up the graphics for visualization of the different plots.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_lim</strong> (<em>int</em>) – y-axis upper limit for graphics.</p></li>
+<li><p><strong>x_lim</strong> (<em>int</em>) – x-axis upper limit for graphics.</p></li>
+<li><p><strong>year</strong> (<em>int</em>) – the start year of the simulation graphics.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.visualization.Visualization.standard_map">
+<code class="sig-name descname">standard_map</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">default_geography</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/visualization.html#Visualization.standard_map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.visualization.Visualization.standard_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function is based and heavily inspired by Plesser H.E <a class="footnote-reference brackets" href="#id2" id="id1">1</a></p>
+<p>Makes a visualisation of the given island geography. Assigns different colors to the
+different types of landscapes given as a legend in the island map.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>default_geography</strong> (<em>str</em>) – Multiline string indicating geography of the island.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.visualization.Visualization.update_herb_heatmap">
+<code class="sig-name descname">update_herb_heatmap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/visualization.html#Visualization.update_herb_heatmap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.visualization.Visualization.update_herb_heatmap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the value of how many herbivores that is present i each cell of the island every
+year. This is used to show the herbivore distribution on the island.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>df</strong> (<em>df</em>) – Dataframe that contains the information of how many herbivores that is in each cell of
+the island.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.visualization.Visualization.update_carn_heatmap">
+<code class="sig-name descname">update_carn_heatmap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/visualization.html#Visualization.update_carn_heatmap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.visualization.Visualization.update_carn_heatmap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the value of how many carnivores that is present i each cell of the island every
+year. This is used to show the carnivores distribution on the island.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>df</strong> (<em>df</em>) – Dataframe that contains the information of how many carnivores that is in each cell of
+the island.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.visualization.Visualization.update_animal_count">
+<code class="sig-name descname">update_animal_count</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">num_herbs</span></em>, <em class="sig-param"><span class="n">num_carns</span></em>, <em class="sig-param"><span class="n">year</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/visualization.html#Visualization.update_animal_count"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.visualization.Visualization.update_animal_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the total animal count graph on the island. The species are sorted in total
+herbivores and total carnivores.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>num_herbs</strong> (<em>int</em>) – Total number of herbivores present on the island the current year.</p></li>
+<li><p><strong>num_carns</strong> (<em>int</em>) – Total number of carnivores present on the island the current year.</p></li>
+<li><p><strong>year</strong> (<em>int</em>) – The current year of the simulation of the island</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.visualization.Visualization.update_year_count">
+<code class="sig-name descname">update_year_count</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">island_year</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/visualization.html#Visualization.update_year_count"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.visualization.Visualization.update_year_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the year counter in the visualization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>island_year</strong> (<em>int</em>) – The current year of the simulation.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.visualization.Visualization.update_fitness">
+<code class="sig-name descname">update_fitness</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_1</span></em>, <em class="sig-param"><span class="n">data_2</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/visualization.html#Visualization.update_fitness"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.visualization.Visualization.update_fitness" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the fitness histogram of the different spices on the island.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_1</strong> (<em>dict</em>) – Dict that contains information about fitness for all herbivores present on island.</p></li>
+<li><p><strong>data_2</strong> (<em>dict</em>) – Dict that contains information about fitness for all carnivores present on island.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.visualization.Visualization.update_age">
+<code class="sig-name descname">update_age</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_1</span></em>, <em class="sig-param"><span class="n">data_2</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/visualization.html#Visualization.update_age"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.visualization.Visualization.update_age" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the age histogram of the different spices on the island.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_1</strong> (<em>dict</em>) – Dict that contains information about age for all herbivores present on island.</p></li>
+<li><p><strong>data_2</strong> (<em>dict</em>) – Dict that contains information about age for all carnivores present on island.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.visualization.Visualization.update_weight">
+<code class="sig-name descname">update_weight</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_1</span></em>, <em class="sig-param"><span class="n">data_2</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/visualization.html#Visualization.update_weight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.visualization.Visualization.update_weight" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the weight histogram of the different spices on the island.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_1</strong> (<em>dict</em>) – Dict that contains information about weight for all herbivores present on island.</p></li>
+<li><p><strong>data_2</strong> (<em>dict</em>) – Dict that contains information about weight for all carnivores present on island.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.visualization.Visualization.update_graphics">
+<code class="sig-name descname">update_graphics</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">num_animals</span></em>, <em class="sig-param"><span class="n">year</span></em>, <em class="sig-param"><span class="n">data_1</span></em>, <em class="sig-param"><span class="n">data_2</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/visualization.html#Visualization.update_graphics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.visualization.Visualization.update_graphics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the graphs in the visualization for each year of the simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>df</em>) – Dataframe that contains the distribution of the different spices on the island.</p></li>
+<li><p><strong>num_animals</strong> (<em>dict</em>) – Dictionary that contains the number of Herbivores and the number of Carnivores,
+the current year.</p></li>
+<li><p><strong>data_1</strong> (<em>dict</em>) – Dictionary containing the fitness, age and weight for herbivores.</p></li>
+<li><p><strong>data_2</strong> (<em>dict</em>) – Dictionary containing the fitness, age and weight for carnivores.</p></li>
+<li><p><strong>year</strong> (<em>int</em>) – The current year of the simulation</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<dl class="footnote brackets">
+<dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>Plesser, H. E. <em>Plotting</em>. [<a href="#id3"><span class="problematic" id="id4">`https://github.com/heplesser/nmbu_inf200_june2020/tree/master/examples/plotting`_</span></a>]</p>
+</dd>
+</dl>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="island.html" class="btn btn-neutral float-right" title="Island" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="simulation.html" class="btn btn-neutral float-left" title="Simulation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Sabina Langås and Johan Stabekk
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

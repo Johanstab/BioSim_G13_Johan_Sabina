@@ -1,0 +1,630 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>biosim.visualization &mdash; BioSim_G13  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> BioSim_G13
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../guide_install.html">Guide</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../simulation.html">Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../visualization.html">Visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../island.html">Island</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../landscapes.html">Landscapes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../animals.html">Animals</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../checkerboard_test.html">Checkerboard demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../check_sim.html">Check Biosim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../population_generator.html">Population generator </a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">BioSim_G13</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>biosim.visualization</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for biosim.visualization</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">:mod: &#39;biosim.visualization&#39; provides the user with visualization functions for the island</span>
+<span class="sd">         simulation</span>
+
+<span class="sd">This script provides the users with the necessary function to make a full on visualization of the</span>
+<span class="sd">given island when running a simulation. The script provides visualization of the island map, the</span>
+<span class="sd">species count and the distribution of the different animals on the island.</span>
+
+<span class="sd">This file can be imported as a module and contains the following class:</span>
+
+<span class="sd">    *   Visualization - Class that contains all the visualization part and the updating of the</span>
+<span class="sd">        graphs.</span>
+
+<span class="sd">Notes</span>
+<span class="sd">-----</span>
+<span class="sd">    To run this script, its required to have &#39;numpy&#39;, &#39;matplotlib.pyplot&#39; and &#39;textwrap&quot;</span>
+<span class="sd">    installed in the Python environment that your going to run this script in.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Johan Stabekk, Sabina Langås&quot;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s2">&quot;johansta@nmbu.no, sabinal@nmbu.no&quot;</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.patches</span> <span class="k">as</span> <span class="nn">mpatches</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">textwrap</span>
+
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">colors</span>
+
+
+<div class="viewcode-block" id="Visualization"><a class="viewcode-back" href="../../visualization.html#biosim.visualization.Visualization">[docs]</a><span class="k">class</span> <span class="nc">Visualization</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Class for Visualization in Biosim&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hist_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Constructor that initiates Visualization class instances</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        cmax : dict</span>
+<span class="sd">            Sets the max value of number of animals in the heat map distribution</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cmax</span> <span class="o">=</span> <span class="n">cmax</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hist_dict</span> <span class="o">=</span> <span class="n">hist_dict</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_has_run</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_final_step</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fig</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_map_ax</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_img_axis</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mean_ax</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_year_ax</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_text</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_herb_ax</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_carn_ax</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_herb_axis</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_carn_axis</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fitness_axis</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_age_axis</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_weight_axis</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_gs</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_herb_line</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_carn_line</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fitness_hist</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_age_hist</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_weight_hist</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="Visualization.set_graphics"><a class="viewcode-back" href="../../visualization.html#biosim.visualization.Visualization.set_graphics">[docs]</a>    <span class="k">def</span> <span class="nf">set_graphics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_lim</span><span class="p">,</span> <span class="n">x_lim</span><span class="p">,</span> <span class="n">year</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets up the graphics for visualization of the different plots.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        y_lim : int</span>
+<span class="sd">            y-axis upper limit for graphics.</span>
+
+<span class="sd">        x_lim : int</span>
+<span class="sd">            x-axis upper limit for graphics.</span>
+
+<span class="sd">        year : int</span>
+<span class="sd">            the start year of the simulation graphics.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># create new figure window</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_gs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fig</span><span class="o">.</span><span class="n">add_gridspec</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Add subplot for map</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map_ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_map_ax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_gs</span><span class="p">[:</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_img_axis</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_map_ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">([])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_map_ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_map_ax</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s2">&quot;Island&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Add subplot for year count</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_year_ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_year_ax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_gs</span><span class="p">[:</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">:</span><span class="mi">7</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_year_ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+                <span class="mf">0.5</span><span class="p">,</span>
+                <span class="mf">0.5</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">&quot;Year: </span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">horizontalalignment</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+                <span class="n">verticalalignment</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+                <span class="n">transform</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_year_ax</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span>
+                <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_year_ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Add subplot for animal count graph</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mean_ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_mean_ax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_gs</span><span class="p">[:</span><span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">:])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_mean_ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">y_lim</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_mean_ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">x_lim</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_mean_ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Years&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_mean_ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Nr animals pr species&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_mean_ax</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s2">&quot;Animal count&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mean_ax</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_mean_ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">x_lim</span><span class="p">)</span>
+
+        <span class="c1"># Add subplot for herbivore distribution</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_herb_ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_herb_ax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_gs</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span> <span class="p">:</span><span class="mi">6</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_herb_axis</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_herb_ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">([])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_herb_ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_herb_ax</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s2">&quot;Herbivore distribution&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Add subplot for carnivore distribution</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_carn_ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_carn_ax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_gs</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">:])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_carn_axis</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_carn_ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">([])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_carn_ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_carn_ax</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s2">&quot;Carnivore distribution&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Add subplot for fitness histogram</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fitness_axis</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fitness_axis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_gs</span><span class="p">[</span><span class="mi">4</span><span class="p">:,</span> <span class="p">:</span><span class="mi">4</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fitness_axis</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Fitness&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Add subplot for age histogram</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_age_axis</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_age_axis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_gs</span><span class="p">[</span><span class="mi">4</span><span class="p">:,</span> <span class="mi">4</span><span class="p">:</span><span class="mi">8</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_age_axis</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Age&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Add subplot for weight histogram</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_weight_axis</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_weight_axis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_gs</span><span class="p">[</span><span class="mi">4</span><span class="p">:,</span> <span class="mi">8</span><span class="p">:])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_weight_axis</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Weight&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Initiate total Herbivores graph</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_herb_line</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">herb_plot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mean_ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">x_lim</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">x_lim</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Herbivore&quot;</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_herb_line</span> <span class="o">=</span> <span class="n">herb_plot</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_herb_line</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_final_step</span> <span class="o">=</span> <span class="n">x_lim</span>
+            <span class="n">xdata</span><span class="p">,</span> <span class="n">ydata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_herb_line</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
+            <span class="n">x_new</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">xdata</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_final_step</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_new</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">y_new</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">x_new</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_herb_line</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">xdata</span><span class="p">,</span> <span class="n">x_new</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">ydata</span><span class="p">,</span> <span class="n">y_new</span><span class="p">)))</span>
+
+        <span class="c1"># Initiate total Carnivores graph</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_carn_line</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">carn_plot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mean_ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">x_lim</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">x_lim</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Carnivore&quot;</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_carn_line</span> <span class="o">=</span> <span class="n">carn_plot</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_mean_ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper right&quot;</span><span class="p">,</span> <span class="n">prop</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">})</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_carn_line</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_final_step</span> <span class="o">=</span> <span class="n">x_lim</span>
+            <span class="n">xdata</span><span class="p">,</span> <span class="n">ydata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_carn_line</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
+            <span class="n">x_new</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">xdata</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_final_step</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_new</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">y_new</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">x_new</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_carn_line</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">xdata</span><span class="p">,</span> <span class="n">x_new</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">ydata</span><span class="p">,</span> <span class="n">y_new</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="Visualization.standard_map"><a class="viewcode-back" href="../../visualization.html#biosim.visualization.Visualization.standard_map">[docs]</a>    <span class="k">def</span> <span class="nf">standard_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default_geography</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This function is based and heavily inspired by Plesser H.E [1]_</span>
+
+<span class="sd">        Makes a visualisation of the given island geography. Assigns different colors to the</span>
+<span class="sd">        different types of landscapes given as a legend in the island map.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        default_geography : str</span>
+<span class="sd">            Multiline string indicating geography of the island.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_has_run</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_has_run</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">island_string</span> <span class="o">=</span> <span class="n">default_geography</span>
+            <span class="n">string_map</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="n">island_string</span><span class="p">)</span>
+            <span class="n">string_map</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+
+            <span class="n">color_code</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;W&quot;</span><span class="p">:</span> <span class="n">colors</span><span class="o">.</span><span class="n">to_rgb</span><span class="p">(</span><span class="s2">&quot;blue&quot;</span><span class="p">),</span>
+                <span class="s2">&quot;L&quot;</span><span class="p">:</span> <span class="n">colors</span><span class="o">.</span><span class="n">to_rgb</span><span class="p">(</span><span class="s2">&quot;darkgreen&quot;</span><span class="p">),</span>
+                <span class="s2">&quot;H&quot;</span><span class="p">:</span> <span class="n">colors</span><span class="o">.</span><span class="n">to_rgb</span><span class="p">(</span><span class="s2">&quot;lightgreen&quot;</span><span class="p">),</span>
+                <span class="s2">&quot;D&quot;</span><span class="p">:</span> <span class="n">colors</span><span class="o">.</span><span class="n">to_rgb</span><span class="p">(</span><span class="s2">&quot;lightyellow&quot;</span><span class="p">),</span>
+            <span class="p">}</span>
+
+            <span class="n">island_map</span> <span class="o">=</span> <span class="p">[[</span><span class="n">color_code</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">row</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">string_map</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()]</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_map_ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">island_map</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">)</span>
+            <span class="n">patches</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;W&quot;</span><span class="p">,</span> <span class="s2">&quot;L&quot;</span><span class="p">,</span> <span class="s2">&quot;H&quot;</span><span class="p">,</span> <span class="s2">&quot;D&quot;</span><span class="p">):</span>
+                <span class="n">patches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">mpatches</span><span class="o">.</span><span class="n">Patch</span><span class="p">(</span><span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="n">color_code</span><span class="p">[</span><span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+                <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_map_ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
+                <span class="n">handles</span><span class="o">=</span><span class="n">patches</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;best&quot;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">),</span> <span class="n">prop</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">}</span>
+            <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Visualization.update_herb_heatmap"><a class="viewcode-back" href="../../visualization.html#biosim.visualization.Visualization.update_herb_heatmap">[docs]</a>    <span class="k">def</span> <span class="nf">update_herb_heatmap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Updates the value of how many herbivores that is present i each cell of the island every</span>
+<span class="sd">        year. This is used to show the herbivore distribution on the island.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        df : df</span>
+<span class="sd">            Dataframe that contains the information of how many herbivores that is in each cell of</span>
+<span class="sd">            the island.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_herb_axis</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_herb_axis</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="s2">&quot;Row&quot;</span><span class="p">,</span> <span class="s2">&quot;Col&quot;</span><span class="p">,</span> <span class="s2">&quot;Herbivore&quot;</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_herb_axis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_herb_ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span>
+                <span class="n">df</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="s2">&quot;Row&quot;</span><span class="p">,</span> <span class="s2">&quot;Col&quot;</span><span class="p">,</span> <span class="s2">&quot;Herbivore&quot;</span><span class="p">),</span>
+                <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">,</span>
+                <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="n">vmax</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cmax</span><span class="p">[</span><span class="s2">&quot;Herbivore&quot;</span><span class="p">],</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_herb_ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_herb_axis</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_herb_ax</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s2">&quot;vertical&quot;</span><span class="p">,</span> <span class="n">fraction</span><span class="o">=</span><span class="mf">0.07</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mf">0.04</span>
+            <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Visualization.update_carn_heatmap"><a class="viewcode-back" href="../../visualization.html#biosim.visualization.Visualization.update_carn_heatmap">[docs]</a>    <span class="k">def</span> <span class="nf">update_carn_heatmap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Updates the value of how many carnivores that is present i each cell of the island every</span>
+<span class="sd">        year. This is used to show the carnivores distribution on the island.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        df : df</span>
+<span class="sd">            Dataframe that contains the information of how many carnivores that is in each cell of</span>
+<span class="sd">            the island.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_carn_axis</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_carn_axis</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="s2">&quot;Row&quot;</span><span class="p">,</span> <span class="s2">&quot;Col&quot;</span><span class="p">,</span> <span class="s2">&quot;Carnivore&quot;</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_carn_axis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_carn_ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span>
+                <span class="n">df</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="s2">&quot;Row&quot;</span><span class="p">,</span> <span class="s2">&quot;Col&quot;</span><span class="p">,</span> <span class="s2">&quot;Carnivore&quot;</span><span class="p">),</span>
+                <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">,</span>
+                <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="n">vmax</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cmax</span><span class="p">[</span><span class="s2">&quot;Carnivore&quot;</span><span class="p">],</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_carn_ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_carn_axis</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_carn_ax</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s2">&quot;vertical&quot;</span><span class="p">,</span> <span class="n">fraction</span><span class="o">=</span><span class="mf">0.07</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mf">0.04</span>
+            <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Visualization.update_animal_count"><a class="viewcode-back" href="../../visualization.html#biosim.visualization.Visualization.update_animal_count">[docs]</a>    <span class="k">def</span> <span class="nf">update_animal_count</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_herbs</span><span class="p">,</span> <span class="n">num_carns</span><span class="p">,</span> <span class="n">year</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Updates the total animal count graph on the island. The species are sorted in total</span>
+<span class="sd">        herbivores and total carnivores.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        num_herbs : int</span>
+<span class="sd">                Total number of herbivores present on the island the current year.</span>
+
+<span class="sd">        num_carns : int</span>
+<span class="sd">                Total number of carnivores present on the island the current year.</span>
+
+<span class="sd">        year      : int</span>
+<span class="sd">                The current year of the simulation of the island</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">herb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_herb_line</span><span class="o">.</span><span class="n">get_ydata</span><span class="p">()</span>
+        <span class="n">herb</span><span class="p">[</span><span class="n">year</span><span class="p">]</span> <span class="o">=</span> <span class="n">num_herbs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_herb_line</span><span class="o">.</span><span class="n">set_ydata</span><span class="p">(</span><span class="n">herb</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mean_ax</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">num_herbs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_mean_ax</span><span class="o">.</span><span class="n">autoscale</span><span class="p">(</span><span class="n">enable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+
+        <span class="n">carn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_carn_line</span><span class="o">.</span><span class="n">get_ydata</span><span class="p">()</span>
+        <span class="n">carn</span><span class="p">[</span><span class="n">year</span><span class="p">]</span> <span class="o">=</span> <span class="n">num_carns</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_carn_line</span><span class="o">.</span><span class="n">set_ydata</span><span class="p">(</span><span class="n">carn</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Visualization.update_year_count"><a class="viewcode-back" href="../../visualization.html#biosim.visualization.Visualization.update_year_count">[docs]</a>    <span class="k">def</span> <span class="nf">update_year_count</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">island_year</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Updates the year counter in the visualization.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        island_year : int</span>
+<span class="sd">                The current year of the simulation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_text</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Year:</span><span class="si">{</span><span class="n">island_year</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Visualization.update_fitness"><a class="viewcode-back" href="../../visualization.html#biosim.visualization.Visualization.update_fitness">[docs]</a>    <span class="k">def</span> <span class="nf">update_fitness</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_1</span><span class="p">,</span> <span class="n">data_2</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Updates the fitness histogram of the different spices on the island.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        data_1 : dict</span>
+<span class="sd">                Dict that contains information about fitness for all herbivores present on island.</span>
+<span class="sd">        data_2 : dict</span>
+<span class="sd">                Dict that contains information about fitness for all carnivores present on island.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fitness_hist</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">hist_dict</span><span class="p">[</span><span class="s2">&quot;fitness&quot;</span><span class="p">][</span><span class="s2">&quot;max&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">hist_dict</span><span class="p">[</span><span class="s2">&quot;fitness&quot;</span><span class="p">][</span><span class="s2">&quot;delta&quot;</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fitness_axis</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fitness_axis</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Fitness&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fitness_axis</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span>
+                <span class="n">data_1</span><span class="p">[</span><span class="s2">&quot;fitness&quot;</span><span class="p">],</span>
+                <span class="n">bins</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">),</span>
+                <span class="nb">range</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hist_dict</span><span class="p">[</span><span class="s2">&quot;fitness&quot;</span><span class="p">][</span><span class="s2">&quot;max&quot;</span><span class="p">]),</span>
+                <span class="n">histtype</span><span class="o">=</span><span class="s2">&quot;step&quot;</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fitness_axis</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span>
+                <span class="n">data_2</span><span class="p">[</span><span class="s2">&quot;fitness&quot;</span><span class="p">],</span>
+                <span class="n">bins</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">),</span>
+                <span class="nb">range</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hist_dict</span><span class="p">[</span><span class="s2">&quot;fitness&quot;</span><span class="p">][</span><span class="s2">&quot;max&quot;</span><span class="p">]),</span>
+                <span class="n">histtype</span><span class="o">=</span><span class="s2">&quot;step&quot;</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span>
+            <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Visualization.update_age"><a class="viewcode-back" href="../../visualization.html#biosim.visualization.Visualization.update_age">[docs]</a>    <span class="k">def</span> <span class="nf">update_age</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_1</span><span class="p">,</span> <span class="n">data_2</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Updates the age histogram of the different spices on the island.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        data_1 : dict</span>
+<span class="sd">                Dict that contains information about age for all herbivores present on island.</span>
+<span class="sd">        data_2 : dict</span>
+<span class="sd">                Dict that contains information about age for all carnivores present on island.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_age_hist</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">hist_dict</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">][</span><span class="s2">&quot;max&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">hist_dict</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">][</span><span class="s2">&quot;delta&quot;</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_age_axis</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_age_axis</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Age&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_age_axis</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span>
+                <span class="n">data_1</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">],</span>
+                <span class="n">bins</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">),</span>
+                <span class="nb">range</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hist_dict</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">][</span><span class="s2">&quot;max&quot;</span><span class="p">]),</span>
+                <span class="n">histtype</span><span class="o">=</span><span class="s2">&quot;step&quot;</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_age_axis</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span>
+                <span class="n">data_2</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">],</span>
+                <span class="n">bins</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">),</span>
+                <span class="nb">range</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hist_dict</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">][</span><span class="s2">&quot;max&quot;</span><span class="p">]),</span>
+                <span class="n">histtype</span><span class="o">=</span><span class="s2">&quot;step&quot;</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span>
+            <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Visualization.update_weight"><a class="viewcode-back" href="../../visualization.html#biosim.visualization.Visualization.update_weight">[docs]</a>    <span class="k">def</span> <span class="nf">update_weight</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_1</span><span class="p">,</span> <span class="n">data_2</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Updates the weight histogram of the different spices on the island.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        data_1 : dict</span>
+<span class="sd">                Dict that contains information about weight for all herbivores present on island.</span>
+<span class="sd">        data_2 : dict</span>
+<span class="sd">                Dict that contains information about weight for all carnivores present on island.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_weight_hist</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">hist_dict</span><span class="p">[</span><span class="s2">&quot;weight&quot;</span><span class="p">][</span><span class="s2">&quot;max&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">hist_dict</span><span class="p">[</span><span class="s2">&quot;weight&quot;</span><span class="p">][</span><span class="s2">&quot;delta&quot;</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_weight_axis</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_weight_axis</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Weight&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_weight_axis</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span>
+                <span class="n">data_1</span><span class="p">[</span><span class="s2">&quot;weight&quot;</span><span class="p">],</span>
+                <span class="n">bins</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">),</span>
+                <span class="nb">range</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hist_dict</span><span class="p">[</span><span class="s2">&quot;weight&quot;</span><span class="p">][</span><span class="s2">&quot;max&quot;</span><span class="p">]),</span>
+                <span class="n">histtype</span><span class="o">=</span><span class="s2">&quot;step&quot;</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_weight_axis</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span>
+                <span class="n">data_2</span><span class="p">[</span><span class="s2">&quot;weight&quot;</span><span class="p">],</span>
+                <span class="n">bins</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">),</span>
+                <span class="nb">range</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hist_dict</span><span class="p">[</span><span class="s2">&quot;weight&quot;</span><span class="p">][</span><span class="s2">&quot;max&quot;</span><span class="p">]),</span>
+                <span class="n">histtype</span><span class="o">=</span><span class="s2">&quot;step&quot;</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span>
+            <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Visualization.update_graphics"><a class="viewcode-back" href="../../visualization.html#biosim.visualization.Visualization.update_graphics">[docs]</a>    <span class="k">def</span> <span class="nf">update_graphics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">num_animals</span><span class="p">,</span> <span class="n">year</span><span class="p">,</span> <span class="n">data_1</span><span class="p">,</span> <span class="n">data_2</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Updates the graphs in the visualization for each year of the simulation.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        df : df</span>
+<span class="sd">                Dataframe that contains the distribution of the different spices on the island.</span>
+
+<span class="sd">        num_animals : dict</span>
+<span class="sd">                Dictionary that contains the number of Herbivores and the number of Carnivores,</span>
+<span class="sd">                the current year.</span>
+
+<span class="sd">        data_1 : dict</span>
+<span class="sd">                Dictionary containing the fitness, age and weight for herbivores.</span>
+
+<span class="sd">        data_2 : dict</span>
+<span class="sd">                Dictionary containing the fitness, age and weight for carnivores.</span>
+
+<span class="sd">        year : int</span>
+<span class="sd">                The current year of the simulation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_herb_heatmap</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_carn_heatmap</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_animal_count</span><span class="p">(</span><span class="n">num_animals</span><span class="p">[</span><span class="s2">&quot;Herbivore&quot;</span><span class="p">],</span> <span class="n">num_animals</span><span class="p">[</span><span class="s2">&quot;Carnivore&quot;</span><span class="p">],</span> <span class="n">year</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_year_count</span><span class="p">(</span><span class="n">year</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_fitness</span><span class="p">(</span><span class="n">data_1</span><span class="p">,</span> <span class="n">data_2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_age</span><span class="p">(</span><span class="n">data_1</span><span class="p">,</span> <span class="n">data_2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_weight</span><span class="p">(</span><span class="n">data_1</span><span class="p">,</span> <span class="n">data_2</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">pause</span><span class="p">(</span><span class="mf">1e-3</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Sabina Langås and Johan Stabekk
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,345 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Island &mdash; BioSim_G13  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Landscapes" href="landscapes.html" />
+    <link rel="prev" title="Visualization" href="visualization.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> BioSim_G13
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guide_install.html">Guide</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Modules</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="simulation.html">Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visualization.html">Visualization</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Island</a></li>
+<li class="toctree-l1"><a class="reference internal" href="landscapes.html">Landscapes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animals.html">Animals</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="checkerboard_test.html">Checkerboard demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="check_sim.html">Check Biosim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="population_generator.html">Population generator </a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BioSim_G13</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Island</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/island.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-biosim.island">
+<span id="island"></span><h1>Island<a class="headerlink" href="#module-biosim.island" title="Permalink to this headline">¶</a></h1>
+<dl class="field-list simple">
+<dt class="field-odd">mod</dt>
+<dd class="field-odd"><p>‘biosim.island’ provides the user with the annual cycle on Rossumøya.</p>
+</dd>
+</dl>
+<p>This script provide the annual cycle of events that accrue on Rossumøya ever year. The island of
+Rossumøya is also made in this script.</p>
+<p>This file can be imported as a module and contains the following class:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Island - Class that contains the ways of making the map of Rossumøya and setting its</p></li>
+</ul>
+<blockquote>
+<div><p>population. It also contains the function that makes the annual cycle of Rossumøya.</p>
+</div></blockquote>
+</div></blockquote>
+<p class="rubric">Notes</p>
+<p>To run this script, its required to have ‘numpy’, ‘matplotlib.pyplot’ and ‘textwrap’ installed
+in the Python environment that your going to run this script in.</p>
+<dl class="py class">
+<dt id="biosim.island.Island">
+<em class="property">class </em><code class="sig-prename descclassname">biosim.island.</code><code class="sig-name descname">Island</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">island_map</span></em>, <em class="sig-param"><span class="n">ini_pop</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/island.html#Island"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.island.Island" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class for Island in Biosim</p>
+<p>Constructor that initiates Island class instances.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>island_map</strong> (<em>str</em>) – Multiline string indicating geography of the island</p></li>
+<li><p><strong>ini_pop</strong> (<em>list</em>) – List of dictionaries indicating initial population and location</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="biosim.island.Island.set_population_in_cell">
+<code class="sig-name descname">set_population_in_cell</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">new_pop</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/island.html#Island.set_population_in_cell"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.island.Island.set_population_in_cell" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes it possible to put out a ‘new’ set of population in any cell on the island</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>new_pop</strong> (<em>list</em>) – List of dicts that contains the new population that you want to place in the current
+cell</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.island.Island.create_island_map">
+<code class="sig-name descname">create_island_map</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/island.html#Island.create_island_map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.island.Island.create_island_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates the island map form the given geography</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.island.Island.nr_animals_pr_species">
+<code class="sig-name descname">nr_animals_pr_species</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/island.html#Island.nr_animals_pr_species"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.island.Island.nr_animals_pr_species" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create function returning the total nr of herbivores and carnivores in a dict.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.island.Island.nr_animals">
+<code class="sig-name descname">nr_animals</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/island.html#Island.nr_animals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.island.Island.nr_animals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create function which returns total nr of animals on island.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.island.Island.next_cell">
+<em class="property">static </em><code class="sig-name descname">next_cell</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cell</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/island.html#Island.next_cell"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.island.Island.next_cell" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds the neighboring cells of the cell were the animal want to move from.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cell</strong> (<em>tuple</em>) – The position/coordinates of the current landscape cell.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.island.Island.migrate_animals">
+<code class="sig-name descname">migrate_animals</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cell</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/island.html#Island.migrate_animals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.island.Island.migrate_animals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if the cell in question have animals in it (if its passable). Makes a list of all
+animals i the current cell that wants to move, and checks if the cell that the animals want
+to move to is passable. Places the animal in its new cell and removes it for the old one.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cell</strong> (<em>tuple</em>) – The location of the current landscape cell that the animal i positioned in.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.island.Island.reset_migration">
+<code class="sig-name descname">reset_migration</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/island.html#Island.reset_migration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.island.Island.reset_migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resets if the animal has moved or not, so the value can be updated each year.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.island.Island.cycle_island">
+<code class="sig-name descname">cycle_island</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/biosim/island.html#Island.cycle_island"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosim.island.Island.cycle_island" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simulates annual cycle of Rossumøya for all the cells the island i made out of.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="biosim.island.Island.fitness_age_weight">
+<em class="property">property </em><code class="sig-name descname">fitness_age_weight</code><a class="headerlink" href="#biosim.island.Island.fitness_age_weight" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function that retrieves the fitness, age and weight for all animals and
+then sorts them into a dictionary as numpy arrays. One dictionary for each species.
+This is later used in the visualization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><strong>plot_attributes_herb</strong> (<em>dict</em>) – Dictionary containing fitness, age and weight for all the herbivores.</p></li>
+<li><p><strong>plot_attributes_carn</strong> (<em>dict</em>) – Dictionary containing fitness, age and weight for all the carnivores.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="landscapes.html" class="btn btn-neutral float-right" title="Landscapes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="visualization.html" class="btn btn-neutral float-left" title="Visualization" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Sabina Langås and Johan Stabekk
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

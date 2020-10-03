@@ -1,0 +1,608 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>biosim.simulation &mdash; BioSim_G13  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> BioSim_G13
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../guide_install.html">Guide</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../simulation.html">Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../visualization.html">Visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../island.html">Island</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../landscapes.html">Landscapes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../animals.html">Animals</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../checkerboard_test.html">Checkerboard demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../check_sim.html">Check Biosim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../population_generator.html">Population generator </a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">BioSim_G13</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>biosim.simulation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for biosim.simulation</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">:mod: &#39;biosim.simulation&#39; provides the user with the interface to the package.</span>
+
+<span class="sd">This file wil run the simulation of island. The simulation will run for a given amount of years.</span>
+<span class="sd">This file will use the visualization file, to provide visualization of the simulation.</span>
+
+<span class="sd">The visualization is given in one graphics window with the following elements:</span>
+
+<span class="sd">    *   A map of geography of the island. It&#39; is shows different colors for the different</span>
+<span class="sd">        landscape types.</span>
+<span class="sd">    *   Line graph that shows the total number of animals in the island by</span>
+<span class="sd">        species.</span>
+<span class="sd">    *   Distribution heat maps with color bars that shows how many animals per species</span>
+<span class="sd">        there are in each cell of the island</span>
+
+<span class="sd">This file can be imported as a module and contains the following</span>
+<span class="sd">class:</span>
+
+<span class="sd">    *   BioSim - Simulation interface module</span>
+
+<span class="sd">Notes</span>
+<span class="sd">-----</span>
+<span class="sd">    To run this script, its required to have &#39;numpy&#39;, &#39;pandas&#39;, &#39;matplotlib.pyplot&#39;, &#39;os&#39; and</span>
+<span class="sd">    &#39;subprocess&#39; installed in the Python environment that your going to run this script in. It also</span>
+<span class="sd">    requires &#39;ffmpeg&#39; to run the movie_maker function.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Johan Stabekk, Sabina Langås&quot;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s2">&quot;johansta@nmbu.no, sabinal@nmbu.no&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">biosim.island</span> <span class="kn">import</span> <span class="n">Island</span>
+<span class="kn">from</span> <span class="nn">biosim.visualization</span> <span class="kn">import</span> <span class="n">Visualization</span>
+<span class="kn">from</span> <span class="nn">biosim.animals</span> <span class="kn">import</span> <span class="n">Herbivore</span><span class="p">,</span> <span class="n">Carnivore</span>
+<span class="kn">from</span> <span class="nn">biosim.landscapes</span> <span class="kn">import</span> <span class="n">Lowland</span><span class="p">,</span> <span class="n">Highland</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+
+
+<span class="c1"># update these variables to point to your ffmpeg and convert binaries</span>
+<span class="n">_FFMPEG_BINARY</span> <span class="o">=</span> <span class="s2">&quot;ffmpeg&quot;</span>
+<span class="n">_CONVERT_BINARY</span> <span class="o">=</span> <span class="s2">&quot;magick&quot;</span>
+
+<span class="c1"># update this to the directory and file-name beginning for the graphics files</span>
+<span class="n">_DEFAULT_GRAPHICS_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="s2">&quot;figs&quot;</span><span class="p">)</span>
+<span class="n">_DEFAULT_IMAGE_NAME</span> <span class="o">=</span> <span class="s2">&quot;bio&quot;</span>
+<span class="n">_DEFAULT_IMAGE_FORMAT</span> <span class="o">=</span> <span class="s2">&quot;png&quot;</span>
+<span class="n">_DEFAULT_MOVIE_FORMAT</span> <span class="o">=</span> <span class="s2">&quot;mp4&quot;</span>
+<span class="n">DEFAULT_IMAGE_BASE</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_DEFAULT_GRAPHICS_DIR</span><span class="p">,</span> <span class="n">_DEFAULT_IMAGE_NAME</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="BioSim"><a class="viewcode-back" href="../../simulation.html#biosim.simulation.BioSim">[docs]</a><span class="k">class</span> <span class="nc">BioSim</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Simulation interface class.&quot;&quot;&quot;</span>
+
+    <span class="n">default_pop</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;loc&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+            <span class="s2">&quot;pop&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s2">&quot;species&quot;</span><span class="p">:</span> <span class="s2">&quot;Carnivore&quot;</span><span class="p">,</span> <span class="s2">&quot;age&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="mf">20.0</span><span class="p">}</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">)],</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;loc&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+            <span class="s2">&quot;pop&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s2">&quot;species&quot;</span><span class="p">:</span> <span class="s2">&quot;Herbivore&quot;</span><span class="p">,</span> <span class="s2">&quot;age&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="mf">20.0</span><span class="p">}</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">)],</span>
+        <span class="p">},</span>
+    <span class="p">]</span>
+
+    <span class="n">default_geography</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">                            WWWWWWWWWWWWWWWWWWWWW</span>
+<span class="s2">                            WWWWWWWWHWWWWLLLLLLLW</span>
+<span class="s2">                            WHHHHHLLLLWWLLLWWLLWW</span>
+<span class="s2">                            WHHHHHHHWHWWLLLLLLWWW</span>
+<span class="s2">                            WHHHHLLLLLLWLLLLLLWWW</span>
+<span class="s2">                            WHHHHLLLLDDLLLHLLLWWW</span>
+<span class="s2">                            WHHLLLLLDDDLLLHHHHWWW</span>
+<span class="s2">                            WWHHHHLLLDDLLLHWWWWWW</span>
+<span class="s2">                            WHHHLLLLLDDLLLLLLLWWW</span>
+<span class="s2">                            WHHHHLLLLDDLLLLWWWWWW</span>
+<span class="s2">                            WWHHHHLLLLLLLLWWWWWWW</span>
+<span class="s2">                            WWWHHHHLLLLLLLWWWWWWW</span>
+<span class="s2">                            WWWWWWWWWWWWWWWWWWWWW&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">island_map</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">ini_pop</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">ymax_animals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">cmax_animals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">hist_specs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">img_base</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">img_fmt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        island_map : str</span>
+<span class="sd">                Multi-line string specifying island geography</span>
+
+<span class="sd">        ini_pop : list</span>
+<span class="sd">                List of dictionaries specifying initial population</span>
+
+<span class="sd">        seed : int</span>
+<span class="sd">                 Integer used as random number seed</span>
+
+<span class="sd">        ymax_animals : int</span>
+<span class="sd">                Number specifying y-axis limit for graph showing animal numbers</span>
+
+<span class="sd">        cmax_animals : dict</span>
+<span class="sd">                 Dict specifying color-code limits for animal densities</span>
+
+<span class="sd">        hist_specs :</span>
+<span class="sd">                Specifications for histograms, see below</span>
+
+<span class="sd">        img_base : str</span>
+<span class="sd">                String with beginning of file name for figures, including path</span>
+
+<span class="sd">        img_fmt : str</span>
+<span class="sd">                String with file type for figures, e.g. &#39;png&#39;</span>
+
+<span class="sd">        If ymax_animals is None, the y-axis limit should be adjusted automatically.</span>
+
+<span class="sd">        If cmax_animals is None, sensible, fixed default values should be used.</span>
+<span class="sd">        cmax_animals is a dict mapping species names to numbers, e.g.,</span>
+<span class="sd">        {&#39;Herbivore&#39;: 50, &#39;Carnivore&#39;: 20}</span>
+
+<span class="sd">        hist_specs is a dictionary with one entry per property for which a histogram shall be shown.</span>
+<span class="sd">        For each property, a dictionary providing the maximum value and the bin width must be</span>
+<span class="sd">        given, e.g., {&#39;weight&#39;: {&#39;max&#39;: 80, &#39;delta&#39;: 2}, &#39;fitness&#39;: {&#39;max&#39;: 1.0, &#39;delta&#39;: 0.05}}</span>
+
+<span class="sd">        If img_base is None, no figures are written to file. Filenames are formed as &#39;{}_{:05d}.{}&#39;</span>
+<span class="sd">        .format(img_base, img_no, img_fmt) where img_no are consecutive image numbers starting from</span>
+<span class="sd">        0. img_base should contain a path and beginning of a file name.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">ini_pop</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ini_pop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_pop</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ini_pop</span> <span class="o">=</span> <span class="n">ini_pop</span>
+
+        <span class="k">if</span> <span class="n">island_map</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">island_map</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_geography</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">island_map</span> <span class="o">=</span> <span class="n">island_map</span>
+
+        <span class="k">if</span> <span class="n">hist_specs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hist_specs</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;max&quot;</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span> <span class="s2">&quot;delta&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span>
+                <span class="s2">&quot;fitness&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;max&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s2">&quot;delta&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">},</span>
+                <span class="s2">&quot;age&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;max&quot;</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span> <span class="s2">&quot;delta&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span>
+            <span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hist_specs</span> <span class="o">=</span> <span class="n">hist_specs</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">island</span> <span class="o">=</span> <span class="n">Island</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">island_map</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ini_pop</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_images</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_current_year</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ymax_animals</span> <span class="o">=</span> <span class="n">ymax_animals</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cmax_animals</span> <span class="o">=</span> <span class="n">cmax_animals</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_image_counter</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_count</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ymax_animals</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ymax_animals</span> <span class="o">=</span> <span class="mi">20000</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmax_animals</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cmax_animals</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Herbivore&quot;</span><span class="p">:</span> <span class="mi">150</span><span class="p">,</span> <span class="s2">&quot;Carnivore&quot;</span><span class="p">:</span> <span class="mi">90</span><span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">img_base</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_image_base</span> <span class="o">=</span> <span class="n">img_base</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_image_base</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">img_fmt</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">img_fmt</span> <span class="o">=</span> <span class="n">_DEFAULT_IMAGE_FORMAT</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_image_format</span> <span class="o">=</span> <span class="n">img_fmt</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_image_counter</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vis</span> <span class="o">=</span> <span class="n">Visualization</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cmax_animals</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hist_specs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="BioSim.set_animal_parameters"><a class="viewcode-back" href="../../simulation.html#biosim.simulation.BioSim.set_animal_parameters">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">set_animal_parameters</span><span class="p">(</span><span class="n">species</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set parameters for animal species.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        species : str</span>
+<span class="sd">               String, name of animal species</span>
+
+<span class="sd">        params : dict</span>
+<span class="sd">               Dict with valid parameter specification for species</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">species</span> <span class="o">==</span> <span class="s2">&quot;Herbivore&quot;</span><span class="p">:</span>
+            <span class="n">Herbivore</span><span class="o">.</span><span class="n">set_params</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">species</span> <span class="o">==</span> <span class="s2">&quot;Carnivore&quot;</span><span class="p">:</span>
+            <span class="n">Carnivore</span><span class="o">.</span><span class="n">set_params</span><span class="p">(</span><span class="n">params</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BioSim.set_landscape_parameters"><a class="viewcode-back" href="../../simulation.html#biosim.simulation.BioSim.set_landscape_parameters">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">set_landscape_parameters</span><span class="p">(</span><span class="n">landscape</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set parameters for landscape type.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        landscape : str</span>
+<span class="sd">                 String, code letter for landscape</span>
+
+<span class="sd">        params : dict</span>
+<span class="sd">                Dict with valid parameter specification for landscape</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">landscape</span> <span class="o">==</span> <span class="s2">&quot;Lowland&quot;</span><span class="p">:</span>
+            <span class="n">Lowland</span><span class="o">.</span><span class="n">set_params</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">landscape</span> <span class="o">==</span> <span class="s2">&quot;Highland&quot;</span><span class="p">:</span>
+            <span class="n">Highland</span><span class="o">.</span><span class="n">set_params</span><span class="p">(</span><span class="n">params</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BioSim.simulate"><a class="viewcode-back" href="../../simulation.html#biosim.simulation.BioSim.simulate">[docs]</a>    <span class="k">def</span> <span class="nf">simulate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_years</span><span class="p">,</span> <span class="n">vis_years</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">img_years</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Run simulation while visualizing the result.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        num_years : int</span>
+<span class="sd">                Number of years to simulate</span>
+<span class="sd">        vis_years : int</span>
+<span class="sd">                Years between visualization updates</span>
+<span class="sd">        img_years : int</span>
+<span class="sd">                Years between visualizations saved to files (default: vis_years)</span>
+
+<span class="sd">        Image files will be numbered consecutively.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">num_years</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_year</span> <span class="o">+</span> <span class="n">num_years</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vis</span><span class="o">.</span><span class="n">set_graphics</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ymax_animals</span><span class="p">,</span> <span class="n">num_years</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">year</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vis</span><span class="o">.</span><span class="n">standard_map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">island_map</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vis</span><span class="o">.</span><span class="n">update_herb_heatmap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">animal_distribution</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vis</span><span class="o">.</span><span class="n">update_carn_heatmap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">animal_distribution</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vis</span><span class="o">.</span><span class="n">update_fitness</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="o">.</span><span class="n">fitness_age_weight</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="o">.</span><span class="n">fitness_age_weight</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vis</span><span class="o">.</span><span class="n">update_age</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="o">.</span><span class="n">fitness_age_weight</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="o">.</span><span class="n">fitness_age_weight</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vis</span><span class="o">.</span><span class="n">update_weight</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="o">.</span><span class="n">fitness_age_weight</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="o">.</span><span class="n">fitness_age_weight</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_year</span> <span class="o">&lt;</span> <span class="n">num_years</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="o">.</span><span class="n">cycle_island</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_current_year</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_count</span> <span class="o">%</span> <span class="n">vis_years</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">vis</span><span class="o">.</span><span class="n">update_graphics</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">animal_distribution</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">num_animals_per_species</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">year</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="o">.</span><span class="n">fitness_age_weight</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="o">.</span><span class="n">fitness_age_weight</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_count</span> <span class="o">%</span> <span class="n">img_years</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_save_file</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_count</span> <span class="o">+=</span> <span class="mi">1</span></div>
+
+<div class="viewcode-block" id="BioSim.add_population"><a class="viewcode-back" href="../../simulation.html#biosim.simulation.BioSim.add_population">[docs]</a>    <span class="k">def</span> <span class="nf">add_population</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">population</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add a population to the island</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        population : list</span>
+<span class="sd">                List of dictionaries specifying population</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="o">.</span><span class="n">set_population_in_cell</span><span class="p">(</span><span class="n">population</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">year</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Last year simulated.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_year</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">num_animals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Total number of animals on island.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="o">.</span><span class="n">nr_animals</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">num_animals_per_species</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Number of animals per species in island, as dictionary.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="o">.</span><span class="n">nr_animals_pr_species</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">animal_distribution</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Makes a dataframe of the animal_distribution on the island, to use in the visualization</span>
+<span class="sd">        heat maps.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        df</span>
+<span class="sd">            Dataframe used in heat map visualization</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">col</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">herbs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">carns</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">coord</span><span class="p">,</span> <span class="n">cell</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="o">.</span><span class="n">island_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">herbs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cell</span><span class="o">.</span><span class="n">herbivore_list</span><span class="p">))</span>
+            <span class="n">carns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cell</span><span class="o">.</span><span class="n">carnivore_list</span><span class="p">))</span>
+            <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coord</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">col</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coord</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Row&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rows</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Col&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">col</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Herbivore&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">herbs</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Carnivore&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">carns</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">df</span>
+
+    <span class="k">def</span> <span class="nf">_save_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Saves graphics to file if file name given.&quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_image_base</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span>
+            <span class="s2">&quot;</span><span class="si">{base}</span><span class="s2">_</span><span class="si">{num:05d}</span><span class="s2">.</span><span class="si">{type}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">base</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_image_base</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_image_counter</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_image_format</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_image_counter</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<div class="viewcode-block" id="BioSim.make_movie"><a class="viewcode-back" href="../../simulation.html#biosim.simulation.BioSim.make_movie">[docs]</a>    <span class="k">def</span> <span class="nf">make_movie</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This function is based and heavily inspired by Plesser H.E [1]_</span>
+
+<span class="sd">        Create MPEG4 movie from visualization images saved.&quot;&quot;&quot;</span>
+
+        <span class="n">movie_fmt</span> <span class="o">=</span> <span class="s2">&quot;mp4&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_image_base</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;No filename defined.&quot;</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">subprocess</span><span class="o">.</span><span class="n">check_call</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="n">_FFMPEG_BINARY</span><span class="p">,</span>
+                    <span class="s2">&quot;-i&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_</span><span class="si">%05d</span><span class="s2">.png&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_image_base</span><span class="p">),</span>
+                    <span class="s2">&quot;-y&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;-profile:v&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;baseline&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;-filter:v&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;setpts=5*PTS&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;-level&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;3.0&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;-pix_fmt&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;yuv420p&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_image_base</span><span class="p">,</span> <span class="n">movie_fmt</span><span class="p">),</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+
+        <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;ERROR: ffmpeg failed with: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">err</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="BioSim.save_simulation"><a class="viewcode-back" href="../../simulation.html#biosim.simulation.BioSim.save_simulation">[docs]</a>    <span class="k">def</span> <span class="nf">save_simulation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Saves the state of the island at the time it is called.</span>
+
+<span class="sd">            * Set the &#39;name&#39; for the file.</span>
+<span class="sd">            * The file gets saved.</span>
+<span class="sd">            * Use BioSim.load_simulation to load the saved data.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str</span>
+<span class="sd">                The name the file shall have.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">            Dumps/saves a pickled file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;.pickle&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">save_file</span><span class="p">:</span>      <span class="c1"># IMPLEMENT STORAGE OF RANDOM SEED</span>
+            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">island</span><span class="p">,</span> <span class="n">save_file</span><span class="p">,</span> <span class="n">pickle</span><span class="o">.</span><span class="n">HIGHEST_PROTOCOL</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BioSim.load_simulation"><a class="viewcode-back" href="../../simulation.html#biosim.simulation.BioSim.load_simulation">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">load_simulation</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Loads a already pickled file and returns the content.</span>
+
+<span class="sd">            * Input the &#39;name&#39; of the file that was saved.</span>
+<span class="sd">            * Set the data equal to some name.</span>
+<span class="sd">            * Use this name further to replace existing island or place a new.</span>
+
+<span class="sd">        For an example check: BioSim_G13_Johan_Sabina\examples\check_sim_pickled.py</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str</span>
+<span class="sd">                The name of the file you want to load.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">            The state of the pickled object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;.pickle&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">load_file</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">load_file</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Sabina Langås and Johan Stabekk
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
