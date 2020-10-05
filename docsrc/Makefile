@@ -6,7 +6,7 @@
 SPHINXOPTS    ?=
 SPHINXBUILD   ?= sphinx-build
 SOURCEDIR     = .
-BUILDDIR      = _build
+BUILDDIR      = docs
 
 GH_PAGES_SOURCES = source Makefile
 GH_PAGES_BASE_BRANCH = master # Change this to be the branch that your documentation should be built from
